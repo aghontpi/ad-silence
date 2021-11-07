@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">Ad-silence</string>
     <string name="notification_listener_name">ad-silence-notification-listener</string>
+    <string name="notification_listener_settings_intent">android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS</string>
+
 </resources>

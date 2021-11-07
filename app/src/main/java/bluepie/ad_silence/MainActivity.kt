@@ -2,10 +2,10 @@ package bluepie.ad_silence
 
 import android.content.Intent
 import android.media.AudioManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
 
 
 class MainActivity : AppCompatActivity() {
@@ -43,16 +43,11 @@ class MainActivity : AppCompatActivity() {
             audioManager.adjustVolume(AudioManager.ADJUST_UNMUTE, AudioManager.FLAG_PLAY_SOUND)
         }
 
-        // NotificationListener Start
-        // notification listener doesn't need to be started
-//        applicationContext.startService(
-//            Intent(
-//                applicationContext,
-//                NotificationListener::class.java
-//            )
-//        )
-//        var settingActivity = Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS")
-//        startActivity(settingActivity)
+        findViewById<Button>(R.id.notification_access_settings).setOnClickListener {
+            val msg = "Opening Notification Settings"
+            Log.v(TAG, msg)
+            startActivity(Intent(getString(R.string.notification_listener_settings_intent)))
+        }
 
     }
 }
