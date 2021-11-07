@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Ad-silence</string>
+    <string name="notification_listener_name">ad-silence-notification-listener</string>
 </resources>
