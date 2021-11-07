@@ -27,5 +27,17 @@ class MainActivity : AppCompatActivity() {
             Log.v(TAG, msg)
             audioManager.adjustVolume(AudioManager.ADJUST_LOWER,AudioManager.FLAG_PLAY_SOUND)
         }
+
+        findViewById<Button>(R.id.volume_mute_tmp).setOnClickListener {
+            val msg = "Volume Mute"
+            Log.v(TAG,msg)
+            audioManager.adjustVolume(AudioManager.ADJUST_MUTE, AudioManager.FLAG_PLAY_SOUND)
+        }
+
+        findViewById<Button>(R.id.volume_unmute_tmp).setOnClickListener {
+            val msg = "Volume UnMute"
+            Log.v(TAG,msg)
+            audioManager.adjustVolume(AudioManager.ADJUST_UNMUTE, AudioManager.FLAG_PLAY_SOUND)
+        }
     }
 }
