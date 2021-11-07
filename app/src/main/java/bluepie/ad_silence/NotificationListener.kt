@@ -3,11 +3,15 @@ package bluepie.ad_silence
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
 import android.util.Log
+import java.util.ArrayList
+import java.util.LinkedList
+import java.util.Objects
 
 
-class NotificationListener : NotificationListenerService() {
+sealed class NotificationListener : NotificationListenerService() {
     private val TAG = "NotificationListenerService"
     var mConnected  = false
+    var isMuted = false
 
     override fun onCreate() {
         super.onCreate()
@@ -27,6 +31,45 @@ class NotificationListener : NotificationListenerService() {
     override fun onNotificationPosted(sbn: StatusBarNotification?) {
         super.onNotificationPosted(sbn)
         Log.v(TAG, "new notification posted: ${sbn.toString()}")
+
+        if (sbn != null && sbn.packageName == "com.slipstream.accuradio"){
+
+            // parse the notificaion with refection
+            val notification = sbn.notification
+
+
+            var fields: ArrayList<Any>? = null
+            for(field in notification.contentView.javaClass.declaredFields){
+                if(field.name == "mActions"){
+                    field.isAccessible = true
+                    fields = field.get(notification.contentView) as ArrayList<Any>
+                }
+
+            }
+
+            Log.v(TAG, "some test")
+            val info = java.util.LinkedList<String>()
+            fields?.toArray()?.forEach {
+               if (it!= null){
+                  var fieldFilter = it.javaClass.declaredFields.filter{ it.name == "value"}
+                   if (fieldFilter.size == 1){
+                       var field = fieldFilter.get(0)
+                       field.isAccessible = true
+
+                       when(val _v = field.get(it)){
+                          is String -> info.push(_v)
+                          else -> "Not applicable"
+                       }
+                   }
+               }
+            }
+
+            // necessary fields
+
+            // mute
+            // unmute
+        }
+
     }
 
     override fun onNotificationRemoved(sbn: StatusBarNotification?) {
