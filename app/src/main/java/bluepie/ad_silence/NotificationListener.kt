@@ -6,12 +6,11 @@ import android.service.notification.StatusBarNotification
 import android.util.Log
 import java.util.*
 
-
 class NotificationListener : NotificationListenerService() {
     private val TAG = "NotificationListenerService"
     var mConnected = false
     var isMuted = false
-    var audioManager: AudioManager? = null
+    private var audioManager: AudioManager? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -34,12 +33,11 @@ class NotificationListener : NotificationListenerService() {
         super.onNotificationPosted(sbn)
         Log.v(TAG, "new notification posted: ${sbn.toString()}")
 
-        if (sbn != null && sbn.packageName == "com.slipstream.accuradio") {
+        if (sbn != null && sbn.packageName == getString(R.string.accuradio_pkg_name)) {
 
             // parse the notificaion with refection
+            // todo: move this to seperate file
             val notification = sbn.notification
-
-
             var fields: ArrayList<Any>? = null
             for (field in notification.contentView.javaClass.declaredFields) {
                 if (field.name == "mActions") {
@@ -48,7 +46,6 @@ class NotificationListener : NotificationListenerService() {
                 }
 
             }
-
             val info = java.util.LinkedList<String>()
             fields?.toArray()?.forEach {
                 if (it != null) {

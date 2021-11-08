@@ -7,7 +7,7 @@ import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 
-
+// todo: create a notification, so app wont be killed.
 class MainActivity : AppCompatActivity() {
 
     private val TAG = "MainActivity"
