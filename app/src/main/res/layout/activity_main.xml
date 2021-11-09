@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:paddingHorizontal="16dp"
     android:paddingVertical="24dp"
-    tools:context=".MainActivity">
+    tools:context=".AdSilenceActivity">
 
     <TextView
         android:id="@+id/permission_text_view"

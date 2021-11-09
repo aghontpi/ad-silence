@@ -8,7 +8,7 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 
 // todo: create a notification, so app wont be killed.
-class MainActivity : AppCompatActivity() {
+class AdSilenceActivity : AppCompatActivity() {
 
     private val TAG = "MainActivity"
 
