@@ -26,5 +26,6 @@ class AdSilenceActivity : AppCompatActivity() {
             startActivity(Intent(getString(R.string.notification_listener_settings_intent)))
         }
 
+        AppNotificationHelper(applicationContext).updateNotification("AdSilence started, listening yet to start")
     }
 }

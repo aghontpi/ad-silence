@@ -1,5 +1,6 @@
 package bluepie.ad_silence
 
+import android.app.Service
 import android.content.Intent
 import android.media.AudioManager
 import android.service.notification.NotificationListenerService
@@ -11,15 +12,26 @@ class NotificationListener : NotificationListenerService() {
     var mConnected = false
     var isMuted = false
     private var audioManager: AudioManager? = null
+    private var addNotificationHelper: AppNotificationHelper? = null
 
     override fun onCreate() {
         super.onCreate()
         audioManager = applicationContext.getSystemService(AUDIO_SERVICE) as AudioManager
         Log.v(TAG, "listener created")
+        addNotificationHelper = AppNotificationHelper(applicationContext)
+    }
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        val notificationBuilder =  addNotificationHelper?.updateNotification("adSilence, service started",fromService = true)
+        if (notificationBuilder != null){
+            startForeground(NOTIFICATION_ID,notificationBuilder.build())
+        }
+        return Service.START_STICKY
     }
 
     override fun onListenerConnected() {
         Log.v(TAG, "notification listener connected")
+        addNotificationHelper?.updateNotification("AdSilence, listening for ads")
         mConnected = true
     }
 
@@ -57,6 +69,7 @@ class NotificationListener : NotificationListenerService() {
                 AudioManager.FLAG_PLAY_SOUND
         )
         isMuted = true
+        addNotificationHelper?.updateNotification("AdSilence, ad-detected")
         Log.v(TAG, "Ad detected muting")
     }
 
@@ -65,6 +78,7 @@ class NotificationListener : NotificationListenerService() {
                 AudioManager.ADJUST_UNMUTE,
                 AudioManager.FLAG_PLAY_SOUND
         )
+        addNotificationHelper?.updateNotification("AdSilence, listening for ads")
         Log.v(TAG, "Not an ad")
         isMuted = false
     }
