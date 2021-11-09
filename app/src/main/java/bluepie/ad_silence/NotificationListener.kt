@@ -72,7 +72,7 @@ class NotificationListener : NotificationListenerService() {
                         AudioManager.FLAG_PLAY_SOUND
                     )
                     isMuted = true
-                    Log.v(TAG, "Add detected muting")
+                    Log.v(TAG, "Ad detected muting")
                 } else if (isMuted) {
                     // unmute
                     audioManager?.adjustVolume(
@@ -80,7 +80,7 @@ class NotificationListener : NotificationListenerService() {
                         AudioManager.FLAG_PLAY_SOUND
                     )
                     isMuted = false
-                    Log.v(TAG, "Not an add: ${info.toString()}")
+                    Log.v(TAG, "Not an ad: ${info.toString()}")
                 }
             }
 
