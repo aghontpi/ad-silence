@@ -1,18 +1,18 @@
 package bluepie.ad_silence
 
-import android.app.Notification
-import android.content.res.Resources
 import java.util.*
 
 interface NotificationParserInterface {
+    var appNotification: AppNotification
     fun isAd(): Boolean
     fun info(): LinkedList<String>
 }
 
-class NotificationParser(var notification: Notification) : NotificationParserInterface {
-    private var notificationInfo : LinkedList<String> = LinkedList()
+class NotificationParser(override var appNotification: AppNotification) : NotificationParserInterface {
+    private var notificationInfo: LinkedList<String> = LinkedList()
 
     override fun isAd(): Boolean {
+        val notification = appNotification.notification
         var fields: ArrayList<*>? = null
         for (field in notification.contentView.javaClass.declaredFields) {
             if (field.name == "mActions") {
@@ -22,7 +22,7 @@ class NotificationParser(var notification: Notification) : NotificationParserInt
 
         }
         val info = LinkedList<String>()
-        fields?.toArray()?.forEach {
+        fields?.toArray()?.forEach { it ->
             if (it != null) {
                 val fieldFilter = it.javaClass.declaredFields.filter { it.name == "value" }
                 if (fieldFilter.size == 1) {
@@ -39,11 +39,7 @@ class NotificationParser(var notification: Notification) : NotificationParserInt
 
         notificationInfo = info
 
-        return info.any {
-            it.contains(
-                    Resources.getSystem().getString(R.string.accuradio_ad_text)
-            )
-        }
+        return info.any { it.contains(appNotification.adString()) }
     }
 
     override fun info(): LinkedList<String> {

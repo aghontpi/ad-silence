@@ -1,5 +1,6 @@
 package bluepie.ad_silence
 
+import android.content.Intent
 import android.media.AudioManager
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
@@ -15,7 +16,6 @@ class NotificationListener : NotificationListenerService() {
         super.onCreate()
         audioManager = applicationContext.getSystemService(AUDIO_SERVICE) as AudioManager
         Log.v(TAG, "listener created")
-
     }
 
     override fun onListenerConnected() {
@@ -33,12 +33,10 @@ class NotificationListener : NotificationListenerService() {
         Log.v(TAG, "new notification posted: ${sbn.toString()}")
 
         if (sbn != null && sbn.packageName == getString(R.string.accuradio_pkg_name)) {
-
-            when (NotificationParser(sbn.notification).isAd()) {
-                true -> Mute()
-                false -> UnMute()
+            when (NotificationParser(AppNotification(applicationContext, sbn.notification, SupportedApps.ACCURADIO)).isAd()) {
+                true -> mute()
+                false -> unMute()
             }
-
         }
 
     }
@@ -53,7 +51,7 @@ class NotificationListener : NotificationListenerService() {
         Log.v(TAG, "low memory trigger")
     }
 
-    private fun Mute() {
+    private fun mute() {
         audioManager?.adjustVolume(
                 AudioManager.ADJUST_MUTE,
                 AudioManager.FLAG_PLAY_SOUND
@@ -62,13 +60,13 @@ class NotificationListener : NotificationListenerService() {
         Log.v(TAG, "Ad detected muting")
     }
 
-    private fun UnMute() {
+    private fun unMute() {
         audioManager?.adjustVolume(
                 AudioManager.ADJUST_UNMUTE,
                 AudioManager.FLAG_PLAY_SOUND
         )
+        Log.v(TAG, "Not an ad")
         isMuted = false
-        Log.v(TAG, "Not an ad unmuting")
     }
 
 }
