@@ -4,7 +4,6 @@ import android.media.AudioManager
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
 import android.util.Log
-import java.util.*
 
 class NotificationListener : NotificationListenerService() {
     private val TAG = "NotificationListenerService"
@@ -35,53 +34,9 @@ class NotificationListener : NotificationListenerService() {
 
         if (sbn != null && sbn.packageName == getString(R.string.accuradio_pkg_name)) {
 
-            // parse the notificaion with refection
-            // todo: move this to seperate file
-            val notification = sbn.notification
-            var fields: ArrayList<Any>? = null
-            for (field in notification.contentView.javaClass.declaredFields) {
-                if (field.name == "mActions") {
-                    field.isAccessible = true
-                    fields = field.get(notification.contentView) as ArrayList<Any>
-                }
-
-            }
-            val info = java.util.LinkedList<String>()
-            fields?.toArray()?.forEach {
-                if (it != null) {
-                    var fieldFilter = it.javaClass.declaredFields.filter { it.name == "value" }
-                    if (fieldFilter.size == 1) {
-                        var field = fieldFilter.get(0)
-                        field.isAccessible = true
-
-                        // necessary fields
-                        when (val _v = field.get(it)) {
-                            is String -> info.push(_v)
-                            else -> "Not applicable"
-                        }
-                    }
-                }
-            }
-
-
-            if (info.size > 0 && audioManager is AudioManager) {
-                if (info.any { it.contains(getString(R.string.accuradio_ad_text)) }) {
-                    // mute
-                    audioManager?.adjustVolume(
-                        AudioManager.ADJUST_MUTE,
-                        AudioManager.FLAG_PLAY_SOUND
-                    )
-                    isMuted = true
-                    Log.v(TAG, "Ad detected muting")
-                } else if (isMuted) {
-                    // unmute
-                    audioManager?.adjustVolume(
-                        AudioManager.ADJUST_UNMUTE,
-                        AudioManager.FLAG_PLAY_SOUND
-                    )
-                    isMuted = false
-                    Log.v(TAG, "Not an ad: ${info.toString()}")
-                }
+            when (NotificationParser(sbn.notification).isAd()) {
+                true -> Mute()
+                false -> UnMute()
             }
 
         }
@@ -97,4 +52,23 @@ class NotificationListener : NotificationListenerService() {
     override fun onLowMemory() {
         Log.v(TAG, "low memory trigger")
     }
+
+    private fun Mute() {
+        audioManager?.adjustVolume(
+                AudioManager.ADJUST_MUTE,
+                AudioManager.FLAG_PLAY_SOUND
+        )
+        isMuted = true
+        Log.v(TAG, "Ad detected muting")
+    }
+
+    private fun UnMute() {
+        audioManager?.adjustVolume(
+                AudioManager.ADJUST_UNMUTE,
+                AudioManager.FLAG_PLAY_SOUND
+        )
+        isMuted = false
+        Log.v(TAG, "Not an ad unmuting")
+    }
+
 }
