@@ -39,7 +39,7 @@ fun AppNotificationHelper.updateNotification(status: String, fromService: Boolea
 
 private fun AppNotificationHelper.createNotification(status: String): NotificationCompat.Builder{
     return NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_launcher_background)
+            .setSmallIcon(R.drawable.icon_launcher_foreground)
             .setContentTitle(context.getString(R.string.app_name))
             .setContentText(status)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
