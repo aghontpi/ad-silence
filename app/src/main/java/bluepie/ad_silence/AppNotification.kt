@@ -7,11 +7,11 @@ import android.content.Context
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 
-val NOTIFICATION_CHANNEL_ID = "AD-SILENCE-CHANNEL"
-val NOTIFICATION_CHANNEL_DESCRIPTION = "Ad Silence Notification channel"
+const val NOTIFICATION_CHANNEL_ID = "AD-SILENCE-CHANNEL"
+const val NOTIFICATION_CHANNEL_DESCRIPTION = "Ad Silence Notification channel"
 
 // since gona use the same notification all purposes, use same id
-val NOTIFICATION_ID = 69
+const val NOTIFICATION_ID = 69
 
 data class AppNotification(val context: Context, val notification: Notification, val appName: SupportedApps)
 
