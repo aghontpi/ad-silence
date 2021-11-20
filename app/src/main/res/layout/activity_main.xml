@@ -23,4 +23,10 @@
         android:layout_height="wrap_content"
         android:text="@string/grant_permission_button" />
 
+    <Switch
+        android:id="@+id/status_toggle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/app_status" />
+
 </LinearLayout>
