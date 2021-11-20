@@ -10,7 +10,7 @@
 
 Since this is built with `Accuradio` in mind, no other apps are supported for now, but Implementing other apps should be quite easy.
 
-## Why
+## Motivation
 
 - Ad blocker for `Accuradio android` is not available.
 - wanted a **lightweight** & **non bloat** app with size lessthan **_1mb_**
