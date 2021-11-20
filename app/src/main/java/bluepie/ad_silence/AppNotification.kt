@@ -24,7 +24,7 @@ fun AppNotification.adString(): String {
 class AppNotificationHelper(val context: Context)
 
 fun AppNotificationHelper.updateNotification(status: String ): Notification{
-    var notifiBuilder = createNotification(status)
+    val notifiBuilder = createNotification(status)
     createChannel()
     val notification = notifiBuilder.build()
     with(NotificationManagerCompat.from(context)){
@@ -33,8 +33,8 @@ fun AppNotificationHelper.updateNotification(status: String ): Notification{
     return notification
 }
 
-fun AppNotificationHelper.updateNotification(status: String, fromService: Boolean): NotificationCompat.Builder{
-    var notifiBuilder = createNotification(status)
+fun AppNotificationHelper.getNotificationBuilder(status: String ): NotificationCompat.Builder {
+    val notifiBuilder = createNotification(status)
     createChannel()
     return notifiBuilder
 }
@@ -49,7 +49,7 @@ private fun AppNotificationHelper.createNotification(status: String): Notificati
 
 // android version > 26
 private fun AppNotificationHelper.createChannel()  {
-    var channel = NotificationChannel(NOTIFICATION_CHANNEL_ID, NOTIFICATION_CHANNEL_ID, NotificationManager.IMPORTANCE_DEFAULT)
+    val channel = NotificationChannel(NOTIFICATION_CHANNEL_ID, NOTIFICATION_CHANNEL_ID, NotificationManager.IMPORTANCE_DEFAULT)
             .apply { description = NOTIFICATION_CHANNEL_DESCRIPTION }
     val notificationManager : NotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     return notificationManager.createNotificationChannel(channel)

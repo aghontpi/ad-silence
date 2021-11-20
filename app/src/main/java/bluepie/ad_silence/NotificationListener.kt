@@ -9,8 +9,8 @@ import android.util.Log
 
 class NotificationListener : NotificationListenerService() {
     private val TAG = "NotificationListenerService"
-    var mConnected = false
-    var isMuted = false
+    private var mConnected = false
+    private var isMuted = false
     private var audioManager: AudioManager? = null
     private var addNotificationHelper: AppNotificationHelper? = null
 
@@ -22,9 +22,9 @@ class NotificationListener : NotificationListenerService() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        val notificationBuilder =  addNotificationHelper?.updateNotification("adSilence, service started",fromService = true)
-        if (notificationBuilder != null){
-            startForeground(NOTIFICATION_ID,notificationBuilder.build())
+        val notificationBuilder = addNotificationHelper?.getNotificationBuilder("adSilence, service started" )
+        if (notificationBuilder != null) {
+            startForeground(NOTIFICATION_ID, notificationBuilder.build())
         }
         return Service.START_STICKY
     }
