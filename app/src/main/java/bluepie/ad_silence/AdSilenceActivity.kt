@@ -1,10 +1,10 @@
 package bluepie.ad_silence
 
 import android.content.Intent
-import android.media.AudioManager
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.Switch
 import androidx.appcompat.app.AppCompatActivity
 
 // todo: create a notification, so app wont be killed.
@@ -15,10 +15,8 @@ class AdSilenceActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_main)
 
-        val audioManager: AudioManager =
-            applicationContext.getSystemService(AUDIO_SERVICE) as AudioManager
+        setContentView(R.layout.activity_main)
 
         findViewById<Button>(R.id.grant_permission).setOnClickListener {
             val msg = "Opening Notification Settings"
@@ -26,9 +24,28 @@ class AdSilenceActivity : AppCompatActivity() {
             startActivity(Intent(getString(R.string.notification_listener_settings_intent)))
         }
 
+        configureToggle()
+    }
+
+
+    private fun configureToggle(){
+        val preference = Preference(getPreferences(MODE_PRIVATE))
+        val statusToggle: Switch = findViewById<Switch>(R.id.status_toggle)
         val appNotificationHelper = AppNotificationHelper(applicationContext)
-        // appNotificationHelper.updateNotification("AdSilence started, listening yet to start")
-        appNotificationHelper.start()
+
+        statusToggle.setOnClickListener {
+            val toChange: Boolean = ! preference.isEnabled()
+            preference.setEnabled(toChange)
+            if(toChange){
+                appNotificationHelper.enable()
+            } else {
+                appNotificationHelper.disable()
+            }
+        }
+        if(preference.isEnabled()){
+            statusToggle.setChecked(true)
+            appNotificationHelper.start()
+        }
 
     }
 }

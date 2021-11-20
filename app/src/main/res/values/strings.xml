@@ -6,5 +6,5 @@
     <string name="accuradio_ad_text">Music will resume</string>
     <string name="grant_permission_text_view">App works by using notification permission, Grant persmission using button below.</string>
     <string name="grant_permission_button">Grant Permission</string>
-    <string name="app_status">Status (stop ads)</string>
+    <string name="app_status">Enable (stop ads)</string>
 </resources>

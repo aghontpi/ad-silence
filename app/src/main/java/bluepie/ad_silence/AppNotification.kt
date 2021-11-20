@@ -3,7 +3,10 @@ package bluepie.ad_silence
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.ComponentName
 import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 
@@ -53,6 +56,31 @@ private fun AppNotificationHelper.createChannel()  {
             .apply { description = NOTIFICATION_CHANNEL_DESCRIPTION }
     val notificationManager : NotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     return notificationManager.createNotificationChannel(channel)
+}
+
+
+// manually stop and start the service
+fun AppNotificationHelper.start(){
+    val packageManager = context.packageManager
+    val componentName = ComponentName(context, NotificationListener::class.java)
+    packageManager.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
+    packageManager.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
+}
+
+fun AppNotificationHelper.disable(){
+    val packageManager = context.packageManager
+    val componentName = ComponentName(context, NotificationListener::class.java)
+    if (Build.VERSION.SDK_INT >= 30){
+        packageManager.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_DISABLED,PackageManager.SYNCHRONOUS)
+    } else {
+        packageManager.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_DISABLED,0)
+    }
+}
+
+fun AppNotificationHelper.enable(){
+    val packageManager = context.packageManager
+    val componentName = ComponentName(context, NotificationListener::class.java)
+    packageManager.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
 }
 
 
