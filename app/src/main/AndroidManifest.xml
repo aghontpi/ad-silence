@@ -3,6 +3,7 @@
     package="bluepie.ad_silence">
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <queries>
+        <!--android 11 and above-->
         <package android:name="com.slipstream.accuradio"/>
     </queries>
     <application
@@ -14,6 +15,7 @@
         android:theme="@style/Theme.Silence">
         <activity
             android:name=".AdSilenceActivity"
+            android:excludeFromRecents="true"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
