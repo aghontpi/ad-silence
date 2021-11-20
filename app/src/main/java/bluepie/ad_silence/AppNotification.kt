@@ -23,12 +23,14 @@ fun AppNotification.adString(): String {
 
 class AppNotificationHelper(val context: Context)
 
-fun AppNotificationHelper.updateNotification(status: String ){
+fun AppNotificationHelper.updateNotification(status: String ): Notification{
     var notifiBuilder = createNotification(status)
     createChannel()
+    val notification = notifiBuilder.build()
     with(NotificationManagerCompat.from(context)){
-        notify(NOTIFICATION_ID,notifiBuilder.build())
+        notify(NOTIFICATION_ID,notification)
     }
+    return notification
 }
 
 fun AppNotificationHelper.updateNotification(status: String, fromService: Boolean): NotificationCompat.Builder{

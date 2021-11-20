@@ -30,12 +30,17 @@ class NotificationListener : NotificationListenerService() {
     }
 
     override fun onListenerConnected() {
+        super.onListenerConnected()
         Log.v(TAG, "notification listener connected")
-        addNotificationHelper?.updateNotification("AdSilence, listening for ads")
+        val notification = addNotificationHelper?.updateNotification("AdSilence, listening for ads")
         mConnected = true
+
+        // persistent notification
+        startForeground(NOTIFICATION_ID,notification)
     }
 
     override fun onListenerDisconnected() {
+        super.onListenerDisconnected()
         Log.v(TAG, "notification listener disconnected")
         mConnected = false
     }
