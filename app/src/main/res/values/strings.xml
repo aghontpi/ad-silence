@@ -4,7 +4,8 @@
     <string name="notification_listener_settings_intent">android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS</string>
     <string name="accuradio_pkg_name">com.slipstream.accuradio</string>
     <string name="accuradio_ad_text">Music will resume</string>
-    <string name="grant_permission_text_view">App works by using notification permission, Grant persmission using button below.</string>
+    <string name="grant_permission_text_view">App works by using Notification access.</string>
     <string name="grant_permission_button">Grant Permission</string>
+    <string name="permission_granted">ALREADY GRANTED</string>
     <string name="app_status">Enable (stop ads)</string>
 </resources>
