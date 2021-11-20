@@ -16,6 +16,7 @@ class AdSilenceActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         configurePermission()
         configureToggle()
+        checkAppInstalled()
     }
 
     override fun onResume() {
@@ -24,6 +25,23 @@ class AdSilenceActivity : AppCompatActivity() {
         // when resuming after permission is granted
         configurePermission()
         configureToggle()
+        checkAppInstalled()
+    }
+
+    private fun checkAppInstalled(){
+        val utils  = Utils()
+        val statusToggle = findViewById<Switch>(R.id.status_toggle)
+        Log.v(TAG, "Accuradio installed ?: ${utils.isAccuradioInstalled(applicationContext)}")
+        when(utils.isAccuradioInstalled(applicationContext)){
+            true -> {
+                statusToggle.text = getString(R.string.app_status)
+                utils.enableSwitch(statusToggle)
+            }
+            false -> {
+                statusToggle.text = getString(R.string.app_status_accuradio_not_installed)
+                utils.disableSwitch(statusToggle)
+            }
+        }
     }
 
     private fun configurePermission(){
@@ -44,7 +62,7 @@ class AdSilenceActivity : AppCompatActivity() {
 
     private fun configureToggle(){
         val preference = Preference(getPreferences(MODE_PRIVATE))
-        val statusToggle: Switch = findViewById<Switch>(R.id.status_toggle)
+        val statusToggle = findViewById<Switch>(R.id.status_toggle)
         val appNotificationHelper = AppNotificationHelper(applicationContext)
         val utils = Utils()
 
