@@ -8,5 +8,6 @@
     <string name="grant_permission_button">Grant Permission</string>
     <string name="permission_granted">ALREADY GRANTED</string>
     <string name="app_status">Enable (stop ads)</string>
+    <string name="app_status_permission_not_granted">Enable (Grant Permission first)</string>
     <string name="app_status_accuradio_not_installed">Enable (Accuradio not installed)</string>
 </resources>

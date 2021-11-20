@@ -15,8 +15,8 @@ class AdSilenceActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         configurePermission()
-        configureToggle()
         checkAppInstalled()
+        configureToggle()
     }
 
     override fun onResume() {
@@ -24,8 +24,8 @@ class AdSilenceActivity : AppCompatActivity() {
         Log.v(TAG, "onResume")
         // when resuming after permission is granted
         configurePermission()
-        configureToggle()
         checkAppInstalled()
+        configureToggle()
     }
 
     private fun checkAppInstalled(){
@@ -34,7 +34,11 @@ class AdSilenceActivity : AppCompatActivity() {
         Log.v(TAG, "Accuradio installed ?: ${utils.isAccuradioInstalled(applicationContext)}")
         when(utils.isAccuradioInstalled(applicationContext)){
             true -> {
-                statusToggle.text = getString(R.string.app_status)
+                val msg = kotlin.run {
+                   if (checkNotificationPermission(applicationContext)) getString(R.string.app_status)
+                   else getString(R.string.app_status_permission_not_granted)
+                }
+                statusToggle.text = msg
                 utils.enableSwitch(statusToggle)
             }
             false -> {
@@ -46,16 +50,22 @@ class AdSilenceActivity : AppCompatActivity() {
 
     private fun configurePermission(){
         val grantPermissionButton = findViewById<Button>(R.id.grant_permission)
-        if(!checkNotificationPermission(applicationContext)){
-           grantPermissionButton.isEnabled = true
-           grantPermissionButton.setOnClickListener {
-                val msg = "Opening Notification Settings"
-                Log.v(TAG, msg)
-                startActivity(Intent(getString(R.string.notification_listener_settings_intent)))
+        val statusToggle = findViewById<Switch>(R.id.status_toggle)
+
+        when (checkNotificationPermission(applicationContext)){
+            true -> {
+                grantPermissionButton.text = getString(R.string.permission_granted)
+                grantPermissionButton.isEnabled = false
             }
-        } else {
-           grantPermissionButton.text = getString(R.string.permission_granted)
-           grantPermissionButton.isEnabled = false
+            false -> {
+                statusToggle.text = getString(R.string.app_status_permission_not_granted)
+                grantPermissionButton.isEnabled = true
+                grantPermissionButton.setOnClickListener {
+                    val msg = "Opening Notification Settings"
+                    Log.v(TAG, msg)
+                    startActivity(Intent(getString(R.string.notification_listener_settings_intent)))
+                }
+            }
         }
     }
 
