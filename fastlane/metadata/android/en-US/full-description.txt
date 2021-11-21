@@ -1,0 +1,9 @@
+Remove ads in Accuradio android app.
+
+<b>Features:</b>
+- Remove ads in Accuradio android app.
+- Minimal UI
+- Lightweight (~ 900kb)
+- No bloat/external dependencies
+
+<b>Check github for how this works and more</b>

@@ -1,0 +1,10 @@
+- add: exclude app from recents
+- add: check accuradio is installed
+- add: Granting permission UI flow
+- add: Enable/Disable Toggle add Preference
+- add: appIcon
+- add: UI App status
+- add: Persistent notification
+- add: enum to handle differnet apps
+- Optimize app size, (down to 900kb)
+- Improve Notification Logic
