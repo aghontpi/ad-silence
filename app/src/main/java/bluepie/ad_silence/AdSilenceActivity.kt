@@ -31,15 +31,15 @@ class AdSilenceActivity : Activity() {
         configureAdditionalViews()
     }
 
-    private fun checkAppInstalled(){
-        val utils  = Utils()
+    private fun checkAppInstalled() {
+        val utils = Utils()
         val statusToggle = findViewById<Switch>(R.id.status_toggle)
         Log.v(TAG, "Accuradio installed ?: ${utils.isAccuradioInstalled(applicationContext)}")
-        when(utils.isAccuradioInstalled(applicationContext)){
+        when (utils.isAccuradioInstalled(applicationContext)) {
             true -> {
                 val msg = kotlin.run {
-                   if (checkNotificationPermission(applicationContext)) getString(R.string.app_status)
-                   else getString(R.string.app_status_permission_not_granted)
+                    if (checkNotificationPermission(applicationContext)) getString(R.string.app_status)
+                    else getString(R.string.app_status_permission_not_granted)
                 }
                 statusToggle.text = msg
                 utils.enableSwitch(statusToggle)
@@ -51,11 +51,11 @@ class AdSilenceActivity : Activity() {
         }
     }
 
-    private fun configurePermission(){
+    private fun configurePermission() {
         val grantPermissionButton = findViewById<Button>(R.id.grant_permission)
         val statusToggle = findViewById<Switch>(R.id.status_toggle)
 
-        when (checkNotificationPermission(applicationContext)){
+        when (checkNotificationPermission(applicationContext)) {
             true -> {
                 grantPermissionButton.text = getString(R.string.permission_granted)
                 grantPermissionButton.isEnabled = false
@@ -73,13 +73,13 @@ class AdSilenceActivity : Activity() {
     }
 
 
-    private fun configureToggle(){
-        val preference = Preference(getPreferences(MODE_PRIVATE))
+    private fun configureToggle() {
+        val preference = Preference(applicationContext)
         val statusToggle = findViewById<Switch>(R.id.status_toggle)
         val appNotificationHelper = AppNotificationHelper(applicationContext)
         val utils = Utils()
 
-        if (!checkNotificationPermission(applicationContext)){
+        if (!checkNotificationPermission(applicationContext)) {
             // even if appNotification is disabled, while granting permission
             //   force it to be enabled, otherwise it wont be listed in permission window
             appNotificationHelper.enable()
@@ -90,15 +90,15 @@ class AdSilenceActivity : Activity() {
         }
 
         statusToggle.setOnClickListener {
-            val toChange: Boolean = ! preference.isEnabled()
+            val toChange: Boolean = !preference.isEnabled()
             preference.setEnabled(toChange)
-            if(toChange){
+            if (toChange) {
                 appNotificationHelper.enable()
             } else {
                 appNotificationHelper.disable()
             }
         }
-        if(preference.isEnabled()){
+        if (preference.isEnabled()) {
             statusToggle.isChecked = true
             appNotificationHelper.start()
         } else {
@@ -107,17 +107,41 @@ class AdSilenceActivity : Activity() {
 
     }
 
-    private fun configureAdditionalViews(){
+    private fun configureAdditionalViews() {
+
+        val utils = Utils()
         val appSelectionBtn = findViewById<Button>(R.id.select_apps_btn)
         val aboutBtn = findViewById<Button>(R.id.about_btn)
+        val isAccuradioInstalled = utils.isAccuradioInstalled(applicationContext)
 
         appSelectionBtn?.setOnClickListener {
-            val appSelectionView = layoutInflater.inflate(R.layout.app_selection,null)
-            val accuradioSwitch = appSelectionView.findViewById<Switch>(R.id.accuradio_selection_switch)
-            val spotifySwich = appSelectionView.findViewById<Switch>(R.id.spotify_selection_switch)
-            accuradioSwitch.isChecked = true
-            spotifySwich.isEnabled = false
-            spotifySwich.text = "${getString(R.string.spotify)} (not implemented)"
+            val appSelectionView = layoutInflater.inflate(R.layout.app_selection, null)
+            val preference = Preference(applicationContext)
+
+            appSelectionView.findViewById<Switch>(R.id.accuradio_selection_switch)?.run {
+                this.isEnabled = isAccuradioInstalled
+                this.isChecked = preference.isAppConfigured(SupportedApps.ACCURADIO)
+                this.text =
+                    "${getString(R.string.accuradio)} ${if (isAccuradioInstalled) "" else "(not installed)"}"
+                this.setOnClickListener {
+                    preference.setAppConfigured(
+                        SupportedApps.ACCURADIO,
+                        !preference.isAppConfigured(SupportedApps.ACCURADIO)
+                    )
+                }
+            }
+
+            appSelectionView.findViewById<Switch>(R.id.spotify_selection_switch)?.run {
+                // change this to isSpotifyInstalled
+                this.isEnabled = false
+                this.text = "${getString(R.string.spotify)} (not implemented)"
+                this.setOnClickListener {
+                    preference.setAppConfigured(
+                        SupportedApps.SPOTIFY,
+                        !preference.isAppConfigured(SupportedApps.SPOTIFY)
+                    )
+                }
+            }
 
             AlertDialog.Builder(this).setView(appSelectionView).show()
         }

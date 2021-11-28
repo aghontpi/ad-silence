@@ -22,7 +22,8 @@ class NotificationListener : NotificationListenerService() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        val notificationBuilder = addNotificationHelper?.getNotificationBuilder("adSilence, service started" )
+        val notificationBuilder =
+            addNotificationHelper?.getNotificationBuilder("adSilence, service started")
         if (notificationBuilder != null) {
             startForeground(NOTIFICATION_ID, notificationBuilder.build())
         }
@@ -36,7 +37,7 @@ class NotificationListener : NotificationListenerService() {
         mConnected = true
 
         // persistent notification
-        startForeground(NOTIFICATION_ID,notification)
+        startForeground(NOTIFICATION_ID, notification)
     }
 
     override fun onListenerDisconnected() {
@@ -47,31 +48,25 @@ class NotificationListener : NotificationListenerService() {
 
     override fun onNotificationPosted(sbn: StatusBarNotification?) {
         super.onNotificationPosted(sbn)
-        Log.v(TAG, "new notification posted: ${sbn.toString()}")
-
-        if (sbn != null && sbn.packageName == getString(R.string.accuradio_pkg_name)) {
-            when (NotificationParser(AppNotification(applicationContext, sbn.notification, SupportedApps.ACCURADIO)).isAd()) {
-                true -> mute()
-                false -> unMute()
+        sbn?.let {
+            with(AppNotification(applicationContext, it.notification, sbn.packageName)) {
+                Preference(applicationContext).isAppConfigured(this.getApp()).takeIf { b->b }?.run{
+                    Log.v(TAG, "new notification posted: ${this@with.getApp()}")
+                    when (NotificationParser(this@with).isAd()) {
+                        true -> mute()
+                        false -> unMute()
+                    }
+                }
             }
         }
 
-    }
 
-    override fun onNotificationRemoved(sbn: StatusBarNotification?) {
-        super.onNotificationRemoved(sbn)
-        //todo: check for accuradio notification present or not.
-        Log.v(TAG, "notification removed: ${sbn.toString()}")
-    }
-
-    override fun onLowMemory() {
-        Log.v(TAG, "low memory trigger")
     }
 
     private fun mute() {
         audioManager?.adjustVolume(
-                AudioManager.ADJUST_MUTE,
-                AudioManager.FLAG_PLAY_SOUND
+            AudioManager.ADJUST_MUTE,
+            AudioManager.FLAG_PLAY_SOUND
         )
         isMuted = true
         addNotificationHelper?.updateNotification("AdSilence, ad-detected")
@@ -80,8 +75,8 @@ class NotificationListener : NotificationListenerService() {
 
     private fun unMute() {
         audioManager?.adjustVolume(
-                AudioManager.ADJUST_UNMUTE,
-                AudioManager.FLAG_PLAY_SOUND
+            AudioManager.ADJUST_UNMUTE,
+            AudioManager.FLAG_PLAY_SOUND
         )
         addNotificationHelper?.updateNotification("AdSilence, listening for ads")
         Log.v(TAG, "Not an ad")

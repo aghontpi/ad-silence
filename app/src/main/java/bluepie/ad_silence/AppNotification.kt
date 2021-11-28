@@ -18,13 +18,6 @@ const val NOTIFICATION_CHANNEL_DESCRIPTION = "Ad Silence Notification channel"
 // since gona use the same notification all purposes, use same id
 const val NOTIFICATION_ID = 69
 
-data class AppNotification(val context: Context, val notification: Notification, val appName: SupportedApps)
-
-fun AppNotification.adString(): String {
-    return when (appName) {
-        SupportedApps.ACCURADIO -> context.getString(R.string.accuradio_ad_text)
-    }
-}
 
 class AppNotificationHelper(val context: Context)
 
