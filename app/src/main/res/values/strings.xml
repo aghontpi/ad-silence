@@ -12,4 +12,6 @@
     <string name="app_status_accuradio_not_installed">Enable (Accuradio not installed)</string>
     <string name="about">about</string>
     <string name="select_apps">select apps</string>
+    <string name="accuradio">Accuradio</string>
+    <string name="spotify">Spotify</string>
 </resources>

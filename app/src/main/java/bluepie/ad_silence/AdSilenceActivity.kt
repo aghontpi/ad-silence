@@ -1,6 +1,7 @@
 package bluepie.ad_silence
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -17,6 +18,7 @@ class AdSilenceActivity : Activity() {
         configurePermission()
         checkAppInstalled()
         configureToggle()
+        configureAdditionalViews()
     }
 
     override fun onResume() {
@@ -26,6 +28,7 @@ class AdSilenceActivity : Activity() {
         configurePermission()
         checkAppInstalled()
         configureToggle()
+        configureAdditionalViews()
     }
 
     private fun checkAppInstalled(){
@@ -103,6 +106,23 @@ class AdSilenceActivity : Activity() {
         }
 
     }
+
+    private fun configureAdditionalViews(){
+        val appSelectionBtn = findViewById<Button>(R.id.select_apps_btn)
+        val aboutBtn = findViewById<Button>(R.id.about_btn)
+
+        appSelectionBtn?.setOnClickListener {
+            val appSelectionView = layoutInflater.inflate(R.layout.app_selection,null)
+            val accuradioSwitch = appSelectionView.findViewById<Switch>(R.id.accuradio_selection_switch)
+            val spotifySwich = appSelectionView.findViewById<Switch>(R.id.spotify_selection_switch)
+            accuradioSwitch.isChecked = true
+            spotifySwich.isEnabled = false
+            spotifySwich.text = "${getString(R.string.spotify)} (not implemented)"
+
+            AlertDialog.Builder(this).setView(appSelectionView).show()
+        }
+    }
+
 }
 
 
