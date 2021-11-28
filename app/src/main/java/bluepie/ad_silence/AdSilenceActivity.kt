@@ -1,12 +1,17 @@
 package bluepie.ad_silence
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.text.Html
+import android.text.method.LinkMovementMethod
 import android.util.Log
-import android.widget.Button
-import android.widget.Switch
+import android.view.Gravity
+import android.view.ViewGroup
+import android.widget.*
 
 class AdSilenceActivity : Activity() {
 
@@ -107,22 +112,74 @@ class AdSilenceActivity : Activity() {
 
     }
 
+    @SuppressLint("InflateParams")
     private fun configureAdditionalViews() {
 
         val utils = Utils()
-        val appSelectionBtn = findViewById<Button>(R.id.select_apps_btn)
-        val aboutBtn = findViewById<Button>(R.id.about_btn)
+        val dpi = resources.displayMetrics.density
         val isAccuradioInstalled = utils.isAccuradioInstalled(applicationContext)
 
-        appSelectionBtn?.setOnClickListener {
+        findViewById<Button>(R.id.about_btn)?.setOnClickListener {
+            layoutInflater.inflate(R.layout.about, null)?.run {
+                this.findViewById<Button>(R.id.github_button).setOnClickListener {
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse(getString(R.string.github_link))
+                    ).run { startActivity(this) }
+                }
+
+                this.findViewById<Button>(R.id.report_issue_btn)?.setOnClickListener {
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse(context.getString(R.string.github_issues_link))
+                    ).run { startActivity(this) }
+                }
+
+                this.findViewById<TextView>(R.id.about_text_view).also {
+                    it.movementMethod = LinkMovementMethod.getInstance()
+                    it.text = Html.fromHtml(getString(R.string.about_window_text))
+                }
+
+                with(AlertDialog.Builder(this@AdSilenceActivity).setView(this)) {
+                    val linearLayout = LinearLayout(context).also {
+                        it.setPadding(0, 16 * dpi.toInt(), 0, 0)
+                        it.gravity = Gravity.CENTER
+                        it.addView(
+                            ImageView(context).also { imageView ->
+                                imageView.layoutParams =
+                                    ViewGroup.LayoutParams(56 * dpi.toInt(), 56 * dpi.toInt())
+                                imageView.setBackgroundResource(R.mipmap.icon_launcher_round)
+                            }
+                        )
+                        it.addView(
+                            TextView(context).also { textView ->
+                                textView.text = getString(R.string.app_name)
+                                textView.setPadding(8 * dpi.toInt(), 0, 0, 0)
+                                textView.textSize = 6 * dpi
+                            }
+                        )
+                    }
+                    this.setTitle(getString(R.string.app_name))
+                        .setIcon(R.mipmap.icon_launcher_round)
+                    this.setCustomTitle(linearLayout)
+                    this.show()
+                }
+            }
+        }
+
+
+        findViewById<Button>(R.id.select_apps_btn)?.setOnClickListener {
             val appSelectionView = layoutInflater.inflate(R.layout.app_selection, null)
             val preference = Preference(applicationContext)
 
             appSelectionView.findViewById<Switch>(R.id.accuradio_selection_switch)?.run {
                 this.isEnabled = isAccuradioInstalled
                 this.isChecked = preference.isAppConfigured(SupportedApps.ACCURADIO)
-                this.text =
-                    "${getString(R.string.accuradio)} ${if (isAccuradioInstalled) "" else "(not installed)"}"
+                "${getString(R.string.accuradio)} ${
+                    if (isAccuradioInstalled) ""  else context.getString(
+                        R.string.not_installed
+                    )
+                }".also { this.text = it }
                 this.setOnClickListener {
                     preference.setAppConfigured(
                         SupportedApps.ACCURADIO,
@@ -134,7 +191,9 @@ class AdSilenceActivity : Activity() {
             appSelectionView.findViewById<Switch>(R.id.spotify_selection_switch)?.run {
                 // change this to isSpotifyInstalled
                 this.isEnabled = false
-                this.text = "${getString(R.string.spotify)} (not implemented)"
+                "${getString(R.string.spotify)} ${context.getString(R.string.not_implemented)}".also {
+                    this.text = it
+                }
                 this.setOnClickListener {
                     preference.setAppConfigured(
                         SupportedApps.SPOTIFY,

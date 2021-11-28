@@ -14,4 +14,19 @@
     <string name="select_apps">select apps</string>
     <string name="accuradio">Accuradio</string>
     <string name="spotify">Spotify</string>
+    <string name="about_window_text">Ad-silence blocks ads on Accuradio &amp; Spotify. It works utilizing the notification permission. Only Accuradio\'s &amp; Spotify\'s notifications are accessed for identification and discarded immediately after. If you are not confident with the permission, This app is OpenSource, you can check the source.
+        <![CDATA[<br/><br/>]]>
+
+        <![CDATA[<b>
+        It is designed to be minimal &amp; lightweight, ~150KB.</b>]]>
+        
+        <![CDATA[<br/><br/><br/>]]>
+        Made by <![CDATA[ <a href="https://github.com/aghontpi">aghontpi&lt;bluepie&gt;</a>]]> for OpenSource.
+    </string>
+    <string name="github">github</string>
+    <string name="report_issue">report issue</string>
+    <string name="github_link">https://github.com/aghontpi/Ad-silence</string>
+    <string name="not_implemented">(not implemented)</string>
+    <string name="not_installed">(not installed)</string>
+    <string name="github_issues_link">https://github.com/aghontpi/ad-silence/issues/new</string>
 </resources>
