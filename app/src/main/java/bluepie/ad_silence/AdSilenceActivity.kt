@@ -1,13 +1,13 @@
 package bluepie.ad_silence
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.Switch
-import androidx.appcompat.app.AppCompatActivity
 
-class AdSilenceActivity : AppCompatActivity() {
+class AdSilenceActivity : Activity() {
 
     private val TAG = "MainActivity"
 
