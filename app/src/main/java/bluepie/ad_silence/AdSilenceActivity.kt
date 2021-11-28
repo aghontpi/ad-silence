@@ -13,7 +13,7 @@ class AdSilenceActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.ad_silence_activity)
         configurePermission()
         checkAppInstalled()
         configureToggle()
