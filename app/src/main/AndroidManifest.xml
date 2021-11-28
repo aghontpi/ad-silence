@@ -5,6 +5,7 @@
     <queries>
         <!--android 11 and above-->
         <package android:name="com.slipstream.accuradio"/>
+        <package android:name="com.spotify.music"/>
     </queries>
     <application
         android:allowBackup="true"

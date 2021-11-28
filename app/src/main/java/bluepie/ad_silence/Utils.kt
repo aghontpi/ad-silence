@@ -18,15 +18,18 @@ class Utils {
       toggle.isEnabled = true
    }
 
-   fun isAccuradioInstalled(context: Context): Boolean{
+   private fun isPackageInstalled(context: Context, packageName: String): Boolean{
       return try {
-          context.packageManager.getPackageInfo(context.getString(R.string.accuradio_pkg_name),0)
+          context.packageManager.getPackageInfo(packageName,0)
           true
       } catch (e: PackageManager.NameNotFoundException){
-         Log.v(TAG, "exception: ${e.toString()}" )
+         Log.v(TAG, "exception: $e" )
          false
       }
    }
 
+   fun isAccuradioInstalled(context: Context) = isPackageInstalled(context, context.getString(R.string.accuradio_pkg_name))
+
+   fun isSpotifyInstalled(context: Context) = isPackageInstalled(context, context.getString(R.string.spotify_package_name))
 }
 
