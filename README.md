@@ -8,8 +8,13 @@
   <a href="https://github.com/aghontpi/ad-silence/blob/master/LICENSE"><img src="https://img.shields.io/github/license/aghontpi/ad-silence?style=flat-square" alt="license"></a>
 </p>
 
+## Features
 
-## What apps are supported?
+- Block ads on `Accuradio android`
+- Minimal UI
+- App size **less than 200KB**
+
+## Supported apps?
 
 |    app    | support |
 | :-------: | :-----: |
