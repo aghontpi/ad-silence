@@ -47,10 +47,7 @@ class Preference(private val context: Context) {
             else -> false
         }
         if(app != SupportedApps.INVALID){
-            Log.v(
-                TAG,
-                "getting appConfiguration: $app -> $status"
-            )
+            Log.v(TAG, "getting appConfiguration: $app -> $status")
         }
         return status
     }

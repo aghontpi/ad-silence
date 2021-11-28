@@ -118,6 +118,7 @@ class AdSilenceActivity : Activity() {
         val utils = Utils()
         val dpi = resources.displayMetrics.density
         val isAccuradioInstalled = utils.isAccuradioInstalled(applicationContext)
+        val isSpotifyInstalled = utils.isSpotifyInstalled(applicationContext)
 
         findViewById<Button>(R.id.about_btn)?.setOnClickListener {
             layoutInflater.inflate(R.layout.about, null)?.run {
@@ -176,7 +177,7 @@ class AdSilenceActivity : Activity() {
                 this.isEnabled = isAccuradioInstalled
                 this.isChecked = preference.isAppConfigured(SupportedApps.ACCURADIO)
                 "${getString(R.string.accuradio)} ${
-                    if (isAccuradioInstalled) ""  else context.getString(
+                    if (isAccuradioInstalled) "" else context.getString(
                         R.string.not_installed
                     )
                 }".also { this.text = it }
@@ -190,8 +191,13 @@ class AdSilenceActivity : Activity() {
 
             appSelectionView.findViewById<Switch>(R.id.spotify_selection_switch)?.run {
                 // change this to isSpotifyInstalled
-                this.isEnabled = false
-                "${getString(R.string.spotify)} ${context.getString(R.string.not_implemented)}".also {
+                this.isEnabled = isSpotifyInstalled
+                this.isChecked = preference.isAppConfigured(SupportedApps.SPOTIFY)
+                "${getString(R.string.spotify)} ${
+                    if (isSpotifyInstalled) "" else context.getString(
+                        R.string.not_installed
+                    )
+                }".also {
                     this.text = it
                 }
                 this.setOnClickListener {

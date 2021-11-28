@@ -19,7 +19,7 @@
         <![CDATA[<br/><br/>]]>
 
         <![CDATA[<b>
-        It is designed to be minimal &amp; lightweight, ~150KB.</b>]]>
+        Designed to be minimal &amp; lightweight, ~150KB.</b>]]>
 
         <![CDATA[<br/><br/><br/>]]>
         Made by <![CDATA[ <a href="https://github.com/aghontpi">aghontpi&lt;bluepie&gt;</a>]]> for OpenSource.
@@ -30,4 +30,5 @@
     <string name="not_implemented">(not implemented)</string>
     <string name="not_installed">(not installed)</string>
     <string name="github_issues_link">https://github.com/aghontpi/ad-silence/issues/new</string>
+    <string name="spotify_ad_string">Advertisement</string>
 </resources>
