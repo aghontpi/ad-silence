@@ -1,0 +1,5 @@
+- add: spotify support
+- further reduce app size to ~160KB
+- additional ui/ux
+- add: access the app, through notification
+- add: fastlane configuration

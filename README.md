@@ -13,6 +13,7 @@
 - Block ads on `Accuradio android` & `Spotify android`
 - Minimal UI
 - App size **less than 200KB**
+- Configure which apps to remove ads in
 - Open source
 - No inapp purchases or ads
 
