@@ -1,6 +1,6 @@
 # Ad-silence
 
-> Remove ads in Accuradio
+> Remove ads in Accuradio & Spotify
 
 <p align="left">
   <br/>
@@ -10,17 +10,22 @@
 
 ## Features
 
-- Block ads on `Accuradio android`
+- Block ads on `Accuradio android` & `Spotify android`
 - Minimal UI
 - App size **less than 200KB**
+- Open source
+- No inapp purchases or ads
 
 ## Supported apps?
 
 |    app    | support |
 | :-------: | :-----: |
 | Accuradio |   yes   |
+|  Spotify  |   yes   |
 
-Since this is built with `Accuradio` in mind, no other apps are supported for now, but Implementing other apps should be quite easy.
+- Since this is built with `Accuradio` in mind, ~~no other apps are supported for now, but Implementing other apps should be quite easy.~~
+- `Spotify` is now supported.
+- Easily extensible to other apps.
 
 ## Motivation
 
@@ -29,7 +34,9 @@ Since this is built with `Accuradio` in mind, no other apps are supported for no
 - wanted a minimal ui
   - below is the Total UI of the app.
   <p>
-    <img src="./sample/APP-UI.png" alt="ad notification" height="400px" width="auto"/> 
+    <img src="./sample/1.png" alt="ad notification" height="400px" width="auto"/> 
+    <img src="./sample/2.png" alt="configure apps" height="400px" width="auto"/> 
+    <img src="./sample/3.png" alt="about" height="400px" width="auto"/> 
   </p>
 
 ## How this works
