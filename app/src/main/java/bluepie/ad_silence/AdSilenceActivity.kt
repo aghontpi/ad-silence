@@ -6,7 +6,7 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.text.Html
+import android.text.Html.fromHtml
 import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.Gravity
@@ -21,7 +21,6 @@ class AdSilenceActivity : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.ad_silence_activity)
         configurePermission()
-        checkAppInstalled()
         configureToggle()
         configureAdditionalViews()
     }
@@ -31,47 +30,25 @@ class AdSilenceActivity : Activity() {
         Log.v(TAG, "onResume")
         // when resuming after permission is granted
         configurePermission()
-        checkAppInstalled()
         configureToggle()
         configureAdditionalViews()
     }
 
-    private fun checkAppInstalled() {
-        val utils = Utils()
-        val statusToggle = findViewById<Switch>(R.id.status_toggle)
-        Log.v(TAG, "Accuradio installed ?: ${utils.isAccuradioInstalled(applicationContext)}")
-        when (utils.isAccuradioInstalled(applicationContext)) {
-            true -> {
-                val msg = kotlin.run {
-                    if (checkNotificationPermission(applicationContext)) getString(R.string.app_status)
-                    else getString(R.string.app_status_permission_not_granted)
-                }
-                statusToggle.text = msg
-                utils.enableSwitch(statusToggle)
-            }
-            false -> {
-                statusToggle.text = getString(R.string.app_status_accuradio_not_installed)
-                utils.disableSwitch(statusToggle)
-            }
-        }
-    }
-
     private fun configurePermission() {
-        val grantPermissionButton = findViewById<Button>(R.id.grant_permission)
-        val statusToggle = findViewById<Switch>(R.id.status_toggle)
-
-        when (checkNotificationPermission(applicationContext)) {
-            true -> {
-                grantPermissionButton.text = getString(R.string.permission_granted)
-                grantPermissionButton.isEnabled = false
-            }
-            false -> {
-                statusToggle.text = getString(R.string.app_status_permission_not_granted)
-                grantPermissionButton.isEnabled = true
-                grantPermissionButton.setOnClickListener {
-                    val msg = "Opening Notification Settings"
-                    Log.v(TAG, msg)
-                    startActivity(Intent(getString(R.string.notification_listener_settings_intent)))
+        findViewById<Button>(R.id.grant_permission)?.run {
+            when (checkNotificationPermission(applicationContext)) {
+                true -> {
+                    this.text = getString(R.string.permission_granted)
+                    this.isEnabled = false
+                }
+                false -> {
+                    findViewById<Switch>(R.id.status_toggle)?.text =
+                        getString(R.string.app_status_permission_not_granted)
+                    this.isEnabled = true
+                    this.setOnClickListener {
+                        Log.v(TAG, "Opening Notification Settings")
+                        startActivity(Intent(getString(R.string.notification_listener_settings_intent)))
+                    }
                 }
             }
         }
@@ -89,20 +66,20 @@ class AdSilenceActivity : Activity() {
             //   force it to be enabled, otherwise it wont be listed in permission window
             appNotificationHelper.enable()
             utils.disableSwitch(statusToggle)
+            statusToggle.text = getString(R.string.app_status_permission_not_granted)
             return
         } else {
+            statusToggle.text = getString(R.string.app_status)
             utils.enableSwitch(statusToggle)
         }
 
         statusToggle.setOnClickListener {
             val toChange: Boolean = !preference.isEnabled()
             preference.setEnabled(toChange)
-            if (toChange) {
-                appNotificationHelper.enable()
-            } else {
-                appNotificationHelper.disable()
-            }
+            if (toChange) appNotificationHelper.enable() else appNotificationHelper.disable()
+
         }
+
         if (preference.isEnabled()) {
             statusToggle.isChecked = true
             appNotificationHelper.start()
@@ -138,7 +115,7 @@ class AdSilenceActivity : Activity() {
 
                 this.findViewById<TextView>(R.id.about_text_view).also {
                     it.movementMethod = LinkMovementMethod.getInstance()
-                    it.text = Html.fromHtml(getString(R.string.about_window_text))
+                    it.text = fromHtml(getString(R.string.about_window_text))
                 }
 
                 with(AlertDialog.Builder(this@AdSilenceActivity).setView(this)) {
