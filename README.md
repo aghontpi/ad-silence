@@ -24,7 +24,6 @@
 | Accuradio |   yes   |
 |  Spotify  |   yes   |
 
-****
 - If you want this to work on a different app, [open an issue here](https://github.com/aghontpi/ad-silence/issues/new) and mention the app/audio streaming service.
 - Since this is built with `Accuradio` in mind, ~~no other apps are supported for now, but Implementing other apps should be quite easy.~~
 - `Spotify` is now supported.
