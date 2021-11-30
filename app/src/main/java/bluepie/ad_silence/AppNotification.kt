@@ -37,9 +37,25 @@ fun AppNotificationHelper.getNotificationBuilder(status: String ): NotificationC
     return notifiBuilder
 }
 
-private fun AppNotificationHelper.createNotification(status: String): NotificationCompat.Builder{
-    val adSilenceIntent = Intent(context,AdSilenceActivity::class.java)
-    val pendingIntent = PendingIntent.getActivity(context,0,adSilenceIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+private fun AppNotificationHelper.createNotification(status: String): NotificationCompat.Builder {
+    val adSilenceIntent = Intent(context, AdSilenceActivity::class.java)
+
+    val pendingIntent = Build.VERSION.SDK_INT.let {
+        when {
+            it >= Build.VERSION_CODES.M -> PendingIntent.getActivity(
+                context,
+                0,
+                adSilenceIntent,
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            )
+            else -> PendingIntent.getActivity(
+                context,
+                0,
+                adSilenceIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+            )
+        }
+    }
     return NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(R.drawable.icon_launcher_foreground)
             .setContentTitle(context.getString(R.string.app_name))
