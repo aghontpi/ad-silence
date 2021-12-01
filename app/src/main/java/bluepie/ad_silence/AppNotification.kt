@@ -9,13 +9,12 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 
 const val NOTIFICATION_CHANNEL_ID = "AD-SILENCE-CHANNEL"
 const val NOTIFICATION_CHANNEL_DESCRIPTION = "Ad Silence Notification channel"
-
-// since gona use the same notification all purposes, use same id
 const val NOTIFICATION_ID = 69
 
 
@@ -23,7 +22,9 @@ class AppNotificationHelper(val context: Context)
 
 fun AppNotificationHelper.updateNotification(status: String ): Notification{
     val notifiBuilder = createNotification(status)
-    createChannel()
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        createChannel()
+    }
     val notification = notifiBuilder.build()
     with(NotificationManagerCompat.from(context)){
         notify(NOTIFICATION_ID,notification)
@@ -33,7 +34,9 @@ fun AppNotificationHelper.updateNotification(status: String ): Notification{
 
 fun AppNotificationHelper.getNotificationBuilder(status: String ): NotificationCompat.Builder {
     val notifiBuilder = createNotification(status)
-    createChannel()
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        createChannel()
+    }
     return notifiBuilder
 }
 
@@ -64,7 +67,7 @@ private fun AppNotificationHelper.createNotification(status: String): Notificati
             .setContentIntent(pendingIntent)
 }
 
-// android version > 26
+@RequiresApi(Build.VERSION_CODES.O)
 private fun AppNotificationHelper.createChannel()  {
     val channel = NotificationChannel(NOTIFICATION_CHANNEL_ID, NOTIFICATION_CHANNEL_ID, NotificationManager.IMPORTANCE_DEFAULT)
             .apply { description = NOTIFICATION_CHANNEL_DESCRIPTION }
