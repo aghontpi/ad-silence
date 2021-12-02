@@ -12,7 +12,7 @@
 
 - Block ads on `Accuradio android` & `Spotify android`
 - Minimal UI
-- App size **less than 200KB**
+- App size **less than 150KB**
 - Configure which apps to remove ads in
 - Open source
 - No inapp purchases or ads
@@ -24,7 +24,7 @@
 | Accuradio |   yes   |
 |  Spotify  |   yes   |
 
-- If you want this to work on a different app, [open an issue here](https://github.com/aghontpi/ad-silence/issues/new) and mention the app/audio streaming service.
+- If you want this to work on a different app/audio streaming service, [open an new issue](https://github.com/aghontpi/ad-silence/issues/new) mentioning its name.
 - Since this is built with `Accuradio` in mind, ~~no other apps are supported for now, but Implementing other apps should be quite easy.~~
 - `Spotify` is now supported.
 - Easily extensible to other apps.
