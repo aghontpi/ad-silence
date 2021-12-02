@@ -1,0 +1,2 @@
+add: support for older android versions, android 5 & up.
+fix: crash on android 12.

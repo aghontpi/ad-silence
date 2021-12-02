@@ -1,12 +1,13 @@
-Remove ads in Accuradio android app & Spotify android app.
-
 <b>Features:</b>
+
 - Remove ads in Accuradio & Spotify. 
-- Lightweight (~ 160KB)
+- Lightweight (~ 150KB)
 - Minimal UI
 - Configure which apps to remove ads in
 - No bloat/external dependencies
 - Open source
 - No inapp purchases or ads
 
-<b>Check github for how this works and more</b>
+<b>I'm open to adding different streaming app, just open a new issue on github</b>
+
+<b>If you want to know on how this works & more.. check github.</b>
