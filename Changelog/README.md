@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.2.0] - (Dec 03,2021)
+
+**_Stable - requires android 5 or higher_**
+
+### Added
+
+- extend support to android 5 & up (previoius was 9 & up). (1020ddb)
+- reduce build size to ~150KB
+
+### Updates
+
+- fix: spotify last word of ad is not muted(187b6c4)
+- fix: Crash on android 12. (ec5df7e)
+- update build, 0.1.1 -> 0.2.0 (459e41a, 7ce7c84)
+
 ## [v0.1.1] - (Nov 29,2021)
 
 **_Stable - requires android 9 or higher_**

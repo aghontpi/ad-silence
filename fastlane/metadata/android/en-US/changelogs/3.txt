@@ -1,2 +1,3 @@
 add: support for older android versions, android 5 & up.
+fix: spotify ad - last word is not muted.
 fix: crash on android 12.
