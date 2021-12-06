@@ -60,3 +60,7 @@ This is possible because of `NotificationListenerService` on `android`. Granted,
 ## Built with
 
 - [Kotlin](https://kotlinlang.org/)
+
+## Other
+
+- featured in [app of the week](https://www.nextpit.com/apps-of-the-week-48-2021)
