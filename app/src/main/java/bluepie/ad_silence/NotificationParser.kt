@@ -19,11 +19,14 @@ fun AppNotification.getApp(): SupportedApps {
     }
 }
 
-fun AppNotification.adString(): String {
+fun AppNotification.adString(): List<String> {
     return when (getApp()) {
-        SupportedApps.ACCURADIO -> context.getString(R.string.accuradio_ad_text)
-        SupportedApps.SPOTIFY -> context.getString(R.string.spotify_ad_string)
-        else -> ""
+        SupportedApps.ACCURADIO -> listOf(context.getString(R.string.accuradio_ad_text))
+        SupportedApps.SPOTIFY -> listOf(
+            context.getString(R.string.spotify_ad_string),
+            context.getString(R.string.spotify_ad2)
+        )
+        else -> listOf("")
     }
 }
 
@@ -83,17 +86,35 @@ class NotificationParser(override var appNotification: AppNotification) :
         }
 
         notificationInfo = info
-
-        return info.any { it.contains(appNotification.adString()) }
+        var isAd = false
+        for (adString in appNotification.adString()) {
+            if (info.any { it.contains(adString) }) {
+                Log.v(TAG, "detection in Accuradio: $adString")
+                isAd = true
+                break
+            }
+        }
+        return isAd
     }
 
-    private fun parseSpotifyNotification(): Boolean{
+    private fun parseSpotifyNotification(): Boolean {
         Log.v(
             TAG,
             "detected ${appNotification.context.getString(R.string.spotify)} -> ${
                 appNotification.context.getString(R.string.spotify_package_name)
             }"
         )
-        return this.appNotification.notification.extras?.get("android.title").toString() == appNotification.adString()
+
+        var isAd = false
+        this.appNotification.notification.extras?.get("android.title").toString().run {
+            for (adString in appNotification.adString()) {
+                if (this == adString) {
+                    Log.v(TAG, "detection in Spotify: $adString")
+                    isAd = true
+                    break
+                }
+            }
+        }
+        return isAd
     }
 }
