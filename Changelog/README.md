@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.2.1] - (Dec 09,2021)
+
+**_Stable - requires android 5 or higher_**
+
+### Updates
+
+- fix: block ads in Spotify-podcasts (thanks to @erawhctim in #5)
+
+**_checking for app updates via github is tedious, thus posted it to playstore. From now, updates will be posted to both google play and github._**
+
+<a href='https://play.google.com/store/apps/details?id=bluepie.ad_silence&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' height="72px" src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
+
 ## [v0.2.0] - (Dec 03,2021)
 
 **_Stable - requires android 5 or higher_**

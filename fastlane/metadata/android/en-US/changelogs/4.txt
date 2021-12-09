@@ -1,0 +1,2 @@
+- fix: block ads in Spotify-podcasts
+- add: now available from googleplay, https://play.google.com/store/apps/details?id=bluepie.ad_silence
