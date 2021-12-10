@@ -4,6 +4,7 @@
     <string name="notification_listener_settings_intent">android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS</string>
     <string name="accuradio_pkg_name">com.slipstream.accuradio</string>
     <string name="spotify_package_name">com.spotify.music</string>
+    <string name="tidal_package_name">com.aspiro.tidal</string>
     <string name="accuradio_ad_text">Music will resume</string>
     <string name="grant_permission_text_view">App works by using Notification access</string>
     <string name="grant_permission_button">Grant Permission</string>
@@ -15,6 +16,7 @@
     <string name="select_apps">select apps</string>
     <string name="accuradio">Accuradio</string>
     <string name="spotify">Spotify</string>
+    <string name="tidal">Tidal</string>
     <string name="about_window_text">Ad-silence blocks ads on Accuradio &amp; Spotify. It works utilizing the notification permission. Only Accuradio\'s &amp; Spotify\'s notifications are accessed for identification and discarded immediately after. If you are not confident with the permission, This app is OpenSource, you can check the source.
         <![CDATA[<br/><br/>]]>
 
@@ -33,4 +35,5 @@
     <string name="spotify_ad_string">Advertisement</string>
     <string name="android_constant_enabled_notification_listeners">enabled_notification_listeners</string>
     <string name="spotify_ad2">Spotify</string>
+    <string name="tidal_ad_string">Advertisement</string>
 </resources>
