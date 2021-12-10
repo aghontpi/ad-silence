@@ -6,6 +6,7 @@
         <!--android 11 and above-->
         <package android:name="com.slipstream.accuradio"/>
         <package android:name="com.spotify.music"/>
+        <package android:name="com.aspiro.tidal"/>
     </queries>
     <application
         android:allowBackup="true"
