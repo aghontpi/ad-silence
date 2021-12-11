@@ -1,1 +1,1 @@
-Silence ads in Accuradio & Spotify. Lightweight & minimal(under 150kb).
+Silence ads in Accuradio, Spotify & Tidal. Lightweight & minimal(under 150kb).

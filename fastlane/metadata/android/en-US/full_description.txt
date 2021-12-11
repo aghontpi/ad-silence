@@ -1,6 +1,6 @@
 <b>Features:</b>
 
-- Remove ads in Accuradio & Spotify. 
+- Remove ads in Accuradio, Spotify & Tidal.
 - Lightweight (~ 150KB)
 - Minimal UI
 - Configure which apps to remove ads in
@@ -8,6 +8,6 @@
 - Open source
 - No inapp purchases or ads
 
-<b>I'm open to adding different streaming app, just open a new issue on github</b>
+<b>I'm open to adding other streaming apps, just open a new issue on github</b>
 
 <b>If you want to know on how this works & more.. check github.</b>
