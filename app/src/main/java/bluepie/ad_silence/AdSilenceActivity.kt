@@ -187,9 +187,13 @@ class AdSilenceActivity : Activity() {
             }
 
             appSelectionView.findViewById<Switch>(R.id.tidal_selection_switch)?.run {
-                this.isEnabled = isSpotifyInstalled
+                this.isEnabled = isTidalInstalled
                 this.isChecked = preference.isAppConfigured(SupportedApps.TIDAL)
-                "${context.getString(R.string.tidal)} ${if (isTidalInstalled) "" else context.getString(R.string.not_installed)}".also {
+                "${context.getString(R.string.tidal)} ${
+                    if (isTidalInstalled) "" else context.getString(
+                        R.string.not_installed
+                    )
+                }".also {
                     this.text = it
                 }
                 this.setOnClickListener {
