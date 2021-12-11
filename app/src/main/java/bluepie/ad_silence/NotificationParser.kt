@@ -15,6 +15,7 @@ fun AppNotification.getApp(): SupportedApps {
     return when (packageName) {
         context.getString(R.string.accuradio_pkg_name) -> SupportedApps.ACCURADIO
         context.getString(R.string.spotify_package_name) -> SupportedApps.SPOTIFY
+        context.getString(R.string.tidal_package_name) -> SupportedApps.TIDAL
         else -> SupportedApps.INVALID
     }
 }
@@ -26,6 +27,7 @@ fun AppNotification.adString(): List<String> {
             context.getString(R.string.spotify_ad_string),
             context.getString(R.string.spotify_ad2)
         )
+        SupportedApps.TIDAL -> listOf(context.getString(R.string.tidal_ad_string))
         else -> listOf("")
     }
 }
@@ -45,6 +47,7 @@ class NotificationParser(override var appNotification: AppNotification) :
         return when (appNotification.getApp()) {
             SupportedApps.ACCURADIO -> parseAccuradioNotification()
             SupportedApps.SPOTIFY -> parseSpotifyNotification()
+            SupportedApps.TIDAL -> parseTidalNotification()
             else -> false
         }
     }
@@ -110,6 +113,20 @@ class NotificationParser(override var appNotification: AppNotification) :
             for (adString in appNotification.adString()) {
                 if (this == adString) {
                     Log.v(TAG, "detection in Spotify: $adString")
+                    isAd = true
+                    break
+                }
+            }
+        }
+        return isAd
+    }
+
+    private fun parseTidalNotification(): Boolean {
+        var isAd = false
+        this.appNotification.notification.extras?.get("android.title").toString().run {
+            for (adString in appNotification.adString()) {
+                if (this == adString) {
+                    Log.v(TAG, "detection in Tidal: $adString")
                     isAd = true
                     break
                 }
