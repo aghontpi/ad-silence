@@ -38,6 +38,9 @@ class Utils {
     fun isSpotifyInstalled(context: Context) =
         isPackageInstalled(context, context.getString(R.string.spotify_package_name))
 
+    fun isTidalInstalled(context: Context) =
+        isPackageInstalled(context, context.getString(R.string.tidal_package_name))
+
     fun mute(audioManager: AudioManager?, addNotificationHelper: AppNotificationHelper?) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             audioManager?.adjustVolume(

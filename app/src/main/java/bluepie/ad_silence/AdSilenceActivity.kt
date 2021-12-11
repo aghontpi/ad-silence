@@ -96,6 +96,7 @@ class AdSilenceActivity : Activity() {
         val dpi = resources.displayMetrics.density
         val isAccuradioInstalled = utils.isAccuradioInstalled(applicationContext)
         val isSpotifyInstalled = utils.isSpotifyInstalled(applicationContext)
+        val isTidalInstalled = utils.isTidalInstalled(applicationContext)
 
         findViewById<Button>(R.id.about_btn)?.setOnClickListener {
             layoutInflater.inflate(R.layout.about, null)?.run {
@@ -181,6 +182,20 @@ class AdSilenceActivity : Activity() {
                     preference.setAppConfigured(
                         SupportedApps.SPOTIFY,
                         !preference.isAppConfigured(SupportedApps.SPOTIFY)
+                    )
+                }
+            }
+
+            appSelectionView.findViewById<Switch>(R.id.tidal_selection_switch)?.run {
+                this.isEnabled = isSpotifyInstalled
+                this.isChecked = preference.isAppConfigured(SupportedApps.TIDAL)
+                "${context.getString(R.string.tidal)} ${if (isTidalInstalled) "" else context.getString(R.string.not_installed)}".also {
+                    this.text = it
+                }
+                this.setOnClickListener {
+                    preference.setAppConfigured(
+                        SupportedApps.TIDAL,
+                        !preference.isAppConfigured(SupportedApps.TIDAL)
                     )
                 }
             }
