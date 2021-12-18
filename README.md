@@ -7,7 +7,12 @@
   <a href="https://github.com/aghontpi/ad-silence/releases"><img src="https://img.shields.io/github/v/release/aghontpi/ad-silence?include_prereleases&style=flat-square&label=github-release" alt="release"></a>
   <a href="https://github.com/aghontpi/ad-silence/blob/master/LICENSE"><img src="https://img.shields.io/github/license/aghontpi/ad-silence?style=flat-square" alt="license"></a>
 </p>
+
+<p align="left">
 <a href='https://play.google.com/store/apps/details?id=bluepie.ad_silence&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' height="72px" src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
+<a href='https://f-droid.org/packages/bluepie.ad_silence/'><img alt='Get it on Google Play' height="72px" src='https://fdroid.gitlab.io/artwork/badge/get-it-on.png'/></a>
+</p>
+
 
 ## Features
 
