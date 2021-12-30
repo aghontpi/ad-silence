@@ -7,5 +7,6 @@ enum class SupportedApps {
     SPOTIFY_LITE,
     PANDORA,
     LiveOne,
+    DEEZER,
     INVALID
 }

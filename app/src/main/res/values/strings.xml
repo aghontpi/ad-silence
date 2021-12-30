@@ -6,6 +6,7 @@
     <string name="spotify_package_name">com.spotify.music</string>
     <string name="tidal_package_name">com.aspiro.tidal</string>
     <string name="pandora_package_name">com.pandora.android</string>
+    <string name="deezer_package_name">deezer.android.app</string>
     <string name="accuradio_ad_text">Music will resume</string>
     <string name="grant_permission_text_view">App works by using Notification access</string>
     <string name="grant_permission_button">Grant Permission</string>
@@ -51,4 +52,5 @@
     <string name="liveOne_ad_string_2">60 Minutes Uninterrupted Listening</string>
     <string name="liveone">LiveOne</string>
     <string name="beta">(Beta)</string>
+    <string name="deezer_ad_string">Deezer</string>
 </resources>

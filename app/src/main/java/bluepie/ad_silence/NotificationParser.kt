@@ -19,6 +19,7 @@ fun AppNotification.getApp(): SupportedApps {
         context.getString(R.string.spotify_lite_package_name) -> SupportedApps.SPOTIFY_LITE
         context.getString(R.string.pandora_package_name) -> SupportedApps.PANDORA
         context.getString(R.string.liveOne_package_name) -> SupportedApps.LiveOne
+        context.getString(R.string.deezer_package_name) -> SupportedApps.DEEZER
         else -> SupportedApps.INVALID
     }
 }
@@ -33,6 +34,7 @@ fun AppNotification.adString(): List<String> {
         SupportedApps.TIDAL -> listOf(context.getString(R.string.tidal_ad_string))
         SupportedApps.PANDORA -> listOf(context.getString(R.string.pandora_ad_string),context.getString(R.string.pandora_ad_string_2))
         SupportedApps.LiveOne -> listOf(context.getString(R.string.liveOne_ad_string), context.getString(R.string.liveOne_ad_string_2))
+        SupportedApps.DEEZER -> listOf(context.getString(R.string.deezer_ad_string))
         else -> listOf("")
     }
 }
@@ -55,6 +57,7 @@ class NotificationParser(override var appNotification: AppNotification) :
             SupportedApps.TIDAL -> parseTidalNotification()
             SupportedApps.PANDORA -> parsePandoraNotification()
             SupportedApps.LiveOne -> parseLiveOneNotification()
+            SupportedApps.DEEZER -> parseDeezerNotification()
             else -> false
         }
     }
@@ -149,6 +152,19 @@ class NotificationParser(override var appNotification: AppNotification) :
             for (adString in appNotification.adString()) {
                 if (this == adString) {
                     Log.v(TAG, "detection in Pandora: $adString")
+                    isAd = true
+                }
+            }
+        }
+        return isAd
+    }
+
+    private fun parseDeezerNotification(): Boolean {
+        var isAd = false
+        this.appNotification.notification.extras?.get("android.title").toString().run {
+            for (adString in appNotification.adString()){
+                if (this == adString){
+                    Log.v(TAG, "detection in Deezer: $adString")
                     isAd = true
                     break
                 }
