@@ -100,6 +100,7 @@ class AdSilenceActivity : Activity() {
         val isSpotifyLiteInstalled = utils.isSpotifyLiteInstalled(applicationContext)
         val isPandoraInstalled = utils.isPandoraInstalled(applicationContext)
         val isLiveOneInstalled = utils.isLiveOneInstalled(applicationContext)
+        val isDeezerInstalled = utils.isDeezerInstalled(applicationContext)
 
         findViewById<Button>(R.id.about_btn)?.setOnClickListener {
             layoutInflater.inflate(R.layout.about, null)?.run {
@@ -224,11 +225,33 @@ class AdSilenceActivity : Activity() {
                 }
             }
 
+
+            appSelectionView.findViewById<Switch>(R.id.deezer_selection)?.run {
+                this.isEnabled = isDeezerInstalled
+                this.isChecked = preference.isAppConfigured(SupportedApps.DEEZER)
+                "${context.getString(R.string.deezer)} ${
+                    if (isDeezerInstalled) applicationContext.getString(R.string.beta) else (context.getString(
+                        R.string.not_installed
+                    ))
+                }".also {
+                    this.text = it
+                }
+                this.setOnClickListener {
+                    preference.setAppConfigured(
+                        SupportedApps.DEEZER,
+                        !preference.isAppConfigured(SupportedApps.DEEZER)
+                    )
+                }
+            }
+
             appSelectionView.findViewById<Switch>(R.id.pandora_selection_switch)?.run {
                 this.isEnabled = isPandoraInstalled
-                this.isChecked = preference.isAppConfigured(SupportedApps.PANDORA)
+                this.isChecked =
+                    preference.isAppConfigured(SupportedApps.PANDORA)
                 "${context.getString(R.string.pandora)} ${
-                    if (isPandoraInstalled) applicationContext.getString(R.string.beta) else context.getString(R.string.not_installed)
+                    if (isPandoraInstalled) applicationContext.getString(R.string.beta) else context.getString(
+                        R.string.not_installed
+                    )
                 }".also {
                     this.text = it
                 }
@@ -244,11 +267,13 @@ class AdSilenceActivity : Activity() {
                 this.isEnabled = isLiveOneInstalled
                 this.isChecked = preference.isAppConfigured(SupportedApps.LiveOne)
                 "${context.getString(R.string.liveone)} ${
-                    if (isLiveOneInstalled) applicationContext.getString(R.string.beta) else context.getString(R.string.not_installed)
+                    if (isLiveOneInstalled) applicationContext.getString(R.string.beta) else context.getString(
+                        R.string.not_installed
+                    )
                 }".also {
                     this.text = it
                 }
-                this.setOnClickListener{
+                this.setOnClickListener {
                     preference.setAppConfigured(
                         SupportedApps.LiveOne,
                         !preference.isAppConfigured(SupportedApps.LiveOne)
