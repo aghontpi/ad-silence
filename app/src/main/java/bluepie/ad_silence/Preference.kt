@@ -24,6 +24,9 @@ class Preference(private val context: Context) {
     private val SPOTIFY_DEFAULT = true
     val TIDAL = "Tidal"
     private val TIDAL_DEFAULT = true
+    val SPOTIFY_LITE = "SpotifyLite"
+    private val SPOTIFY_LITE_DEFAULT = true
+
 
 
     fun isEnabled(): Boolean {
@@ -41,6 +44,7 @@ class Preference(private val context: Context) {
             SupportedApps.ACCURADIO -> preference.edit { putBoolean(ACCURADIO, status).commit() }
             SupportedApps.SPOTIFY -> preference.edit { putBoolean(SPOTIFY, status).commit() }
             SupportedApps.TIDAL-> preference.edit { putBoolean(TIDAL, status).commit() }
+            SupportedApps.SPOTIFY_LITE-> preference.edit { putBoolean(SPOTIFY_LITE, status).commit() }
         }
     }
 
@@ -49,6 +53,7 @@ class Preference(private val context: Context) {
             SupportedApps.ACCURADIO -> preference.getBoolean(ACCURADIO, ACCURAIO_DEFAULT)
             SupportedApps.SPOTIFY -> preference.getBoolean(SPOTIFY, SPOTIFY_DEFAULT)
             SupportedApps.TIDAL-> preference.getBoolean(TIDAL, TIDAL_DEFAULT)
+            SupportedApps.SPOTIFY_LITE-> preference.getBoolean(SPOTIFY_LITE, SPOTIFY_LITE_DEFAULT)
             else -> false
         }
 
