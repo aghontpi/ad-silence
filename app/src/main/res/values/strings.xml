@@ -17,7 +17,7 @@
     <string name="accuradio">Accuradio</string>
     <string name="spotify">Spotify</string>
     <string name="tidal">Tidal</string>
-    <string name="about_window_text">Ad-silence blocks ads on Accuradio, Spotify &amp; Tidal. It works utilizing the notification permission. Only Accuradio\'s, Spotify\'s &amp; Tidal\'s notifications are accessed for identification and discarded immediately after. If you are not confident with the permission, This app is OpenSource, you can check the source.
+    <string name="about_window_text">Ad-silence blocks ads on Accuradio, Spotify, Spotify-Lite &amp; Tidal. It works utilizing the notification permission. Only Accuradio\'s, Spotify\'s &amp; Tidal\'s notifications are accessed for identification and discarded immediately after. If you are not confident with the permission, This app is OpenSource, you can check the source.
         <![CDATA[<br/><br/>]]>
 
         <![CDATA[<b>
@@ -36,4 +36,5 @@
     <string name="android_constant_enabled_notification_listeners">enabled_notification_listeners</string>
     <string name="spotify_ad2">Spotify</string>
     <string name="tidal_ad_string">Advertisement</string>
+    <string name="spotify_lite_package_name">com.spotify.lite</string>
 </resources>

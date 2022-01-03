@@ -16,6 +16,7 @@ fun AppNotification.getApp(): SupportedApps {
         context.getString(R.string.accuradio_pkg_name) -> SupportedApps.ACCURADIO
         context.getString(R.string.spotify_package_name) -> SupportedApps.SPOTIFY
         context.getString(R.string.tidal_package_name) -> SupportedApps.TIDAL
+        context.getString(R.string.spotify_lite_package_name) -> SupportedApps.SPOTIFY_LITE
         else -> SupportedApps.INVALID
     }
 }
@@ -23,7 +24,7 @@ fun AppNotification.getApp(): SupportedApps {
 fun AppNotification.adString(): List<String> {
     return when (getApp()) {
         SupportedApps.ACCURADIO -> listOf(context.getString(R.string.accuradio_ad_text))
-        SupportedApps.SPOTIFY -> listOf(
+        SupportedApps.SPOTIFY, SupportedApps.SPOTIFY_LITE -> listOf(
             context.getString(R.string.spotify_ad_string),
             context.getString(R.string.spotify_ad2)
         )
@@ -46,11 +47,12 @@ class NotificationParser(override var appNotification: AppNotification) :
     override fun isAd(): Boolean {
         return when (appNotification.getApp()) {
             SupportedApps.ACCURADIO -> parseAccuradioNotification()
-            SupportedApps.SPOTIFY -> parseSpotifyNotification()
+            SupportedApps.SPOTIFY, SupportedApps.SPOTIFY_LITE -> parseSpotifyNotification()
             SupportedApps.TIDAL -> parseTidalNotification()
             else -> false
         }
     }
+
 
     override fun info(): LinkedList<String> {
         return notificationInfo
@@ -104,7 +106,7 @@ class NotificationParser(override var appNotification: AppNotification) :
         Log.v(
             TAG,
             "detected ${appNotification.context.getString(R.string.spotify)} -> ${
-                appNotification.context.getString(R.string.spotify_package_name)
+                appNotification.getApp()
             }"
         )
 

@@ -4,5 +4,6 @@ enum class SupportedApps {
     ACCURADIO,
     SPOTIFY,
     TIDAL,
+    SPOTIFY_LITE,
     INVALID
 }
