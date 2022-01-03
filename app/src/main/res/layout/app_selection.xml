@@ -21,6 +21,13 @@
         android:text="@string/spotify" />
 
     <Switch
+        android:id="@+id/spotify_lite_selection_switch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:text="@string/spotify_lite" />
+
+    <Switch
         android:id="@+id/tidal_selection_switch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
