@@ -97,6 +97,7 @@ class AdSilenceActivity : Activity() {
         val isAccuradioInstalled = utils.isAccuradioInstalled(applicationContext)
         val isSpotifyInstalled = utils.isSpotifyInstalled(applicationContext)
         val isTidalInstalled = utils.isTidalInstalled(applicationContext)
+        val isSpotifyLiteInstalled = utils.isSpotifyLiteInstalled(applicationContext)
 
         findViewById<Button>(R.id.about_btn)?.setOnClickListener {
             layoutInflater.inflate(R.layout.about, null)?.run {
@@ -168,7 +169,6 @@ class AdSilenceActivity : Activity() {
             }
 
             appSelectionView.findViewById<Switch>(R.id.spotify_selection_switch)?.run {
-                // change this to isSpotifyInstalled
                 this.isEnabled = isSpotifyInstalled
                 this.isChecked = preference.isAppConfigured(SupportedApps.SPOTIFY)
                 "${getString(R.string.spotify)} ${
@@ -200,6 +200,24 @@ class AdSilenceActivity : Activity() {
                     preference.setAppConfigured(
                         SupportedApps.TIDAL,
                         !preference.isAppConfigured(SupportedApps.TIDAL)
+                    )
+                }
+            }
+
+            appSelectionView.findViewById<Switch>(R.id.spotify_lite_selection_switch)?.run {
+                this.isEnabled = isSpotifyLiteInstalled
+                this.isChecked = preference.isAppConfigured(SupportedApps.SPOTIFY_LITE)
+                "${context.getString(R.string.spotify_lite)} ${
+                    if (isSpotifyLiteInstalled) "" else context.getString(
+                        R.string.not_installed
+                    )
+                }".also {
+                    this.text = it
+                }
+                this.setOnClickListener {
+                    preference.setAppConfigured(
+                        SupportedApps.SPOTIFY_LITE,
+                        !preference.isAppConfigured(SupportedApps.SPOTIFY_LITE)
                     )
                 }
             }
