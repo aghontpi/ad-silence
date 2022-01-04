@@ -13,10 +13,9 @@
 <a href='https://f-droid.org/packages/bluepie.ad_silence/'><img alt='Get it on Google Play' height="72px" src='https://fdroid.gitlab.io/artwork/badge/get-it-on.png'/></a>
 </p>
 
-
 ## Features
 
-- Block ads on `Accuradio android`, `Spotify android` & `Tidal android`
+- Block ads on `Accuradio`, `Spotify` (full & lite versions) & `Tidal`
 - Minimal UI
 - App size **less than 150KB**
 - Configure which apps to remove ads in
@@ -25,16 +24,18 @@
 
 ## Supported apps?
 
-|    app    | support |
-| :-------: | :-----: |
-| Accuradio |   yes   |
-|  Spotify  |   yes   |
-|   Tidal   |   yes   |
+|     app      | support |
+| :----------: | :-----: |
+|  Accuradio   |   yes   |
+|   Spotify    |   yes   |
+| Spotify Lite |   yes   |
+|    Tidal     |   yes   |
 
 - If you want this to work on a different app/audio streaming service, [open an new issue](https://github.com/aghontpi/ad-silence/issues/new) mentioning its name.
 - Since this is built with `Accuradio` in mind, ~~no other apps are supported for now, but Implementing other apps should be quite easy.~~
 - `Spotify` is now supported.
 - `Tidal` is now supported.
+- `Spotify Lite` is now supported.
 - Easily extensible to other apps.
 
 ## Motivation
