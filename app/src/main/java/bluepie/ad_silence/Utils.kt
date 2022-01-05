@@ -75,12 +75,19 @@ class Utils {
 
         if (app == SupportedApps.SPOTIFY || app == SupportedApps.SPOTIFY_LITE) {
             Log.v(TAG, "introducing delay for spotify")
+            val delay: Long = app.run {
+                when(this) {
+                    SupportedApps.SPOTIFY_LITE -> 540
+                    SupportedApps.SPOTIFY -> 480
+                    else -> 0
+                }
+            }
             Handler(Looper.getMainLooper()).postDelayed({
                 Log.v(
                     TAG,
-                    "running unmute..after delay"
+                    "running unmute..after delay $delay"
                 ); process()
-            }, 480)
+            }, delay)
         } else process()
     }
 }
