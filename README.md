@@ -71,4 +71,5 @@ This is possible because of `NotificationListenerService` on `android`. Granted,
 
 ## Other
 
+- featured in [top apps - youtube](https://youtu.be/hWfiQN4IUFM)
 - featured in [app of the week](https://www.nextpit.com/apps-of-the-week-48-2021)
