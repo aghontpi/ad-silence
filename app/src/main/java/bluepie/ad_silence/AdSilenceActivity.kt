@@ -98,6 +98,7 @@ class AdSilenceActivity : Activity() {
         val isSpotifyInstalled = utils.isSpotifyInstalled(applicationContext)
         val isTidalInstalled = utils.isTidalInstalled(applicationContext)
         val isSpotifyLiteInstalled = utils.isSpotifyLiteInstalled(applicationContext)
+        val isPandoraInstalled = utils.isPandoraInstalled(applicationContext)
 
         findViewById<Button>(R.id.about_btn)?.setOnClickListener {
             layoutInflater.inflate(R.layout.about, null)?.run {
@@ -218,6 +219,22 @@ class AdSilenceActivity : Activity() {
                     preference.setAppConfigured(
                         SupportedApps.SPOTIFY_LITE,
                         !preference.isAppConfigured(SupportedApps.SPOTIFY_LITE)
+                    )
+                }
+            }
+
+            appSelectionView.findViewById<Switch>(R.id.pandora_selection_switch)?.run {
+                this.isEnabled = isPandoraInstalled
+                this.isChecked = preference.isAppConfigured(SupportedApps.PANDORA)
+                "${context.getString(R.string.pandora)} ${
+                    if (isPandoraInstalled) "" else context.getString(R.string.not_installed)
+                }".also {
+                    this.text = it
+                }
+                this.setOnClickListener {
+                    preference.setAppConfigured(
+                        SupportedApps.PANDORA,
+                        !preference.isAppConfigured(SupportedApps.PANDORA)
                     )
                 }
             }

@@ -38,10 +38,14 @@ class Utils {
     fun isSpotifyInstalled(context: Context) =
         isPackageInstalled(context, context.getString(R.string.spotify_package_name))
 
-    fun isSpotifyLiteInstalled(context: Context) =  isPackageInstalled(context, context.getString(R.string.spotify_lite_package_name))
+    fun isSpotifyLiteInstalled(context: Context) =
+        isPackageInstalled(context, context.getString(R.string.spotify_lite_package_name))
 
     fun isTidalInstalled(context: Context) =
         isPackageInstalled(context, context.getString(R.string.tidal_package_name))
+
+    fun isPandoraInstalled(context: Context) =
+        isPackageInstalled(context, context.getString(R.string.pandora_package_name))
 
 
     fun mute(audioManager: AudioManager?, addNotificationHelper: AppNotificationHelper?) {
@@ -76,7 +80,7 @@ class Utils {
         if (app == SupportedApps.SPOTIFY || app == SupportedApps.SPOTIFY_LITE) {
             Log.v(TAG, "introducing delay for spotify")
             val delay: Long = app.run {
-                when(this) {
+                when (this) {
                     SupportedApps.SPOTIFY_LITE -> 540
                     SupportedApps.SPOTIFY -> 480
                     else -> 0

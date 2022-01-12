@@ -5,5 +5,6 @@ enum class SupportedApps {
     SPOTIFY,
     TIDAL,
     SPOTIFY_LITE,
+    PANDORA,
     INVALID
 }

@@ -8,6 +8,7 @@
         <package android:name="com.spotify.music"/>
         <package android:name="com.aspiro.tidal"/>
         <package android:name="com.spotify.lite"/>
+        <package android:name="com.pandora.android"/>
     </queries>
     <application
         android:allowBackup="true"
