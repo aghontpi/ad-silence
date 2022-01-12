@@ -26,6 +26,8 @@ class Preference(private val context: Context) {
     private val TIDAL_DEFAULT = true
     val SPOTIFY_LITE = "SpotifyLite"
     private val SPOTIFY_LITE_DEFAULT = true
+    val PANDORA = "Pandora"
+    private val PANDORA_DEFAULT = true
 
 
 
@@ -45,6 +47,7 @@ class Preference(private val context: Context) {
             SupportedApps.SPOTIFY -> preference.edit { putBoolean(SPOTIFY, status).commit() }
             SupportedApps.TIDAL-> preference.edit { putBoolean(TIDAL, status).commit() }
             SupportedApps.SPOTIFY_LITE-> preference.edit { putBoolean(SPOTIFY_LITE, status).commit() }
+            SupportedApps.PANDORA-> preference.edit { putBoolean(PANDORA, status).commit() }
         }
     }
 
@@ -54,6 +57,7 @@ class Preference(private val context: Context) {
             SupportedApps.SPOTIFY -> preference.getBoolean(SPOTIFY, SPOTIFY_DEFAULT)
             SupportedApps.TIDAL-> preference.getBoolean(TIDAL, TIDAL_DEFAULT)
             SupportedApps.SPOTIFY_LITE-> preference.getBoolean(SPOTIFY_LITE, SPOTIFY_LITE_DEFAULT)
+            SupportedApps.PANDORA-> preference.getBoolean(PANDORA, PANDORA_DEFAULT)
             else -> false
         }
 

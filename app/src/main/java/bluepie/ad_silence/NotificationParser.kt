@@ -17,6 +17,7 @@ fun AppNotification.getApp(): SupportedApps {
         context.getString(R.string.spotify_package_name) -> SupportedApps.SPOTIFY
         context.getString(R.string.tidal_package_name) -> SupportedApps.TIDAL
         context.getString(R.string.spotify_lite_package_name) -> SupportedApps.SPOTIFY_LITE
+        context.getString(R.string.pandora_package_name) -> SupportedApps.PANDORA
         else -> SupportedApps.INVALID
     }
 }
@@ -29,6 +30,7 @@ fun AppNotification.adString(): List<String> {
             context.getString(R.string.spotify_ad2)
         )
         SupportedApps.TIDAL -> listOf(context.getString(R.string.tidal_ad_string))
+        SupportedApps.PANDORA -> listOf(context.getString(R.string.pandora_ad_string),context.getString(R.string.pandora_ad_string_2))
         else -> listOf("")
     }
 }
@@ -49,6 +51,7 @@ class NotificationParser(override var appNotification: AppNotification) :
             SupportedApps.ACCURADIO -> parseAccuradioNotification()
             SupportedApps.SPOTIFY, SupportedApps.SPOTIFY_LITE -> parseSpotifyNotification()
             SupportedApps.TIDAL -> parseTidalNotification()
+            SupportedApps.PANDORA -> parsePandoraNotification()
             else -> false
         }
     }
@@ -129,6 +132,20 @@ class NotificationParser(override var appNotification: AppNotification) :
             for (adString in appNotification.adString()) {
                 if (this == adString) {
                     Log.v(TAG, "detection in Tidal: $adString")
+                    isAd = true
+                    break
+                }
+            }
+        }
+        return isAd
+    }
+
+    private fun parsePandoraNotification(): Boolean {
+        var isAd = false
+        this.appNotification.notification.extras?.get("android.title").toString().run {
+            for (adString in appNotification.adString()) {
+                if (this == adString) {
+                    Log.v(TAG, "detection in Pandora: $adString")
                     isAd = true
                     break
                 }
