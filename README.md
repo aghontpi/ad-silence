@@ -1,6 +1,6 @@
 # Ad-silence
 
-> Remove ads in Accuradio, Spotify & Tidal.
+> Remove ads in Accuradio, Spotify, Tidal & Pandora.
 
 <p align="left">
   <br/>
@@ -15,7 +15,7 @@
 
 ## Features
 
-- Block ads on `Accuradio`, `Spotify` (full & lite versions) & `Tidal`
+- Block ads on `Accuradio`, `Spotify` (full & lite versions), `Tidal` & `Pandora`.
 - Minimal UI
 - App size **less than 150KB**
 - Configure which apps to remove ads in
@@ -30,12 +30,14 @@
 |   Spotify    |   yes   |
 | Spotify Lite |   yes   |
 |    Tidal     |   yes   |
+|   Pandora    |   yes   |
 
 - If you want this to work on a different app/audio streaming service, [open an new issue](https://github.com/aghontpi/ad-silence/issues/new) mentioning its name.
 - Since this is built with `Accuradio` in mind, ~~no other apps are supported for now, but Implementing other apps should be quite easy.~~
 - `Spotify` is now supported.
 - `Tidal` is now supported.
 - `Spotify Lite` is now supported.
+- `Pandora` is now supported.
 - Easily extensible to other apps.
 
 ## Motivation
