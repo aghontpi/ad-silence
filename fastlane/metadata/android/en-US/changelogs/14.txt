@@ -1,0 +1,2 @@
+- add support for "Spotify Lite"
+- fix notitication related issues on a small subset of Devices
