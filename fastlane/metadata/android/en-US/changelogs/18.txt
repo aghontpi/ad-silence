@@ -1,0 +1,3 @@
+- update app Icon to comply with google playstore policy
+
+https://github.com/aghontpi/ad-silence/issues/19

@@ -2,7 +2,7 @@
 
 > Remove ads in Accuradio, Spotify, Tidal & Pandora.
 
-## APP IS TEMPORARILY UNAVAILABLE FROM GOOGLE PLAYSTORE, CHECK [THIS ISSUE](https://github.com/aghontpi/ad-silence/issues/19)
+# APP WAS TEMPORARILY UNAVAILABLE IN GOOGLE PLAYSTORE (Mon 17th Jan 2022 - Wed 19th Jan 2022) DUE TO POLICY ISSUE, CHECK [THIS ISSUE](https://github.com/aghontpi/ad-silence/issues/19) FOR MORE DETAILS.
 
 <p align="left">
   <br/>
