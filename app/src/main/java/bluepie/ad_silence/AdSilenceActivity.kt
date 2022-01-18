@@ -129,7 +129,7 @@ class AdSilenceActivity : Activity() {
                             ImageView(context).also { imageView ->
                                 imageView.layoutParams =
                                     ViewGroup.LayoutParams(56 * dpi.toInt(), 56 * dpi.toInt())
-                                imageView.setBackgroundResource(R.mipmap.icon_launcher_round)
+                                imageView.setBackgroundResource(R.mipmap.ic_launcher_round)
                             }
                         )
                         it.addView(
