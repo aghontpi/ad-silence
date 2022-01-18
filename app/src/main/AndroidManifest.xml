@@ -12,9 +12,9 @@
     </queries>
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/icon_launcher"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/icon_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Silence">
         <activity
