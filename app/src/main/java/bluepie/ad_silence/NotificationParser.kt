@@ -18,6 +18,7 @@ fun AppNotification.getApp(): SupportedApps {
         context.getString(R.string.tidal_package_name) -> SupportedApps.TIDAL
         context.getString(R.string.spotify_lite_package_name) -> SupportedApps.SPOTIFY_LITE
         context.getString(R.string.pandora_package_name) -> SupportedApps.PANDORA
+        context.getString(R.string.spotify_stations_package_name) -> SupportedApps.SPOTIFY_STATIONS
         else -> SupportedApps.INVALID
     }
 }
@@ -34,6 +35,7 @@ fun AppNotification.adString(): List<String> {
             context.getString(R.string.pandora_ad_string),
             context.getString(R.string.pandora_ad_string_2)
         )
+        SupportedApps.SPOTIFY_STATIONS -> listOf(context.getString(R.string.spotify_stations_ad_string))
         else -> listOf("")
     }
 }
@@ -55,6 +57,7 @@ class NotificationParser(override var appNotification: AppNotification) :
             SupportedApps.SPOTIFY, SupportedApps.SPOTIFY_LITE -> parseSpotifyNotification()
             SupportedApps.TIDAL -> parseTidalNotification()
             SupportedApps.PANDORA -> parsePandoraNotification()
+            SupportedApps.SPOTIFY_STATIONS -> parseSpotifyStationsNotification()
             else -> false
         }
     }
@@ -109,17 +112,19 @@ class NotificationParser(override var appNotification: AppNotification) :
     }
 
     private fun parseSpotifyNotification(): Boolean =
-        detectInNotificationTitle("detection in Spotify")
+        detectInNotificationExtras("detection in Spotify")
 
-    private fun parseTidalNotification(): Boolean = detectInNotificationTitle("detection in Tidal")
+    private fun parseTidalNotification(): Boolean = detectInNotificationExtras("detection in Tidal")
 
     private fun parsePandoraNotification(): Boolean =
-        detectInNotificationTitle("detection in Pandora")
+        detectInNotificationExtras("detection in Pandora")
 
+    private fun parseSpotifyStationsNotification(): Boolean =
+        detectInNotificationExtras("detection in 'Spotify-Stations'", "text");
 
-    private fun detectInNotificationTitle(logMessage: String): Boolean {
+    private fun detectInNotificationExtras(logMessage: String, index: String = "title"): Boolean {
         var isAd = false
-        this.appNotification.notification.extras?.get("android.title").toString().run {
+        this.appNotification.notification.extras?.get("android.$index").toString().run {
             for (adString in appNotification.adString()) {
                 if (this == adString) {
                     Log.v(TAG, "$logMessage: $adString")

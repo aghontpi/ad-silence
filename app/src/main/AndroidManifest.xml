@@ -9,6 +9,7 @@
         <package android:name="com.aspiro.tidal"/>
         <package android:name="com.spotify.lite"/>
         <package android:name="com.pandora.android"/>
+        <package android:name="com.spotify.zerotap"/>
     </queries>
     <application
         android:allowBackup="true"

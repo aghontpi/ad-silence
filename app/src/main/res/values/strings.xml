@@ -48,4 +48,6 @@
     <string name="pandora_ad_string">Advertisement</string>
     <string name="pandora_ad_string_2">Skip Limit Exceeded</string>
     <string name="Experimental">Experimental</string>
+    <string name="spotify_stations_package_name">com.spotify.zerotap</string>
+    <string name="spotify_stations_ad_string">AD</string>
 </resources>
