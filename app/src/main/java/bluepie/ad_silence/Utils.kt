@@ -48,12 +48,19 @@ class Utils {
         isPackageInstalled(context, context.getString(R.string.pandora_package_name))
 
 
-    fun mute(audioManager: AudioManager?, addNotificationHelper: AppNotificationHelper?) {
+    fun mute(audioManager: AudioManager?, addNotificationHelper: AppNotificationHelper?, app: SupportedApps) {
+        Log.v(TAG, "running mute")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            audioManager?.adjustVolume(
-                AudioManager.ADJUST_MUTE,
-                AudioManager.FLAG_PLAY_SOUND
-            )
+            // "spotify-stations" behaves weird,
+            if (app == SupportedApps.SPOTIFY_STATIONS){
+                Log.v(TAG, "edge case implementation -> 'spotify-stations' mute")
+                audioManager?.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_MUTE, AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE)
+            } else {
+                audioManager?.adjustVolume(
+                    AudioManager.ADJUST_MUTE,
+                    AudioManager.FLAG_PLAY_SOUND
+                )
+            }
         } else {
             audioManager?.setStreamMute(AudioManager.STREAM_MUSIC, true)
         }
@@ -67,11 +74,19 @@ class Utils {
     ) {
         val process = {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                audioManager?.adjustVolume(
-                    AudioManager.ADJUST_UNMUTE,
-                    AudioManager.FLAG_PLAY_SOUND
-                )
+                Log.v(TAG, "running unmute > M")
+                // "spotify-stations" behaves weird,
+                if (app == SupportedApps.SPOTIFY_STATIONS){
+                    Log.v(TAG, "edge case implementation -> 'spotify-stations' unmute, isStreamMute : ${audioManager?.isStreamMute(AudioManager.STREAM_MUSIC)}")
+                    audioManager?.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE, AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE)
+                } else {
+                    audioManager?.adjustVolume(
+                        AudioManager.ADJUST_UNMUTE,
+                        AudioManager.FLAG_PLAY_SOUND
+                    )
+                }
             } else {
+                Log.v(TAG, "running unmute < M")
                 audioManager?.setStreamMute(AudioManager.STREAM_MUSIC, false)
             }
             addNotificationHelper?.updateNotification("AdSilence, listening for ads")

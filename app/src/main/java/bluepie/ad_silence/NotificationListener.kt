@@ -48,7 +48,7 @@ class NotificationListener : NotificationListenerService() {
                             when (NotificationParser(this@with).isAd()) {
                                 true -> {
                                     Log.v(TAG, "Ad detected muting")
-                                    this.mute(audioManager, appNotificationHelper)
+                                    this.mute(audioManager, appNotificationHelper, this@with.getApp())
                                     isMuted = true
                                 }
                                 false -> {
