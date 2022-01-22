@@ -49,21 +49,26 @@ class NotificationListener : NotificationListenerService() {
                         Utils().run {
                             when (NotificationParser(this@with).isAd()) {
                                 true -> {
-                                        if (!isMuted){
-                                            Log.v(TAG, "Ad detected muting, state-> $isMuted")
-                                            this.mute(audioManager, appNotificationHelper)
-                                            isMuted = true
-                                            muteCount++ // for android < M
-                                        } else {
-                                            Log.v(TAG, "Ad detected but already muted, state-> $isMuted")
-                                        }
+                                    val isMusicStreamMuted = this.isMusicMuted(audioManager!!)
+                                    if (!isMuted || !isMusicStreamMuted) {
+                                        Log.v(TAG, "'MusicStream' muted? -> $isMusicStreamMuted")
+                                        Log.v(TAG, "Ad detected muting, state-> $isMuted")
+                                        this.mute(audioManager, appNotificationHelper)
+                                        isMuted = true
+                                        muteCount.also { if (isMusicStreamMuted) 0 else muteCount++ }
+                                    } else {
+                                        Log.v(
+                                            TAG,
+                                            "Ad detected but already muted, state-> $isMuted"
+                                        )
+                                    }
                                 }
                                 false -> {
                                     isMuted.takeIf { b -> b }?.also {
                                         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
                                             Log.v(TAG, "Not an ad, Unmuting, < M")
                                             // for android 5 & 5.1, unmute has to be done, count x mutedCount
-                                            while(muteCount > 0) {
+                                            while (muteCount > 0) {
                                                 this@run.unmute(
                                                     audioManager,
                                                     appNotificationHelper,
