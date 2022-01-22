@@ -12,7 +12,6 @@
     <string name="permission_granted">ALREADY GRANTED</string>
     <string name="app_status">Enable (mute ads)</string>
     <string name="app_status_permission_not_granted">Enable (Grant Permission first)</string>
-    <string name="app_status_accuradio_not_installed">Enable (Accuradio not installed)</string>
     <string name="about">about</string>
     <string name="select_apps">select apps</string>
     <string name="accuradio">Accuradio</string>
@@ -35,7 +34,6 @@
     <string name="github">github</string>
     <string name="report_issue">report issue</string>
     <string name="github_link">https://github.com/aghontpi/Ad-silence</string>
-    <string name="not_implemented">(not implemented)</string>
     <string name="not_installed">(not installed)</string>
     <string name="github_issues_link">https://github.com/aghontpi/ad-silence/issues/new</string>
     <string name="spotify_ad_string">Advertisement</string>
