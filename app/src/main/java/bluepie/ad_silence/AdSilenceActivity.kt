@@ -141,7 +141,7 @@ class AdSilenceActivity : Activity() {
                         )
                     }
                     this.setTitle(getString(R.string.app_name))
-                        .setIcon(R.mipmap.icon_launcher_round)
+                        .setIcon(R.mipmap.ic_launcher_round)
                     this.setCustomTitle(linearLayout)
                     this.show()
                 }

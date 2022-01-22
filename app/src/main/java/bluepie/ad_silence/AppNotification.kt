@@ -62,7 +62,7 @@ private fun AppNotificationHelper.createNotification(status: String): Notificati
         }
     }
     return NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
-        .setSmallIcon(R.drawable.icon_launcher_foreground)
+        .setSmallIcon(R.drawable.ic_launcher_foreground)
         .setContentTitle(context.getString(R.string.app_name))
         .setContentText(status)
         .setPriority(NotificationCompat.PRIORITY_LOW)

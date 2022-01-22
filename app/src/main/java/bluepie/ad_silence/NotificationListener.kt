@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Service
 import android.content.Intent
 import android.media.AudioManager
+import android.os.Build
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
 import android.util.Log
@@ -14,6 +15,7 @@ class NotificationListener : NotificationListenerService() {
     private var audioManager: AudioManager? = null
     private var appNotificationHelper: AppNotificationHelper? = null
     private var isMuted: Boolean = false
+    private var muteCount: Int = 0
 
     override fun onCreate() {
         super.onCreate()
@@ -43,23 +45,51 @@ class NotificationListener : NotificationListenerService() {
             with(AppNotification(applicationContext, it.notification, sbn.packageName)) {
                 Preference(applicationContext).isAppConfigured(this.getApp()).takeIf { b -> b }
                     ?.run {
-                        Log.v(TAG, "new notification posted: ${this@with.getApp()}")
+                        val currentPackage = this@with.getApp()
+                        Log.v(TAG, "new notification posted: $currentPackage")
                         Utils().run {
                             when (NotificationParser(this@with).isAd()) {
                                 true -> {
-                                    Log.v(TAG, "Ad detected muting")
-                                    this.mute(audioManager, appNotificationHelper, this@with.getApp())
-                                    isMuted = true
+                                    val isMusicStreamMuted = this.isMusicMuted(audioManager!!)
+                                    if (!isMuted || !isMusicStreamMuted) {
+                                        Log.v(TAG, "'MusicStream' muted? -> $isMusicStreamMuted")
+                                        Log.v(
+                                            TAG,
+                                            "Ad detected muting, state-> $isMuted to ${!isMuted}, currentPackage: $currentPackage"
+                                        )
+                                        this.mute(audioManager, appNotificationHelper, currentPackage)
+                                        isMuted = true
+                                        if (isMusicStreamMuted) muteCount = 0 else muteCount++
+                                    } else {
+                                        Log.v(
+                                            TAG,
+                                            "Ad detected but already muted, state-> $isMuted"
+                                        )
+                                    }
                                 }
                                 false -> {
-                                    Log.v(TAG, "Not an ad")
                                     isMuted.takeIf { b -> b }?.also {
-                                        isMuted = false
-                                        this@run.unmute(
-                                            audioManager,
-                                            appNotificationHelper,
-                                            this@with.getApp()
-                                        )
+                                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                                            Log.v(TAG, "Not an ad, Unmuting, < M")
+                                            // for android 5 & 5.1, unmute has to be done, count x mutedCount
+                                            while (muteCount > 0) {
+                                                this@run.unmute(
+                                                    audioManager,
+                                                    appNotificationHelper,
+                                                    currentPackage
+                                                )
+                                                muteCount--
+                                            }
+                                            isMuted = false
+                                        } else {
+                                            Log.v(TAG, "Not an ad, Unmuting, > M")
+                                            this@run.unmute(
+                                                audioManager,
+                                                appNotificationHelper,
+                                                currentPackage
+                                            )
+                                            isMuted = false
+                                        }
                                     }
                                 }
                             }

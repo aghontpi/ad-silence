@@ -8,6 +8,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.widget.Switch
+import kotlin.RuntimeException
 
 class Utils {
     private val TAG = "Utils"
@@ -47,6 +48,19 @@ class Utils {
     fun isPandoraInstalled(context: Context) =
         isPackageInstalled(context, context.getString(R.string.pandora_package_name))
 
+    fun isMusicMuted(audoManager: AudioManager): Boolean {
+        if (Build.VERSION.SDK_INT >= 23) {
+            return audoManager.isStreamMute(AudioManager.STREAM_MUSIC)
+        } else {
+            val volume = try {
+                audoManager.getStreamVolume(AudioManager.STREAM_MUSIC)
+            } catch (e: RuntimeException) {
+                Log.v(TAG, "Could not retrieve stream volume for stream type " + AudioManager.STREAM_MUSIC)
+                audoManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
+            }
+            return volume == 0
+        }
+    }
 
     fun mute(audioManager: AudioManager?, addNotificationHelper: AppNotificationHelper?, app: SupportedApps) {
         Log.v(TAG, "running mute")

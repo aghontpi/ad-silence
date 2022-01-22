@@ -1,0 +1,1 @@
+- fix unmute issue on Android 5.x.x devices (https://github.com/aghontpi/ad-silence/issues/20)
