@@ -2,11 +2,12 @@
 
 > Remove ads in Accuradio, Spotify, Tidal & Pandora.
 
-# APP WAS TEMPORARILY UNAVAILABLE IN GOOGLE PLAYSTORE (Mon 17th Jan 2022 - Wed 19th Jan 2022) DUE TO POLICY ISSUE, CHECK [THIS ISSUE](https://github.com/aghontpi/ad-silence/issues/19) FOR MORE DETAILS.
+### APP WAS TEMPORARILY UNAVAILABLE IN GOOGLE PLAYSTORE (Mon 17th Jan 2022 - Wed 19th Jan 2022) DUE TO POLICY VIOLATION, CHECK [THIS ISSUE](https://github.com/aghontpi/ad-silence/issues/19) FOR MORE DETAILS.
 
 <p align="left">
   <br/>
-  <a href="https://github.com/aghontpi/ad-silence/releases"><img src="https://img.shields.io/github/v/release/aghontpi/ad-silence?include_prereleases&style=flat-square&label=github-release" alt="release"></a>
+  <a href="https://github.com/aghontpi/ad-silence/releases"><img src="https://img.shields.io/github/v/release/aghontpi/ad-silence?include_prereleases&style=flat-square&label=github-release" alt="github release"></a>
+  <a href="https://f-droid.org/packages/bluepie.ad_silence/"><img src="https://img.shields.io/f-droid/v/bluepie.ad_silence?color=blue&include_prereleases&label=f-droid-release" alt="f-droid release"></a>
   <a href="https://github.com/aghontpi/ad-silence/blob/master/LICENSE"><img src="https://img.shields.io/github/license/aghontpi/ad-silence?style=flat-square" alt="license"></a>
 </p>
 
@@ -77,4 +78,5 @@ This is possible because of `NotificationListenerService` on `android`. Granted,
 ## Other
 
 - featured in [top apps - youtube](https://youtu.be/hWfiQN4IUFM)
+- featured in [top apps of december - youtube](https://www.youtube.com/watch?v=y-xopMyqfCU&t)
 - featured in [app of the week](https://www.nextpit.com/apps-of-the-week-48-2021)
