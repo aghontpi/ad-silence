@@ -45,17 +45,18 @@ class NotificationListener : NotificationListenerService() {
             with(AppNotification(applicationContext, it.notification, sbn.packageName)) {
                 Preference(applicationContext).isAppConfigured(this.getApp()).takeIf { b -> b }
                     ?.run {
-                        Log.v(TAG, "new notification posted: ${this@with.getApp()}")
+                        val currentPackage = this@with.getApp()
+                        Log.v(TAG, "new notification posted: $currentPackage")
                         Utils().run {
-                            when (NotificationParser(this@with).isAd()) {
+                            when (NotificationParser(this@with).isAd() ) {
                                 true -> {
                                     val isMusicStreamMuted = this.isMusicMuted(audioManager!!)
                                     if (!isMuted || !isMusicStreamMuted) {
                                         Log.v(TAG, "'MusicStream' muted? -> $isMusicStreamMuted")
-                                        Log.v(TAG, "Ad detected muting, state-> $isMuted")
+                                        Log.v(TAG, "Ad detected muting, state-> $isMuted to ${!isMuted}, currentPackage: $currentPackage")
                                         this.mute(audioManager, appNotificationHelper)
                                         isMuted = true
-                                        muteCount.also { if (isMusicStreamMuted) 0 else muteCount++ }
+                                        if (isMusicStreamMuted) muteCount = 0 else muteCount++
                                     } else {
                                         Log.v(
                                             TAG,
@@ -72,7 +73,7 @@ class NotificationListener : NotificationListenerService() {
                                                 this@run.unmute(
                                                     audioManager,
                                                     appNotificationHelper,
-                                                    this@with.getApp()
+                                                    currentPackage
                                                 )
                                                 muteCount--
                                             }
@@ -82,7 +83,7 @@ class NotificationListener : NotificationListenerService() {
                                             this@run.unmute(
                                                 audioManager,
                                                 appNotificationHelper,
-                                                this@with.getApp()
+                                                currentPackage
                                             )
                                             isMuted = false
                                         }
