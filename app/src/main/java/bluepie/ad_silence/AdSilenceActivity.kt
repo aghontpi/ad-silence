@@ -99,6 +99,7 @@ class AdSilenceActivity : Activity() {
         val isTidalInstalled = utils.isTidalInstalled(applicationContext)
         val isSpotifyLiteInstalled = utils.isSpotifyLiteInstalled(applicationContext)
         val isPandoraInstalled = utils.isPandoraInstalled(applicationContext)
+        val isLiveOneInstalled = utils.isLiveOneInstalled(applicationContext)
 
         findViewById<Button>(R.id.about_btn)?.setOnClickListener {
             layoutInflater.inflate(R.layout.about, null)?.run {
@@ -235,6 +236,22 @@ class AdSilenceActivity : Activity() {
                     preference.setAppConfigured(
                         SupportedApps.PANDORA,
                         !preference.isAppConfigured(SupportedApps.PANDORA)
+                    )
+                }
+            }
+
+            appSelectionView.findViewById<Switch>(R.id.liveone_selection_switch)?.run {
+                this.isEnabled = isLiveOneInstalled
+                this.isChecked = preference.isAppConfigured(SupportedApps.LiveOne)
+                "${context.getString(R.string.liveone)} ${
+                    if (isLiveOneInstalled) "" else context.getString(R.string.not_installed)
+                }".also {
+                    this.text = "$it${applicationContext.getString(R.string.beta)}"
+                }
+                this.setOnClickListener{
+                    preference.setAppConfigured(
+                        SupportedApps.LiveOne,
+                        !preference.isAppConfigured(SupportedApps.LiveOne)
                     )
                 }
             }
