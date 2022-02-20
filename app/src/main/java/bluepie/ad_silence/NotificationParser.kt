@@ -18,6 +18,7 @@ fun AppNotification.getApp(): SupportedApps {
         context.getString(R.string.tidal_package_name) -> SupportedApps.TIDAL
         context.getString(R.string.spotify_lite_package_name) -> SupportedApps.SPOTIFY_LITE
         context.getString(R.string.pandora_package_name) -> SupportedApps.PANDORA
+        context.getString(R.string.liveOne_package_name) -> SupportedApps.LiveOne
         else -> SupportedApps.INVALID
     }
 }
@@ -31,6 +32,7 @@ fun AppNotification.adString(): List<String> {
         )
         SupportedApps.TIDAL -> listOf(context.getString(R.string.tidal_ad_string))
         SupportedApps.PANDORA -> listOf(context.getString(R.string.pandora_ad_string),context.getString(R.string.pandora_ad_string_2))
+        SupportedApps.LiveOne -> listOf(context.getString(R.string.liveOne_ad_string), context.getString(R.string.liveOne_ad_string_2))
         else -> listOf("")
     }
 }
@@ -52,6 +54,7 @@ class NotificationParser(override var appNotification: AppNotification) :
             SupportedApps.SPOTIFY, SupportedApps.SPOTIFY_LITE -> parseSpotifyNotification()
             SupportedApps.TIDAL -> parseTidalNotification()
             SupportedApps.PANDORA -> parsePandoraNotification()
+            SupportedApps.LiveOne -> parseLiveOneNotification()
             else -> false
         }
     }
@@ -149,6 +152,20 @@ class NotificationParser(override var appNotification: AppNotification) :
                     isAd = true
                     break
                 }
+            }
+        }
+        return isAd
+    }
+
+    private fun parseLiveOneNotification(): Boolean {
+        var isAd = false
+        var text = this.appNotification.notification.extras?.get("android.text").toString()
+        var title = this.appNotification.notification.extras?.get("android.title").toString()
+        for (adString in appNotification.adString()) {
+            if (text == "null" || title == adString || text == adString) {
+                Log.v(TAG, "detection in LiveOne: $adString")
+                isAd = true
+                break
             }
         }
         return isAd
