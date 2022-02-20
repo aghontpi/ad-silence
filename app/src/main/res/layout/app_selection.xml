@@ -34,6 +34,13 @@
         android:minHeight="48dp"
         android:text="@string/tidal" />
 
+    <Switch
+        android:id="@+id/liveone_selection_switch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:text="@string/liveone" />
+
     <TextView
         android:id="@+id/experimental_view"
         android:layout_width="match_parent"

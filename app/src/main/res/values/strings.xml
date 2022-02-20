@@ -49,4 +49,6 @@
     <string name="liveOne_package_name">com.slacker.radio</string>
     <string name="liveOne_ad_string">Advertisement</string>
     <string name="liveOne_ad_string_2">60 Minutes Uninterrupted Listening</string>
+    <string name="liveone">LiveOne</string>
+    <string name="beta"> (Beta)</string>
 </resources>
