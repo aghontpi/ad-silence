@@ -230,7 +230,7 @@ class AdSilenceActivity : Activity() {
                 "${context.getString(R.string.pandora)} ${
                     if (isPandoraInstalled) "" else context.getString(R.string.not_installed)
                 }".also {
-                    this.text = it
+                    this.text = "$it${applicationContext.getString(R.string.beta)}"
                 }
                 this.setOnClickListener {
                     preference.setAppConfigured(
