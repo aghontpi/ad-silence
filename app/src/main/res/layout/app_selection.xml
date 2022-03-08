@@ -35,29 +35,17 @@
         android:text="@string/tidal" />
 
     <Switch
-        android:id="@+id/liveone_selection_switch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="48dp"
-        android:text="@string/liveone" />
-
-    <TextView
-        android:id="@+id/experimental_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:paddingTop="4dp"
-        android:text="@string/Experimental"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
-    <Switch
         android:id="@+id/pandora_selection_switch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="48dp"
         android:text="@string/pandora" />
+
+    <Switch
+        android:id="@+id/liveone_selection_switch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:text="@string/liveone" />
 
 </LinearLayout>
