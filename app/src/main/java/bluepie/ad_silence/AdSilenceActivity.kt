@@ -228,9 +228,9 @@ class AdSilenceActivity : Activity() {
                 this.isEnabled = isPandoraInstalled
                 this.isChecked = preference.isAppConfigured(SupportedApps.PANDORA)
                 "${context.getString(R.string.pandora)} ${
-                    if (isPandoraInstalled) "" else context.getString(R.string.not_installed)
+                    if (isPandoraInstalled) applicationContext.getString(R.string.beta) else context.getString(R.string.not_installed)
                 }".also {
-                    this.text = "$it${applicationContext.getString(R.string.beta)}"
+                    this.text = it
                 }
                 this.setOnClickListener {
                     preference.setAppConfigured(
@@ -244,9 +244,9 @@ class AdSilenceActivity : Activity() {
                 this.isEnabled = isLiveOneInstalled
                 this.isChecked = preference.isAppConfigured(SupportedApps.LiveOne)
                 "${context.getString(R.string.liveone)} ${
-                    if (isLiveOneInstalled) "" else context.getString(R.string.not_installed)
+                    if (isLiveOneInstalled) applicationContext.getString(R.string.beta) else context.getString(R.string.not_installed)
                 }".also {
-                    this.text = "$it${applicationContext.getString(R.string.beta)}"
+                    this.text = it
                 }
                 this.setOnClickListener{
                     preference.setAppConfigured(
