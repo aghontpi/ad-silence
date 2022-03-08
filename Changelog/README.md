@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.5.3] - (Mar 8,2022)
+
+**_Stable - requires android 5 or higher_**
+
+## Updates
+
+- add `LiveOne` (0687498,,13bcfcd,695eb65)
+- ui changes (50a9ea7, 2bfdc2d)
+
+**You can get it on google playstore & fdroid**
+
+<p align="left">
+<a href='https://play.google.com/store/apps/details?id=bluepie.ad_silence&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' height="72px" src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
+<a href='https://f-droid.org/packages/bluepie.ad_silence/'><img alt='Get it on Fdroid' height="72px" src='https://fdroid.gitlab.io/artwork/badge/get-it-on.png'/></a>
+</p>
+
+notes: `LiveOne` is not perfect, reason for this is not being `0.6.0`.
+
 ## [v0.5.2] - (Jan 22,2022)
 
 **_Stable - requires android 5 or higher_**
