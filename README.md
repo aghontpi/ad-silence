@@ -71,6 +71,11 @@ This is possible because of `NotificationListenerService` on `android`. Granted,
 
 - [Trello](https://trello.com/b/8XJDVbdo/ad-silence-android)
 
+## Donation Links
+
+- [https://www.buymeacoffee.com/aghontpi](https://www.buymeacoffee.com/aghontpi)
+- [https://ko-fi.com/aghontpi](https://ko-fi.com/aghontpi)
+
 ## Built with
 
 - [Kotlin](https://kotlinlang.org/)
