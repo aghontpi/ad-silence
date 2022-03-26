@@ -30,6 +30,8 @@ class Preference(private val context: Context) {
     private val PANDORA_DEFAULT = true
     val LIVEONE = "Liveone"
     private val LIVEONE_DEFAULT = true
+    val SPOTIFY_TV = "SpotifyTV";
+    private val SPOTIFY_TV_DEFAULT = true
 
 
 
@@ -51,6 +53,7 @@ class Preference(private val context: Context) {
             SupportedApps.SPOTIFY_LITE-> preference.edit { putBoolean(SPOTIFY_LITE, status).commit() }
             SupportedApps.PANDORA-> preference.edit { putBoolean(PANDORA, status).commit() }
             SupportedApps.LiveOne-> preference.edit { putBoolean(LIVEONE, status).commit() }
+            SupportedApps.SPOTIFY_TV-> preference.edit { putBoolean(SPOTIFY_TV, status).commit() }
         }
     }
 
@@ -62,6 +65,7 @@ class Preference(private val context: Context) {
             SupportedApps.SPOTIFY_LITE-> preference.getBoolean(SPOTIFY_LITE, SPOTIFY_LITE_DEFAULT)
             SupportedApps.PANDORA-> preference.getBoolean(PANDORA, PANDORA_DEFAULT)
             SupportedApps.LiveOne-> preference.getBoolean(LIVEONE, LIVEONE_DEFAULT)
+            SupportedApps.SPOTIFY_TV-> preference.getBoolean(SPOTIFY_TV, SPOTIFY_TV_DEFAULT)
             else -> false
         }
 

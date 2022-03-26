@@ -26,7 +26,7 @@ fun AppNotification.getApp(): SupportedApps {
 fun AppNotification.adString(): List<String> {
     return when (getApp()) {
         SupportedApps.ACCURADIO -> listOf(context.getString(R.string.accuradio_ad_text))
-        SupportedApps.SPOTIFY, SupportedApps.SPOTIFY_LITE -> listOf(
+        SupportedApps.SPOTIFY, SupportedApps.SPOTIFY_LITE, SupportedApps.SPOTIFY_TV -> listOf(
             context.getString(R.string.spotify_ad_string),
             context.getString(R.string.spotify_ad2)
         )

@@ -51,4 +51,6 @@
     <string name="liveOne_ad_string_2">60 Minutes Uninterrupted Listening</string>
     <string name="liveone">LiveOne</string>
     <string name="beta">(Beta)</string>
+    <string name="spotify_tv_package_name">com.spotify.tv.android</string>
+    <string name="spotify_tv">Spotify tv</string>
 </resources>
