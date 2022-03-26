@@ -100,6 +100,7 @@ class AdSilenceActivity : Activity() {
         val isSpotifyLiteInstalled = utils.isSpotifyLiteInstalled(applicationContext)
         val isPandoraInstalled = utils.isPandoraInstalled(applicationContext)
         val isLiveOneInstalled = utils.isLiveOneInstalled(applicationContext)
+        val isSpotifyTvInstalled = utils.isSpotifyTVInstalled(applicationContext)
 
         findViewById<Button>(R.id.about_btn)?.setOnClickListener {
             layoutInflater.inflate(R.layout.about, null)?.run {
@@ -252,6 +253,22 @@ class AdSilenceActivity : Activity() {
                     preference.setAppConfigured(
                         SupportedApps.LiveOne,
                         !preference.isAppConfigured(SupportedApps.LiveOne)
+                    )
+                }
+            }
+
+            appSelectionView.findViewById<Switch>(R.id.spotify_tv)?.run {
+                this.isEnabled = isSpotifyTvInstalled
+                this.isChecked = preference.isAppConfigured(SupportedApps.SPOTIFY_TV)
+                "${context.getString(R.string.spotify_tv)} ${
+                    if (isSpotifyTvInstalled) applicationContext.getString(R.string.beta) else context.getString(R.string.not_installed)
+                }".also {
+                    this.text = it
+                }
+                this.setOnClickListener{
+                    preference.setAppConfigured(
+                        SupportedApps.SPOTIFY_TV,
+                        !preference.isAppConfigured(SupportedApps.SPOTIFY_TV)
                     )
                 }
             }

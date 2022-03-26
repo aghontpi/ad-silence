@@ -51,6 +51,9 @@ class Utils {
     fun isLiveOneInstalled(context: Context) =
         isPackageInstalled(context, context.getString(R.string.liveOne_package_name))
 
+    fun isSpotifyTVInstalled(context: Context) =
+        isPackageInstalled(context, context.getString(R.string.spotify_tv_package_name))
+
     fun isMusicMuted(audoManager: AudioManager): Boolean {
         if (Build.VERSION.SDK_INT >= 23) {
             return audoManager.isStreamMute(AudioManager.STREAM_MUSIC)

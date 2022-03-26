@@ -48,4 +48,11 @@
         android:minHeight="48dp"
         android:text="@string/liveone" />
 
+    <Switch
+        android:id="@+id/spotify_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:text="@string/spotify_tv" />
+
 </LinearLayout>
