@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="bluepie.ad_silence">
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <queries>
         <!--android 11 and above-->
         <package android:name="com.slipstream.accuradio"/>
@@ -10,6 +11,10 @@
         <package android:name="com.spotify.lite"/>
         <package android:name="com.pandora.android"/>
         <package android:name="com.slacker.radio"/>
+        <package android:name="com.slipstream.accuradio" />
+        <package android:name="com.spotify.music" />
+        <package android:name="com.aspiro.tidal" />
+        <package android:name="deezer.android.app" />
     </queries>
     <application
         android:allowBackup="true"
@@ -27,10 +32,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".NotificationListener"
+        <service
+            android:name=".NotificationListener"
+            android:exported="false"
             android:label="@string/notification_listener_name"
-            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
-            android:exported="false">
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>

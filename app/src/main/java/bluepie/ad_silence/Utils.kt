@@ -51,6 +51,9 @@ class Utils {
     fun isLiveOneInstalled(context: Context) =
         isPackageInstalled(context, context.getString(R.string.liveOne_package_name))
 
+    fun isDeezerInstalled(context: Context) =
+        isPackageInstalled(context, context.getString(R.string.deezer_package_name))
+
     fun isMusicMuted(audoManager: AudioManager): Boolean {
         if (Build.VERSION.SDK_INT >= 23) {
             return audoManager.isStreamMute(AudioManager.STREAM_MUSIC)
@@ -77,6 +80,7 @@ class Utils {
         } else {
             audioManager?.setStreamMute(AudioManager.STREAM_MUSIC, true)
         }
+        Log.v(TAG,"device music steam muted")
         addNotificationHelper?.updateNotification("AdSilence, ad-detected")
     }
 
@@ -94,6 +98,7 @@ class Utils {
             } else {
                 audioManager?.setStreamMute(AudioManager.STREAM_MUSIC, false)
             }
+            Log.v(TAG, "device music stream unmuted")
             addNotificationHelper?.updateNotification("AdSilence, listening for ads")
         }
 
