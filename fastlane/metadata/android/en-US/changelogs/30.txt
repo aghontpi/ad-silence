@@ -1,0 +1,2 @@
+- fix ad detection in spotify (https://github.com/aghontpi/ad-silence/issues/29)
+  issue occurred in devices where language is not set to English.
