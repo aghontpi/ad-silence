@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.5.4] - (Mar 30,2022)
+
+**_Stable - requires android 5 or higher_**
+
+## Updates
+
+- fix ads not blocked in `Spotify` when the device language is not `english`, thanks to @unseenlarks & @famewolf in https://github.com/aghontpi/ad-silence/issues/29 (8f81cf0, e2a77c6)
+
+**You can get it on google playstore & fdroid**
+
+<p align="left">
+<a href='https://play.google.com/store/apps/details?id=bluepie.ad_silence&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' height="72px" src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
+<a href='https://f-droid.org/packages/bluepie.ad_silence/'><img alt='Get it on Fdroid' height="72px" src='https://fdroid.gitlab.io/artwork/badge/get-it-on.png'/></a>
+</p>
+
 ## [v0.5.3] - (Mar 8,2022)
 
 **_Stable - requires android 5 or higher_**
