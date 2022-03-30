@@ -3,12 +3,13 @@ package bluepie.ad_silence
 import android.app.Notification
 import android.content.Context
 import android.util.Log
+import bluepie.ad_silence.triggers.spotifyTrigger
 import java.util.*
 
 data class AppNotification(
     val context: Context,
     val notification: Notification,
-    val packageName: String
+    val packageName: String,
 )
 
 fun AppNotification.getApp(): SupportedApps {
@@ -28,11 +29,14 @@ fun AppNotification.adString(): List<String> {
         SupportedApps.ACCURADIO -> listOf(context.getString(R.string.accuradio_ad_text))
         SupportedApps.SPOTIFY, SupportedApps.SPOTIFY_LITE -> listOf(
             context.getString(R.string.spotify_ad_string),
-            context.getString(R.string.spotify_ad2)
+            context.getString(R.string.spotify_ad2),
+            *spotifyTrigger
         )
         SupportedApps.TIDAL -> listOf(context.getString(R.string.tidal_ad_string))
-        SupportedApps.PANDORA -> listOf(context.getString(R.string.pandora_ad_string),context.getString(R.string.pandora_ad_string_2))
-        SupportedApps.LiveOne -> listOf(context.getString(R.string.liveOne_ad_string), context.getString(R.string.liveOne_ad_string_2))
+        SupportedApps.PANDORA -> listOf(context.getString(R.string.pandora_ad_string),
+            context.getString(R.string.pandora_ad_string_2))
+        SupportedApps.LiveOne -> listOf(context.getString(R.string.liveOne_ad_string),
+            context.getString(R.string.liveOne_ad_string_2))
         else -> listOf("")
     }
 }
@@ -118,6 +122,7 @@ class NotificationParser(override var appNotification: AppNotification) :
 
         var isAd = false
         this.appNotification.notification.extras?.get("android.title").toString().run {
+            Log.v(TAG, "trying match against \"$this\" with ${appNotification.adString()}")
             for (adString in appNotification.adString()) {
                 if (this == adString) {
                     Log.v(TAG, "detection in Spotify: $adString")
@@ -132,6 +137,7 @@ class NotificationParser(override var appNotification: AppNotification) :
     private fun parseTidalNotification(): Boolean {
         var isAd = false
         this.appNotification.notification.extras?.get("android.title").toString().run {
+            Log.v(TAG, "trying match against \"$this\" with ${appNotification.adString()}")
             for (adString in appNotification.adString()) {
                 if (this == adString) {
                     Log.v(TAG, "detection in Tidal: $adString")
@@ -146,6 +152,7 @@ class NotificationParser(override var appNotification: AppNotification) :
     private fun parsePandoraNotification(): Boolean {
         var isAd = false
         this.appNotification.notification.extras?.get("android.title").toString().run {
+            Log.v(TAG, "trying match against \"$this\" with ${appNotification.adString()}")
             for (adString in appNotification.adString()) {
                 if (this == adString) {
                     Log.v(TAG, "detection in Pandora: $adString")
@@ -159,8 +166,9 @@ class NotificationParser(override var appNotification: AppNotification) :
 
     private fun parseLiveOneNotification(): Boolean {
         var isAd = false
-        var text = this.appNotification.notification.extras?.get("android.text").toString()
-        var title = this.appNotification.notification.extras?.get("android.title").toString()
+        val text = this.appNotification.notification.extras?.get("android.text").toString()
+        val title = this.appNotification.notification.extras?.get("android.title").toString()
+        Log.v(TAG, "trying match against \"$text\", \"$title\" with ${appNotification.adString()}")
         for (adString in appNotification.adString()) {
             if (text == "null" || title == adString || text == adString) {
                 Log.v(TAG, "detection in LiveOne: $adString")
