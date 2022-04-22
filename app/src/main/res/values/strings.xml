@@ -1,11 +1,11 @@
 <resources>
-    <string name="app_name">Ad-silence</string>
-    <string name="notification_listener_name">Ad silence</string>
-    <string name="notification_listener_settings_intent">android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS</string>
-    <string name="accuradio_pkg_name">com.slipstream.accuradio</string>
-    <string name="spotify_package_name">com.spotify.music</string>
-    <string name="tidal_package_name">com.aspiro.tidal</string>
-    <string name="pandora_package_name">com.pandora.android</string>
+    <string name="app_name" translatable="false">Ad-silence</string>
+    <string name="notification_listener_name" translatable="false">Ad silence</string>
+    <string name="notification_listener_settings_intent" translatable="false">android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS</string>
+    <string name="accuradio_pkg_name" translatable="false">com.slipstream.accuradio</string>
+    <string name="spotify_package_name" translatable="false">com.spotify.music</string>
+    <string name="tidal_package_name" translatable="false">com.aspiro.tidal</string>
+    <string name="pandora_package_name" translatable="false">com.pandora.android</string>
     <string name="accuradio_ad_text">Music will resume</string>
     <string name="grant_permission_text_view">App works by using Notification access</string>
     <string name="grant_permission_button">Grant Permission</string>
@@ -14,9 +14,9 @@
     <string name="app_status_permission_not_granted">Enable (Grant Permission first)</string>
     <string name="about">about</string>
     <string name="select_apps">select apps</string>
-    <string name="accuradio">Accuradio</string>
-    <string name="spotify">Spotify</string>
-    <string name="tidal">Tidal</string>
+    <string name="accuradio" translatable="false">Accuradio</string>
+    <string name="spotify" translatable="false">Spotify</string>
+    <string name="tidal" translatable="false">Tidal</string>
     <string name="about_window_text">\"Ad-silence\" silences ads on Accuradio, Spotify, Spotify-Lite, Tidal &amp; Pandora . It works utilizing the notification posted by these apps. Only Accuradio\'s, Spotify\'s, Tidal\'s &amp; Pandora\'s notifications are accessed for identification and discarded immediately after. If you are not confident with the permission, This app is OpenSource, you can check the source on github.
         <![CDATA[<br/><br/>]]>
 
@@ -31,24 +31,24 @@
         <![CDATA[<br/><br/>]]>
         Made by <![CDATA[ <a href="https://github.com/aghontpi">aghontpi&lt;bluepie&gt;</a>]]> for OpenSource.
     </string>
-    <string name="github">github</string>
+    <string name="github" translatable="false">github</string>
     <string name="report_issue">report issue</string>
-    <string name="github_link">https://github.com/aghontpi/Ad-silence</string>
+    <string name="github_link" translatable="false">https://github.com/aghontpi/Ad-silence</string>
     <string name="not_installed">(not installed)</string>
-    <string name="github_issues_link">https://github.com/aghontpi/ad-silence/issues/new</string>
-    <string name="spotify_ad_string">Advertisement</string>
-    <string name="android_constant_enabled_notification_listeners">enabled_notification_listeners</string>
-    <string name="spotify_ad2">Spotify</string>
-    <string name="tidal_ad_string">Advertisement</string>
-    <string name="spotify_lite_package_name">com.spotify.lite</string>
-    <string name="spotify_lite">Spotify Lite</string>
-    <string name="pandora">Pandora</string>
-    <string name="pandora_ad_string">Advertisement</string>
-    <string name="pandora_ad_string_2">Skip Limit Exceeded</string>
+    <string name="github_issues_link" translatable="false">https://github.com/aghontpi/ad-silence/issues/new</string>
+    <string name="spotify_ad_string" translatable="false">Advertisement</string>
+    <string name="android_constant_enabled_notification_listeners" translatable="false">enabled_notification_listeners</string>
+    <string name="spotify_ad2" translatable="false">Spotify</string>
+    <string name="tidal_ad_string" translatable="false">Advertisement</string>
+    <string name="spotify_lite_package_name" translatable="false">com.spotify.lite</string>
+    <string name="spotify_lite" translatable="false">Spotify Lite</string>
+    <string name="pandora" translatable="false">Pandora</string>
+    <string name="pandora_ad_string" translatable="false">Advertisement</string>
+    <string name="pandora_ad_string_2" translatable="false">Skip Limit Exceeded</string>
     <string name="Experimental">Experimental</string>
-    <string name="liveOne_package_name">com.slacker.radio</string>
-    <string name="liveOne_ad_string">Advertisement</string>
-    <string name="liveOne_ad_string_2">60 Minutes Uninterrupted Listening</string>
-    <string name="liveone">LiveOne</string>
-    <string name="beta">(Beta)</string>
+    <string name="liveOne_package_name" translatable="false">com.slacker.radio</string>
+    <string name="liveOne_ad_string" translatable="false">Advertisement</string>
+    <string name="liveOne_ad_string_2" translatable="false">60 Minutes Uninterrupted Listening</string>
+    <string name="liveone" translatable="false">LiveOne</string>
+    <string name="beta" translatable="false">(Beta)</string>
 </resources>
