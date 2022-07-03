@@ -31,6 +31,12 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    
+    lintOptions {
+        checkDependencies true
+    }
+
+    namespace 'bluepie.ad_silence'
 }
 
 dependencies {
