@@ -10,8 +10,8 @@ android {
         applicationId "bluepie.ad_silence"
         minSdk 21
         targetSdk 31
-        versionCode 30
-        versionName "0.5.4"
+        versionCode 36
+        versionName "0.5.5-test"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

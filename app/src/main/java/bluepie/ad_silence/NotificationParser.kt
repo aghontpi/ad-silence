@@ -137,10 +137,10 @@ class NotificationParser(override var appNotification: AppNotification) :
             // new add detection method https://github.com/aghontpi/ad-silence/issues/63
             this.appNotification.notification.extras?.get("android.text") .toString().run {
                 if (this.contains("Spotify") || this == "Spotify" || this == "") {
-                    Log.v("TAG","[new detection][spotify] detected: '${this}'")
+                    Log.v(TAG,"[new detection][spotify] detected: '${this}'")
                     isAd = true
                 } else {
-                    Log.v("TAG","[new detection][spotify] not detected: '${this}'")
+                    Log.v(TAG,"[new detection][spotify] not detected: '${this}'")
                 }
             }
         }
