@@ -121,8 +121,9 @@ class NotificationParser(override var appNotification: AppNotification) :
         )
 
         var isAd = false
+        Log.v(TAG, "[spotify notification][new detection] "+ this.appNotification.notification.extras.toString())
         this.appNotification.notification.extras?.get("android.title").toString().run {
-            Log.v(TAG, "trying match against \"$this\" with ${appNotification.adString()}")
+            Log.v(TAG, "trying match against \"$this\" with ${appNotification.adString().take(40)}")
             for (adString in appNotification.adString()) {
                 if (this == adString) {
                     Log.v(TAG, "detection in Spotify: $adString")
@@ -131,6 +132,19 @@ class NotificationParser(override var appNotification: AppNotification) :
                 }
             }
         }
+
+        if (!isAd) {
+            // new add detection method https://github.com/aghontpi/ad-silence/issues/63
+            this.appNotification.notification.extras?.get("android.text") .toString().run {
+                if (this.contains("Spotify") || this == "Spotify" || this == "") {
+                    Log.v("TAG","[new detection][spotify] detected: '${this}'")
+                    isAd = true
+                } else {
+                    Log.v("TAG","[new detection][spotify] not detected: '${this}'")
+                }
+            }
+        }
+
         return isAd
     }
 
