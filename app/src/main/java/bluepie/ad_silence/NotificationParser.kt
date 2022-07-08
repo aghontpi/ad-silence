@@ -158,6 +158,26 @@ class NotificationParser(override var appNotification: AppNotification) :
             }
         }
 
+
+        if (!isAd) {
+            //https://github.com/aghontpi/ad-silence/pull/64#issuecomment-1179105786
+            //also refer miui & stock comment above
+            listOf(this.appNotification.notification.extras?.get("android.subText"),
+                this.appNotification.notification.extras?.get("android.title"),
+                this.appNotification.notification.extras?.get("android.text")).forEach { diffTypeString ->
+                val songString = diffTypeString.toString();
+                if (songString != "null" && songString is String && !isAd) {
+                    val isMatchFound = appNotification.adString().filter { songString.contains(it, ignoreCase = true) }
+                    if (isMatchFound.isNotEmpty() && !isAd) {
+                        Log.v(TAG, "[spotify][new detection][regex match] found \"${isMatchFound.joinToString(separator=",")}\" against \"$songString\"")
+                        isAd = true
+                    }
+                }
+            }
+
+
+        }
+
         return isAd
     }
 
