@@ -1,0 +1,5 @@
+- Added Italian translation (https://github.com/aghontpi/ad-silence/pull/46)
+- Added new way of ad detection for Spotify (https://github.com/aghontpi/ad-silence/pull/64)
+- Added Keywords/triggers for `spotify` (https://github.com/aghontpi/ad-silence/pull/62)
+- Update kotlin & lib dependencies (https://github.com/aghontpi/ad-silence/pull/60)
+- Update Gradle (https://github.com/aghontpi/ad-silence/pull/61)
