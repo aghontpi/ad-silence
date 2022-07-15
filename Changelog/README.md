@@ -5,6 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.5.5] - (Jul 16,2022)
+
+**_Stable - requires android 5 or higher_**
+
+## Added
+
+- Added Italian translation, thanks to @code-a1 in https://github.com/aghontpi/ad-silence/pull/46 (5e9c18f, 371198e)
+- Added new way of `ad` detection for `Spotify`, thanks to @citizenserious in https://github.com/aghontpi/ad-silence/pull/64 (b25e915, cbf769a, 6bbbbe8, 58fa6f0, 0c19451)
+  - for detailed infromation, refer comments in https://github.com/aghontpi/ad-silence/pull/64
+- Added Keywords/triggers for `spotify`, thanks to @unseenlarks in https://github.com/aghontpi/ad-silence/pull/62 (47e5803, 2bc7ce6)
+
+## Updates
+
+- Update Gradle in https://github.com/aghontpi/ad-silence/pull/61 (217a666, 5ed14a7)
+- Update kotlin & lib dependencies in https://github.com/aghontpi/ad-silence/pull/60 (c8cee29)
+
+**You can get it on google playstore & fdroid**
+
+<p align="left">
+<a href='https://play.google.com/store/apps/details?id=bluepie.ad_silence&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' height="72px" src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
+<a href='https://f-droid.org/packages/bluepie.ad_silence/'><img alt='Get it on Fdroid' height="72px" src='https://fdroid.gitlab.io/artwork/badge/get-it-on.png'/></a>
+</p>
+
 ## [v0.5.4] - (Mar 30,2022)
 
 **_Stable - requires android 5 or higher_**
