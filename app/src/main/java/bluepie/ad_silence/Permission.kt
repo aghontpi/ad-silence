@@ -4,7 +4,7 @@ import android.content.Context
 import android.provider.Settings
 
 
-fun checkNotificationPermission(context: Context): Boolean {
+fun checkNotificationListenerPermission(context: Context): Boolean {
     val permissionList = Settings.Secure.getString(context.contentResolver,
         context.getString(R.string.android_constant_enabled_notification_listeners)
     )

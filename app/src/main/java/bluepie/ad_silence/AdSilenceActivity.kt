@@ -1,10 +1,13 @@
 package bluepie.ad_silence
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.text.Html.fromHtml
 import android.text.method.LinkMovementMethod
@@ -12,6 +15,8 @@ import android.util.Log
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.*
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 
 class AdSilenceActivity : Activity() {
 
@@ -35,8 +40,17 @@ class AdSilenceActivity : Activity() {
     }
 
     private fun configurePermission() {
+        notificationListenerPermission()
+        // android 13 and above
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            notificationPostingPermission()
+        }
+    }
+
+    private fun notificationListenerPermission() {
+        // for notification listener
         findViewById<Button>(R.id.grant_permission)?.run {
-            when (checkNotificationPermission(applicationContext)) {
+            when (checkNotificationListenerPermission(applicationContext)) {
                 true -> {
                     this.text = getString(R.string.permission_granted)
                     this.isEnabled = false
@@ -54,6 +68,37 @@ class AdSilenceActivity : Activity() {
         }
     }
 
+    private fun notificationPostingPermission() {
+        // requesting permission
+        if (ContextCompat.checkSelfPermission(applicationContext,Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED){
+            // permission granted
+            return
+        }
+
+        // launch permission
+        // todo
+        Log.v(TAG, "requesting notification posting permission")
+        ActivityResultContracts.RequestPermission()
+
+
+
+        // check if user has granted permission
+        // todo, needs androidx dependency
+//        val requestPermissionLauncher =
+//            registerForActivityResult(RequestPermission()
+//            ) { isGranted: Boolean ->
+//                if (isGranted) {
+//                    // Permission is granted. Continue the action or workflow in your
+//                    // app.
+//                } else {
+//                    // Explain to the user that the feature is unavailable because the
+//                    // feature requires a permission that the user has denied. At the
+//                    // same time, respect the user's decision. Don't link to system
+//                    // settings in an effort to convince the user to change their
+//                    // decision.
+//                }
+//            }
+    }
 
     private fun configureToggle() {
         val preference = Preference(applicationContext)
@@ -61,7 +106,7 @@ class AdSilenceActivity : Activity() {
         val appNotificationHelper = AppNotificationHelper(applicationContext)
         val utils = Utils()
 
-        if (!checkNotificationPermission(applicationContext)) {
+        if (!checkNotificationListenerPermission(applicationContext)) {
             // even if appNotification is disabled, while granting permission
             //   force it to be enabled, otherwise it wont be listed in permission window
             appNotificationHelper.enable()
