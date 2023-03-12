@@ -4,14 +4,14 @@ plugins {
 }
 
 android {
-    compileSdk 31
+    compileSdk 33
 
     defaultConfig {
         applicationId "bluepie.ad_silence"
         minSdk 21
-        targetSdk 31
-        versionCode 40
-        versionName "0.5.5"
+        targetSdk 33
+        versionCode 41
+        versionName "0.5.6-development"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
