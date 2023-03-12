@@ -51,6 +51,7 @@ class Preference(private val context: Context) {
             SupportedApps.SPOTIFY_LITE-> preference.edit { putBoolean(SPOTIFY_LITE, status).commit() }
             SupportedApps.PANDORA-> preference.edit { putBoolean(PANDORA, status).commit() }
             SupportedApps.LiveOne-> preference.edit { putBoolean(LIVEONE, status).commit() }
+            else -> {}
         }
     }
 
