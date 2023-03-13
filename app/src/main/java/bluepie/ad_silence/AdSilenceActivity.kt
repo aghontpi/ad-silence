@@ -9,6 +9,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.text.Html.fromHtml
 import android.text.method.LinkMovementMethod
 import android.util.Log
@@ -21,6 +22,7 @@ import androidx.core.content.ContextCompat
 class AdSilenceActivity : Activity() {
 
     private val TAG = "MainActivity"
+    private val NOTIFICATION_PERMISSION_REQUEST_CODE = 6969;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,11 +80,11 @@ class AdSilenceActivity : Activity() {
             Log.v(TAG, "[permission] notification permission granted");
             return
         }
+        // todo fix the infinite onresume loop
         Log.v(TAG, "[permission] notification permission not granted");
 
         // launch permission
-        // todo, request code to match with callback from 'requestPermissions'
-        ActivityCompat.requestPermissions(this, arrayOf<String>(Manifest.permission.POST_NOTIFICATIONS), 112);
+        ActivityCompat.requestPermissions(this, arrayOf<String>(Manifest.permission.POST_NOTIFICATIONS), NOTIFICATION_PERMISSION_REQUEST_CODE);
 
     }
 
@@ -291,6 +293,37 @@ class AdSilenceActivity : Activity() {
         }
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        when(requestCode) {
+            NOTIFICATION_PERMISSION_REQUEST_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //todo hide the post notification button
+                    Log.v(TAG, "[permission] permission granted in dialog")
+                } else {
+                    //todo add button below, notification listener permission granting thing,
+                    // "notificaiton permission denied" due to restriction on android 13 and up.. you have to uninstall and reinstall the app.
+                    Log.v(TAG, "[permission] permission not granted in dialog")
+                }
+            }
+
+        }
+    }
+
+    private fun navigateToSettingsPageToGrantNotificationPostingPermission() {
+        val intent = Intent()
+        val uri = Uri.fromParts("package", packageName, null)
+        intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        intent.data = uri
+        startActivity(intent)
+        finish()
+    }
 }
 
 
