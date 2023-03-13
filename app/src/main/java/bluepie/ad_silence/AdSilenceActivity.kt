@@ -15,7 +15,7 @@ import android.util.Log
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.*
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
 class AdSilenceActivity : Activity() {
@@ -69,35 +69,21 @@ class AdSilenceActivity : Activity() {
     }
 
     private fun notificationPostingPermission() {
-        // requesting permission
+        //todo if greater than android 13, show button below grant permission showing grant notification posting permission.
+        //     clicking on it will tirgger this code, if user cancels, tell them to uninstall and reinstall the app.
+
+        // check if notification posting permission is granted.
         if (ContextCompat.checkSelfPermission(applicationContext,Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED){
             // permission granted
+            Log.v(TAG, "[permission] notification permission granted");
             return
         }
+        Log.v(TAG, "[permission] notification permission not granted");
 
         // launch permission
-        // todo
-        Log.v(TAG, "requesting notification posting permission")
-        ActivityResultContracts.RequestPermission()
+        // todo, request code to match with callback from 'requestPermissions'
+        ActivityCompat.requestPermissions(this, arrayOf<String>(Manifest.permission.POST_NOTIFICATIONS), 112);
 
-
-
-        // check if user has granted permission
-        // todo, needs androidx dependency
-//        val requestPermissionLauncher =
-//            registerForActivityResult(RequestPermission()
-//            ) { isGranted: Boolean ->
-//                if (isGranted) {
-//                    // Permission is granted. Continue the action or workflow in your
-//                    // app.
-//                } else {
-//                    // Explain to the user that the feature is unavailable because the
-//                    // feature requires a permission that the user has denied. At the
-//                    // same time, respect the user's decision. Don't link to system
-//                    // settings in an effort to convince the user to change their
-//                    // decision.
-//                }
-//            }
     }
 
     private fun configureToggle() {
