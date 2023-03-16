@@ -16,13 +16,14 @@ import android.util.Log
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
 class AdSilenceActivity : Activity() {
 
     private val TAG = "MainActivity"
-    private val NOTIFICATION_PERMISSION_REQUEST_CODE = 6969;
+    private val NOTIFICATION_PERMISSION_REQUEST_CODE = 6969
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,21 +71,30 @@ class AdSilenceActivity : Activity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun notificationPostingPermission() {
         //todo if greater than android 13, show button below grant permission showing grant notification posting permission.
         //     clicking on it will tirgger this code, if user cancels, tell them to uninstall and reinstall the app.
 
-        // check if notification posting permission is granted.
+        val preference = Preference(applicationContext)
+        Log.v(TAG, "[permission][isAlreadyRequestedNotificationPosting] -> " + preference.isNotificationPermissionRequested())
+        Log.v(TAG, "[permission][isGrantedPostingPermission] -> " + preference.isNotificationPostingPermissionGranted())
+
         if (ContextCompat.checkSelfPermission(applicationContext,Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED){
             // permission granted
-            Log.v(TAG, "[permission] notification permission granted");
+            Log.v(TAG, "[permission][notification][permissionGranted]")
+            preference.setNotificationPostingPermission(true)
             return
         }
-        // todo fix the infinite onresume loop
-        Log.v(TAG, "[permission] notification permission not granted");
+        if (preference.isNotificationPermissionRequested()) {
+            Log.v(TAG, "[permission] notification permission already requested,user denied")
+            return
+        }
+
+        Log.v(TAG, "[permission] notification permission not granted")
 
         // launch permission
-        ActivityCompat.requestPermissions(this, arrayOf<String>(Manifest.permission.POST_NOTIFICATIONS), NOTIFICATION_PERMISSION_REQUEST_CODE);
+        ActivityCompat.requestPermissions(this, arrayOf<String>(Manifest.permission.POST_NOTIFICATIONS), NOTIFICATION_PERMISSION_REQUEST_CODE)
 
     }
 
@@ -299,17 +309,21 @@ class AdSilenceActivity : Activity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        val preference = Preference(applicationContext)
 
         when(requestCode) {
             NOTIFICATION_PERMISSION_REQUEST_CODE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     //todo hide the post notification button
                     Log.v(TAG, "[permission] permission granted in dialog")
+                    preference.setNotificationPostingPermission(true)
                 } else {
                     //todo add button below, notification listener permission granting thing,
                     // "notificaiton permission denied" due to restriction on android 13 and up.. you have to uninstall and reinstall the app.
                     Log.v(TAG, "[permission] permission not granted in dialog")
+                    preference.setNotificationPostingPermission(false)
                 }
+                preference.setNotificationPermissionRequested(true)
             }
 
         }

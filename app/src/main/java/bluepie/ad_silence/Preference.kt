@@ -31,6 +31,13 @@ class Preference(private val context: Context) {
     val LIVEONE = "Liveone"
     private val LIVEONE_DEFAULT = true
 
+    private val Android13NotificationPermissionGranted = "Android13NotificationPermissionGranted"
+    private val Android13NotificationPermissionGrantedDefault = false
+
+    private val HAS_REQUESTD_NOTIFICATON_POSTING_PERMISSION = "HasRequestedNotificationPostingPermission"
+    private val HAS_REQUESTED_NOTIFICATION_POSTING_PERMISSION_DEFAULT = false
+
+
 
 
     fun isEnabled(): Boolean {
@@ -70,6 +77,28 @@ class Preference(private val context: Context) {
             Log.v(TAG, "getting appConfiguration: $app -> $status")
         }
         return status
+    }
+
+    fun isNotificationPostingPermissionGranted(): Boolean {
+        return preference.getBoolean(Android13NotificationPermissionGranted, Android13NotificationPermissionGrantedDefault)
+    }
+
+    fun setNotificationPostingPermission(status: Boolean) {
+        preference.edit {
+            putBoolean(Android13NotificationPermissionGranted, status).commit()
+        }
+        Log.v(TAG, "[notificationPostingPermission]:  ${isNotificationPostingPermissionGranted()} -> $status")
+    }
+
+    fun isNotificationPermissionRequested(): Boolean {
+        return preference.getBoolean(HAS_REQUESTD_NOTIFICATON_POSTING_PERMISSION, HAS_REQUESTED_NOTIFICATION_POSTING_PERMISSION_DEFAULT)
+    }
+
+    fun setNotificationPermissionRequested(status: Boolean) {
+        preference.edit {
+            putBoolean(HAS_REQUESTD_NOTIFICATON_POSTING_PERMISSION, status).commit()
+        }
+        Log.v(TAG, "[hasRequestedNotificationPermission] ${isNotificationPermissionRequested()} -> $status")
     }
 }
 
