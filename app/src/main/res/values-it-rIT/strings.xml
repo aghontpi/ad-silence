@@ -2,10 +2,11 @@
 <resources>
     <string name="accuradio_ad_text">La musica riprenderà</string>
     <string name="grant_permission_text_view">L\'app utilizza l\'accesso alle notifiche per funzionare</string>
-    <string name="grant_permission_button">Dai il permesso</string>
+    <string name="grant_permission_button">Concedi il permesso di notifica</string>
+    <string name="grant_notification_posting_permission_button">Concedere l\'autorizzazione alla pubblicazione di notifiche</string>
+    <string name="app_status_permission_not_granted">Abilita (Prima dai il permesso)</string>
     <string name="permission_granted">GIÀ CONCESSO</string>
     <string name="app_status">Abilita (muta gli annunci)</string>
-    <string name="app_status_permission_not_granted">Abilita (Prima dai il permesso)</string>
     <string name="about">informazioni</string>
     <string name="select_apps">seleziona le app</string>
     <string name="about_window_text">"\"Ad-silence\" silenza la pubblicità di Accuradio, Spotify, Spotify-Lite, Tidal &amp; Pandora. L'app funziona utilizzando le notifiche inviate da queste applicazioni. Solo le notifiche di Accuradio, Spotify, Tidal &amp; Pandora vengono utilizzate per l'identificazione e vengono immediatamente dimenticate. Se non sei convinto a dare il permesso, questa app è OpenSource, quindi puoi controllare il codice sorgente su github.\n
