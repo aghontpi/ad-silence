@@ -2,7 +2,7 @@
 <resources>
     <string name="accuradio_ad_text">La musica riprenderà</string>
     <string name="grant_permission_text_view">L\'app utilizza l\'accesso alle notifiche per funzionare</string>
-    <string name="grant_permission_button">Concedi il permesso di notifica</string>
+    <string name="grant_permission_button">Concedere l\'autorizzazione</string>
     <string name="grant_notification_posting_permission_button">Concedere l\'autorizzazione alla pubblicazione di notifiche</string>
     <string name="app_status_permission_not_granted">Abilita (Prima dai il permesso)</string>
     <string name="permission_granted">GIÀ CONCESSO</string>

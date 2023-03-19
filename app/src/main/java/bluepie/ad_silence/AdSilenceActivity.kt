@@ -14,6 +14,7 @@ import android.text.Html.fromHtml
 import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.Gravity
+import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
@@ -44,11 +45,22 @@ class AdSilenceActivity : Activity() {
 
     private fun configurePermission() {
         notificationListenerPermission()
+
+        // if permission is not granted for listening, do not show option to enable posting permission
+        if (!checkNotificationListenerPermission(applicationContext)) {
+            return
+        }
+
+
         // android 13 and above
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             notificationPostingPermission()
+            decideAndActivePostingPermissionRequest()
         }
+
     }
+
+
 
     private fun notificationListenerPermission() {
         // for notification listener
@@ -57,6 +69,9 @@ class AdSilenceActivity : Activity() {
                 true -> {
                     this.text = getString(R.string.permission_granted)
                     this.isEnabled = false
+
+                    // introduced for android 13
+                    this.visibility = View.GONE
                 }
                 false -> {
                     findViewById<Switch>(R.id.status_toggle)?.text =
@@ -67,6 +82,29 @@ class AdSilenceActivity : Activity() {
                         startActivity(Intent(getString(R.string.notification_listener_settings_intent)))
                     }
                 }
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private fun decideAndActivePostingPermissionRequest() {
+        val activity = this
+        val preference = Preference(applicationContext)
+
+        findViewById<Button>(R.id.grant_notification_posting_perimisison)?.run {
+            this.visibility = View.VISIBLE
+
+            if (preference.isNotificationPostingPermissionGranted()) {
+                this.text = getString(R.string.permission_granted)
+                this.isEnabled = false
+            }
+
+            this.setOnClickListener {
+                // todo
+                // show alert dialog for information
+                Log.v(TAG, "trigger")
+                // launch permission
+                ActivityCompat.requestPermissions(activity, arrayOf<String>(Manifest.permission.POST_NOTIFICATIONS), NOTIFICATION_PERMISSION_REQUEST_CODE)
             }
         }
     }
@@ -93,8 +131,6 @@ class AdSilenceActivity : Activity() {
 
         Log.v(TAG, "[permission] notification permission not granted")
 
-        // launch permission
-        ActivityCompat.requestPermissions(this, arrayOf<String>(Manifest.permission.POST_NOTIFICATIONS), NOTIFICATION_PERMISSION_REQUEST_CODE)
 
     }
 
@@ -317,10 +353,15 @@ class AdSilenceActivity : Activity() {
                     //todo hide the post notification button
                     Log.v(TAG, "[permission] permission granted in dialog")
                     preference.setNotificationPostingPermission(true)
+
+                    // restart notification service
+                    AppNotificationHelper(applicationContext).enable()
+
                 } else {
                     //todo add button below, notification listener permission granting thing,
                     // "notificaiton permission denied" due to restriction on android 13 and up.. you have to uninstall and reinstall the app.
                     Log.v(TAG, "[permission] permission not granted in dialog")
+                    // todo sometimes notification are not detected after enabled.
                     preference.setNotificationPostingPermission(false)
                 }
                 preference.setNotificationPermissionRequested(true)

@@ -27,5 +27,6 @@
         android:layout_height="wrap_content"
         android:singleLine="false"
         android:text="@string/grant_notification_posting_permission_button"
-        android:textIsSelectable="false" />
+        android:textIsSelectable="false"
+        android:visibility="gone" />
 </merge>
