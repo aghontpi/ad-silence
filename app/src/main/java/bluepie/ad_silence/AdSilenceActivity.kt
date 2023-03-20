@@ -14,12 +14,10 @@ import android.text.Html.fromHtml
 import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.Gravity
-import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 
 class AdSilenceActivity : Activity() {
 
@@ -69,9 +67,6 @@ class AdSilenceActivity : Activity() {
                 true -> {
                     this.text = getString(R.string.permission_granted)
                     this.isEnabled = false
-
-                    // introduced for android 13
-                    this.visibility = View.GONE
                 }
                 false -> {
                     findViewById<Switch>(R.id.status_toggle)?.text =
@@ -92,19 +87,25 @@ class AdSilenceActivity : Activity() {
         val preference = Preference(applicationContext)
 
         findViewById<Button>(R.id.grant_notification_posting_perimisison)?.run {
-            this.visibility = View.VISIBLE
 
             if (preference.isNotificationPostingPermissionGranted()) {
-                this.text = getString(R.string.permission_granted)
+                this.text = getString(R.string.granted)
                 this.isEnabled = false
             }
 
             this.setOnClickListener {
                 // todo
                 // show alert dialog for information
-                Log.v(TAG, "trigger")
-                // launch permission
-                ActivityCompat.requestPermissions(activity, arrayOf<String>(Manifest.permission.POST_NOTIFICATIONS), NOTIFICATION_PERMISSION_REQUEST_CODE)
+                when (preference.isNotificationPermissionRequested()) {
+                    true -> {
+                        // launch permission only if it is not triggered for the user already
+                        navigateToSettingsPageToGrantNotificationPostingPermission()
+                    }
+                    false -> {
+                        ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.POST_NOTIFICATIONS), NOTIFICATION_PERMISSION_REQUEST_CODE)
+                    }
+                }
+
             }
         }
     }
@@ -112,26 +113,25 @@ class AdSilenceActivity : Activity() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun notificationPostingPermission() {
         //todo if greater than android 13, show button below grant permission showing grant notification posting permission.
-        //     clicking on it will tirgger this code, if user cancels, tell them to uninstall and reinstall the app.
+        //     clicking on it will tirgger this code, if user cancels, launch settings directly and ask them to grant the permission.
 
         val preference = Preference(applicationContext)
         Log.v(TAG, "[permission][isAlreadyRequestedNotificationPosting] -> " + preference.isNotificationPermissionRequested())
         Log.v(TAG, "[permission][isGrantedPostingPermission] -> " + preference.isNotificationPostingPermissionGranted())
 
-        if (ContextCompat.checkSelfPermission(applicationContext,Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED){
-            // permission granted
+        if (checkNotificationPostingPermission(applicationContext)){
             Log.v(TAG, "[permission][notification][permissionGranted]")
             preference.setNotificationPostingPermission(true)
             return
+        } else {
+            Log.v(TAG, "[permission][notification][permissionDenied]")
+            preference.setNotificationPostingPermission(false)
         }
         if (preference.isNotificationPermissionRequested()) {
             Log.v(TAG, "[permission] notification permission already requested,user denied")
             return
         }
-
         Log.v(TAG, "[permission] notification permission not granted")
-
-
     }
 
     private fun configureToggle() {
@@ -139,8 +139,18 @@ class AdSilenceActivity : Activity() {
         val statusToggle = findViewById<Switch>(R.id.status_toggle)
         val appNotificationHelper = AppNotificationHelper(applicationContext)
         val utils = Utils()
+        val isAboveAndroid13 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
 
-        if (!checkNotificationListenerPermission(applicationContext)) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+           if (!checkNotificationPostingPermission(applicationContext) || !checkNotificationListenerPermission(applicationContext)) {
+               appNotificationHelper.enable()
+               utils.disableSwitch(statusToggle)
+               statusToggle.text = getString(R.string.app_status_permission_not_granted)
+               return
+           }
+        }
+
+        if (!isAboveAndroid13 && !checkNotificationListenerPermission(applicationContext)) {
             // even if appNotification is disabled, while granting permission
             //   force it to be enabled, otherwise it wont be listed in permission window
             appNotificationHelper.enable()
@@ -350,7 +360,6 @@ class AdSilenceActivity : Activity() {
         when(requestCode) {
             NOTIFICATION_PERMISSION_REQUEST_CODE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    //todo hide the post notification button
                     Log.v(TAG, "[permission] permission granted in dialog")
                     preference.setNotificationPostingPermission(true)
 
@@ -358,10 +367,7 @@ class AdSilenceActivity : Activity() {
                     AppNotificationHelper(applicationContext).enable()
 
                 } else {
-                    //todo add button below, notification listener permission granting thing,
-                    // "notificaiton permission denied" due to restriction on android 13 and up.. you have to uninstall and reinstall the app.
                     Log.v(TAG, "[permission] permission not granted in dialog")
-                    // todo sometimes notification are not detected after enabled.
                     preference.setNotificationPostingPermission(false)
                 }
                 preference.setNotificationPermissionRequested(true)

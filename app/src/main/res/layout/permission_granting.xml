@@ -21,12 +21,23 @@
         android:text="@string/grant_permission_button"
         android:textIsSelectable="false" />
 
+    <TextView
+        android:id="@+id/notification_posting_permission_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="53dp"
+        android:gravity="center"
+        android:paddingLeft="4dp"
+        android:paddingTop="12dp"
+        android:paddingRight="4dp"
+        android:paddingBottom="8dp"
+        android:text="@string/grant_notification_posting_permission_text_view" />
+
+
     <Button
         android:id="@+id/grant_notification_posting_perimisison"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:singleLine="false"
         android:text="@string/grant_notification_posting_permission_button"
-        android:textIsSelectable="false"
-        android:visibility="gone" />
+        android:textIsSelectable="false" />
 </merge>

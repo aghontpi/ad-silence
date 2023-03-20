@@ -6,6 +6,8 @@
     <string name="grant_notification_posting_permission_button">Concedere l\'autorizzazione alla pubblicazione di notifiche</string>
     <string name="app_status_permission_not_granted">Abilita (Prima dai il permesso)</string>
     <string name="permission_granted">GIÀ CONCESSO</string>
+    <string name="granted">CONCESSO</string>
+    <string name="grant_notification_posting_permission_text_view">Android 13 e versioni successive richiedono l\'autorizzazione alla pubblicazione delle notifiche</string>
     <string name="app_status">Abilita (muta gli annunci)</string>
     <string name="about">informazioni</string>
     <string name="select_apps">seleziona le app</string>
