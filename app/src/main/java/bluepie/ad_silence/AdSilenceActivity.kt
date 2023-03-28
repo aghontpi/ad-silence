@@ -14,6 +14,7 @@ import android.text.Html.fromHtml
 import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.Gravity
+import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
@@ -50,10 +51,13 @@ class AdSilenceActivity : Activity() {
         }
 
 
-        // android 13 and above
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            // android 13 and above
             notificationPostingPermission()
             decideAndActivePostingPermissionRequest()
+        } else {
+            // hide for requesting permission for notification posting
+            hideNotificationPostingRequestPermission()
         }
 
     }
@@ -373,6 +377,16 @@ class AdSilenceActivity : Activity() {
                 preference.setNotificationPermissionRequested(true)
             }
 
+        }
+    }
+
+    private fun hideNotificationPostingRequestPermission() {
+        findViewById<TextView>(R.id.notification_posting_permission_text_view)?.run {
+            this.visibility = View.GONE
+        }
+
+        findViewById<Button>(R.id.grant_notification_posting_perimisison)?.run {
+            this.visibility = View.GONE
         }
     }
 
