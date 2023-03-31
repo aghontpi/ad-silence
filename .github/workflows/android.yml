@@ -39,6 +39,19 @@ jobs:
     - name: Upload debug build
       uses: actions/upload-artifact@v3
       with: 
-        name: Compiled APK (build)
+        name: ad-silence-debug-build.apk (build artifact)
         path: app/build/outputs/apk/debug/app-debug.apk
+
+    - name: Comment with the artifact link
+      uses: actions/github-script@v3
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const artifactUrl = `https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts`
+          github.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: `Link to latest build artifact (APK) from [here](${artifactUrl}).`
+          })
     
