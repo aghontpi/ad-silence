@@ -35,9 +35,10 @@ jobs:
         KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         
       run: ./gradlew assembleDebug -Pandroid.injected.signing.store.file=$(pwd)/debug.keystore -Pandroid.injected.signing.store.password=$KEYSTORE_PASSWORD -Pandroid.injected.signing.key.alias=$KEY_ALIAS -Pandroid.injected.signing.key.password=$KEY_PASSWORD
-    - name: Upload build
-      uses: actions/upload-artifact@3.1.2
+
+    - name: Upload debug build
+      uses: actions/upload-artifact@v3
       with: 
         name: Compiled APK (build)
-        path: app/build/outpouts/apk/debug/app-debug.apk
+        path: app/build/outputs/apk/debug/app-debug.apk
     
