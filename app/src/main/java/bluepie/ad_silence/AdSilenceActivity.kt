@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.NotificationManager
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -45,11 +46,6 @@ class AdSilenceActivity : Activity() {
     private fun configurePermission() {
         notificationListenerPermission()
 
-        // if permission is not granted for listening, do not show option to enable posting permission
-        if (!checkNotificationListenerPermission(applicationContext)) {
-            return
-        }
-
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             // android 13 and above
@@ -67,7 +63,7 @@ class AdSilenceActivity : Activity() {
     private fun notificationListenerPermission() {
         // for notification listener
         findViewById<Button>(R.id.grant_permission)?.run {
-            when (checkNotificationListenerPermission(applicationContext)) {
+            when (checkNotificationListenerPermission(applicationContext) ) {
                 true -> {
                     this.text = getString(R.string.permission_granted)
                     this.isEnabled = false
@@ -143,21 +139,15 @@ class AdSilenceActivity : Activity() {
         val statusToggle = findViewById<Switch>(R.id.status_toggle)
         val appNotificationHelper = AppNotificationHelper(applicationContext)
         val utils = Utils()
-        val isAboveAndroid13 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-           if (!checkNotificationPostingPermission(applicationContext) || !checkNotificationListenerPermission(applicationContext)) {
-               appNotificationHelper.enable()
-               utils.disableSwitch(statusToggle)
-               statusToggle.text = getString(R.string.app_status_permission_not_granted)
-               return
-           }
-        }
-
-        if (!isAboveAndroid13 && !checkNotificationListenerPermission(applicationContext)) {
+        if (!checkNotificationListenerPermission(applicationContext)) {
             // even if appNotification is disabled, while granting permission
             //   force it to be enabled, otherwise it wont be listed in permission window
             appNotificationHelper.enable()
+            utils.disableSwitch(statusToggle)
+            statusToggle.text = getString(R.string.app_status_permission_not_granted)
+            return
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !checkNotificationPostingPermission(applicationContext)){
             utils.disableSwitch(statusToggle)
             statusToggle.text = getString(R.string.app_status_permission_not_granted)
             return
@@ -366,10 +356,6 @@ class AdSilenceActivity : Activity() {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Log.v(TAG, "[permission] permission granted in dialog")
                     preference.setNotificationPostingPermission(true)
-
-                    // restart notification service
-                    AppNotificationHelper(applicationContext).enable()
-
                 } else {
                     Log.v(TAG, "[permission] permission not granted in dialog")
                     preference.setNotificationPostingPermission(false)
@@ -398,6 +384,18 @@ class AdSilenceActivity : Activity() {
         intent.data = uri
         startActivity(intent)
         finish()
+    }
+
+    private fun postANotificationA13() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            // checking if notification is not present.. start it
+            val mNotificationManager: NotificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            val notifications  = mNotificationManager.activeNotifications
+            Log.v(TAG, "[notification-a13][count]" + notifications.size)
+            if(notifications.isEmpty()) {
+             AppNotificationHelper(applicationContext).updateNotification("AdSilence, listening for ads")
+            }
+        }
     }
 }
 
