@@ -37,6 +37,9 @@ class Preference(private val context: Context) {
     private val HAS_REQUESTD_NOTIFICATON_POSTING_PERMISSION = "HasRequestedNotificationPostingPermission"
     private val HAS_REQUESTED_NOTIFICATION_POSTING_PERMISSION_DEFAULT = false
 
+    private val EnableNotifications = "EnableNotifications"
+    private val EnableNotificationsDefault = false
+
 
 
 
@@ -100,7 +103,22 @@ class Preference(private val context: Context) {
         }
         Log.v(TAG, "[hasRequestedNotificationPermission] ${isNotificationPermissionRequested()} -> $status")
     }
+
+
+    // current implementation is only enabled for android 13 and above
+    fun isNotificationsEnabled(): Boolean {
+        return preference.getBoolean(EnableNotifications, EnableNotificationsDefault)
+    }
+
+    // current implementation is only enabled for android 13 and above
+    fun setNotificationEnabled(status: Boolean) {
+        Log.v(TAG, "[configNotificationChange] ${isNotificationsEnabled()} -> $status")
+        preference.edit {
+            putBoolean(EnableNotifications, status).commit()
+        }
+    }
 }
+
 
 
 

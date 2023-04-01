@@ -52,12 +52,17 @@ class AdSilenceActivity : Activity() {
             notificationPostingPermission()
             decideAndActivePostingPermissionRequest()
         } else {
+            // hide the notifications for android 13
+            findViewById<Switch>(R.id.enable_notifications_switch)?.run {
+                this.visibility = View.GONE
+            }
+
             // hide for requesting permission for notification posting
-            hideNotificationPostingRequestPermission()
+            setNotificationPostingRequestPermission(false)
+
         }
 
     }
-
 
 
     private fun notificationListenerPermission() {
@@ -81,10 +86,31 @@ class AdSilenceActivity : Activity() {
         }
     }
 
+
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun decideAndActivePostingPermissionRequest() {
         val activity = this
         val preference = Preference(applicationContext)
+
+
+        findViewById<Switch>(R.id.enable_notifications_switch)?.run {
+            this.isChecked = preference.isNotificationsEnabled()
+
+            this.setOnClickListener {
+                val changedState = !preference.isNotificationsEnabled()
+                this.isChecked = changedState
+                preference.setNotificationEnabled(changedState)
+                setNotificationPostingRequestPermission(changedState)
+
+                // remove any existing notifications
+                // forground service notifications should be cancelled from service directly
+                Log.v(TAG, "[configNotifications] removing any existing notifications")
+                (getSystemService(NOTIFICATION_SERVICE) as NotificationManager).cancel(NOTIFICATION_ID)
+            }
+
+            // setup views for notification settings
+            setNotificationPostingRequestPermission(preference.isNotificationsEnabled())
+        }
 
         findViewById<Button>(R.id.grant_notification_posting_perimisison)?.run {
 
@@ -144,10 +170,6 @@ class AdSilenceActivity : Activity() {
             // even if appNotification is disabled, while granting permission
             //   force it to be enabled, otherwise it wont be listed in permission window
             appNotificationHelper.enable()
-            utils.disableSwitch(statusToggle)
-            statusToggle.text = getString(R.string.app_status_permission_not_granted)
-            return
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !checkNotificationPostingPermission(applicationContext)){
             utils.disableSwitch(statusToggle)
             statusToggle.text = getString(R.string.app_status_permission_not_granted)
             return
@@ -366,13 +388,14 @@ class AdSilenceActivity : Activity() {
         }
     }
 
-    private fun hideNotificationPostingRequestPermission() {
+    private fun setNotificationPostingRequestPermission(state: Boolean) {
+        val status = if (state) View.VISIBLE else View.GONE
         findViewById<TextView>(R.id.notification_posting_permission_text_view)?.run {
-            this.visibility = View.GONE
+            this.visibility = status
         }
 
         findViewById<Button>(R.id.grant_notification_posting_perimisison)?.run {
-            this.visibility = View.GONE
+            this.visibility = status
         }
     }
 
