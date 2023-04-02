@@ -1,0 +1,4 @@
+- Add support for android 13 (https://github.com/aghontpi/ad-silence/pull/86)
+- Update target sdk, dependencies and gradle  (https://github.com/aghontpi/ad-silence/pull/86)
+- Add support to disable notifications on android 13 and above (https://github.com/aghontpi/ad-silence/pull/86)
+- Update CI (https://github.com/aghontpi/ad-silence/pull/88)

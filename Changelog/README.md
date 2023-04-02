@@ -5,6 +5,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.6.0] - (Apr 2, 2023)
+
+**_Stable - requires android 5 or higher_**
+
+## Added
+
+- Add support for android 13 (https://github.com/aghontpi/ad-silence/pull/86)
+  - support for android 13 to disable notifications
+  - update target sdks
+
+
+## Updates
+
+- Update CI (https://github.com/aghontpi/ad-silence/pull/88)
+
+**You can get it on google playstore & fdroid**
+
+<p align="left">
+<a href='https://play.google.com/store/apps/details?id=bluepie.ad_silence&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' height="72px" src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
+<a href='https://f-droid.org/packages/bluepie.ad_silence/'><img alt='Get it on Fdroid' height="72px" src='https://fdroid.gitlab.io/artwork/badge/get-it-on.png'/></a>
+</p>
+
+
+
+
 ## [v0.5.5] - (Jul 16,2022)
 
 **_Stable - requires android 5 or higher_**
