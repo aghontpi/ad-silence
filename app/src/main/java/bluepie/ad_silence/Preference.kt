@@ -31,6 +31,16 @@ class Preference(private val context: Context) {
     val LIVEONE = "Liveone"
     private val LIVEONE_DEFAULT = true
 
+    private val Android13NotificationPermissionGranted = "Android13NotificationPermissionGranted"
+    private val Android13NotificationPermissionGrantedDefault = false
+
+    private val HAS_REQUESTD_NOTIFICATON_POSTING_PERMISSION = "HasRequestedNotificationPostingPermission"
+    private val HAS_REQUESTED_NOTIFICATION_POSTING_PERMISSION_DEFAULT = false
+
+    private val EnableNotifications = "EnableNotifications"
+    private val EnableNotificationsDefault = false
+
+
 
 
     fun isEnabled(): Boolean {
@@ -51,6 +61,7 @@ class Preference(private val context: Context) {
             SupportedApps.SPOTIFY_LITE-> preference.edit { putBoolean(SPOTIFY_LITE, status).commit() }
             SupportedApps.PANDORA-> preference.edit { putBoolean(PANDORA, status).commit() }
             SupportedApps.LiveOne-> preference.edit { putBoolean(LIVEONE, status).commit() }
+            else -> {}
         }
     }
 
@@ -70,7 +81,44 @@ class Preference(private val context: Context) {
         }
         return status
     }
+
+    fun isNotificationPostingPermissionGranted(): Boolean {
+        return preference.getBoolean(Android13NotificationPermissionGranted, Android13NotificationPermissionGrantedDefault)
+    }
+
+    fun setNotificationPostingPermission(status: Boolean) {
+        preference.edit {
+            putBoolean(Android13NotificationPermissionGranted, status).commit()
+        }
+        Log.v(TAG, "[notificationPostingPermission]:  ${isNotificationPostingPermissionGranted()} -> $status")
+    }
+
+    fun isNotificationPermissionRequested(): Boolean {
+        return preference.getBoolean(HAS_REQUESTD_NOTIFICATON_POSTING_PERMISSION, HAS_REQUESTED_NOTIFICATION_POSTING_PERMISSION_DEFAULT)
+    }
+
+    fun setNotificationPermissionRequested(status: Boolean) {
+        preference.edit {
+            putBoolean(HAS_REQUESTD_NOTIFICATON_POSTING_PERMISSION, status).commit()
+        }
+        Log.v(TAG, "[hasRequestedNotificationPermission] ${isNotificationPermissionRequested()} -> $status")
+    }
+
+
+    // current implementation is only enabled for android 13 and above
+    fun isNotificationsEnabled(): Boolean {
+        return preference.getBoolean(EnableNotifications, EnableNotificationsDefault)
+    }
+
+    // current implementation is only enabled for android 13 and above
+    fun setNotificationEnabled(status: Boolean) {
+        Log.v(TAG, "[configNotificationChange] ${isNotificationsEnabled()} -> $status")
+        preference.edit {
+            putBoolean(EnableNotifications, status).commit()
+        }
+    }
 }
+
 
 
 

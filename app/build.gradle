@@ -4,14 +4,14 @@ plugins {
 }
 
 android {
-    compileSdk 31
+    compileSdk 33
 
     defaultConfig {
         applicationId "bluepie.ad_silence"
         minSdk 21
-        targetSdk 31
-        versionCode 40
-        versionName "0.5.5"
+        targetSdk 33
+        versionCode 41
+        versionName "0.5.6-development"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -49,6 +49,13 @@ android {
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.8.0'
+
+
+    // requirements for android 13 and above start
+    // note: in the end managed to implement the feature, without needing to use.
+    //implementation 'androidx.activity:activity-ktx:1.6.1'
+    // requirements for android 13 and above end
+
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
