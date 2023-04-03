@@ -8,8 +8,11 @@
     <string name="pandora_package_name" translatable="false">com.pandora.android</string>
     <string name="accuradio_ad_text">Music will resume</string>
     <string name="grant_permission_text_view">App works by using Notification access</string>
+    <string name="grant_notification_posting_permission_text_view">Android 13 and above requires notification posting permission</string>
     <string name="grant_permission_button">Grant Permission</string>
+    <string name="grant_notification_posting_permission_button">Grant Notification Posting Permission</string>
     <string name="permission_granted">ALREADY GRANTED</string>
+    <string name="granted">GRANTED</string>
     <string name="app_status">Enable (mute ads)</string>
     <string name="app_status_permission_not_granted">Enable (Grant Permission first)</string>
     <string name="about">about</string>
@@ -51,4 +54,5 @@
     <string name="liveOne_ad_string_2" translatable="false">60 Minutes Uninterrupted Listening</string>
     <string name="liveone" translatable="false">LiveOne</string>
     <string name="beta" translatable="false">(Beta)</string>
+    <string name="notifications_optional">Notification updates (optional)</string>
 </resources>

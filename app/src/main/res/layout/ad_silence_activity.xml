@@ -10,21 +10,7 @@
     android:paddingBottom="12dp"
     tools:context=".AdSilenceActivity">
 
-    <TextView
-        android:id="@+id/permission_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingLeft="4dp"
-        android:paddingRight="4dp"
-        android:paddingBottom="8dp"
-        android:text="@string/grant_permission_text_view" />
-
-    <Button
-        android:id="@+id/grant_permission"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/grant_permission_button" />
+    <include layout="@layout/permission_granting" />
 
     <Switch
         android:id="@+id/status_toggle"

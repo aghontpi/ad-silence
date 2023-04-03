@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <!--android 13 and above-->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <queries>
         <!--android 11 and above-->
         <package android:name="com.slipstream.accuradio"/>

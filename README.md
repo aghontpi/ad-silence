@@ -77,9 +77,3 @@ This is possible because of `NotificationListenerService` on `android`. Granted,
 ## Built with
 
 - [Kotlin](https://kotlinlang.org/)
-
-## Other
-
-- featured in [top apps - youtube](https://youtu.be/hWfiQN4IUFM)
-- featured in [top apps of december - youtube](https://www.youtube.com/watch?v=y-xopMyqfCU&t)
-- featured in [app of the week](https://www.nextpit.com/apps-of-the-week-48-2021)

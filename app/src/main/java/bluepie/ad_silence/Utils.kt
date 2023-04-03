@@ -68,7 +68,7 @@ class Utils {
         }
     }
 
-    fun mute(audioManager: AudioManager?, addNotificationHelper: AppNotificationHelper?) {
+    fun mute(audioManager: AudioManager?, addNotificationHelper: AppNotificationHelper?, preference: Preference) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             audioManager?.adjustVolume(
                 AudioManager.ADJUST_MUTE,
@@ -77,13 +77,15 @@ class Utils {
         } else {
             audioManager?.setStreamMute(AudioManager.STREAM_MUSIC, true)
         }
-        addNotificationHelper?.updateNotification("AdSilence, ad-detected")
+
+        this.updateNotification("AdSilence, ad-detected", preference, addNotificationHelper)
     }
 
     fun unmute(
         audioManager: AudioManager?,
         addNotificationHelper: AppNotificationHelper?,
         app: SupportedApps,
+        preference: Preference
     ) {
         val process = {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -94,7 +96,8 @@ class Utils {
             } else {
                 audioManager?.setStreamMute(AudioManager.STREAM_MUSIC, false)
             }
-            addNotificationHelper?.updateNotification("AdSilence, listening for ads")
+
+            this.updateNotification("AdSilence, listening for ads", preference, addNotificationHelper)
         }
 
         if (app == SupportedApps.SPOTIFY || app == SupportedApps.SPOTIFY_LITE) {
@@ -113,6 +116,18 @@ class Utils {
                 ); process()
             }, delay)
         } else process()
+    }
+
+    private fun updateNotification(msg: String, preference: Preference, addNotificationHelper: AppNotificationHelper?) {
+
+        val showNotificaiton : Boolean = if (Build.VERSION.SDK_INT == Build.VERSION_CODES.TIRAMISU) {
+            preference.isNotificationsEnabled()
+        } else {
+            true
+        }
+        if (showNotificaiton) {
+            addNotificationHelper?.updateNotification(msg)
+        }
     }
 }
 
