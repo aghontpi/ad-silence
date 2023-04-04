@@ -1,7 +1,6 @@
 package bluepie.ad_silence
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.NotificationManager
@@ -14,9 +13,7 @@ import android.provider.Settings
 import android.text.Html.fromHtml
 import android.text.method.LinkMovementMethod
 import android.util.Log
-import android.view.Gravity
 import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
@@ -194,17 +191,17 @@ class AdSilenceActivity : Activity() {
 
     }
 
-    @SuppressLint("InflateParams")
     private fun configureAdditionalViews() {
 
         val utils = Utils()
-        val dpi = resources.displayMetrics.density
         val isAccuradioInstalled = utils.isAccuradioInstalled(applicationContext)
         val isSpotifyInstalled = utils.isSpotifyInstalled(applicationContext)
         val isTidalInstalled = utils.isTidalInstalled(applicationContext)
         val isSpotifyLiteInstalled = utils.isSpotifyLiteInstalled(applicationContext)
         val isPandoraInstalled = utils.isPandoraInstalled(applicationContext)
         val isLiveOneInstalled = utils.isLiveOneInstalled(applicationContext)
+        val versionCode = BuildConfig.VERSION_CODE
+        val versionName = BuildConfig.VERSION_NAME
 
         findViewById<Button>(R.id.about_btn)?.setOnClickListener {
             layoutInflater.inflate(R.layout.about, null)?.run {
@@ -227,30 +224,7 @@ class AdSilenceActivity : Activity() {
                     it.text = fromHtml(getString(R.string.about_window_text))
                 }
 
-                with(AlertDialog.Builder(this@AdSilenceActivity).setView(this)) {
-                    val linearLayout = LinearLayout(context).also {
-                        it.setPadding(0, 16 * dpi.toInt(), 0, 0)
-                        it.gravity = Gravity.CENTER
-                        it.addView(
-                            ImageView(context).also { imageView ->
-                                imageView.layoutParams =
-                                    ViewGroup.LayoutParams(56 * dpi.toInt(), 56 * dpi.toInt())
-                                imageView.setBackgroundResource(R.mipmap.ic_launcher_round)
-                            }
-                        )
-                        it.addView(
-                            TextView(context).also { textView ->
-                                textView.text = getString(R.string.app_name)
-                                textView.setPadding(8 * dpi.toInt(), 0, 0, 0)
-                                textView.textSize = 6 * dpi
-                            }
-                        )
-                    }
-                    this.setTitle(getString(R.string.app_name))
-                        .setIcon(R.mipmap.ic_launcher_round)
-                    this.setCustomTitle(linearLayout)
-                    this.show()
-                }
+                About().aboutBuilder(context, this, versionName, versionCode)
             }
         }
 
