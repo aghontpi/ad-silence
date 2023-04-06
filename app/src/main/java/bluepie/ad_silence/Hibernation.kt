@@ -7,16 +7,14 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.IntentCompat
 import androidx.core.content.PackageManagerCompat
 import androidx.core.content.UnusedAppRestrictionsConstants
+import com.google.common.util.concurrent.ListenableFuture
 
 class Hibernation(private val context: Context, private val activity: AdSilenceActivity) {
     private val TAG = "Hibernation"
     val HIBERNATION_REQUEST_CODE = 6868
 
-    private var future = PackageManagerCompat.getUnusedAppRestrictionsStatus(context)
-
-    init {
-        this.future.addListener({ onResult(future.get()) }, ContextCompat.getMainExecutor(context))
-    }
+    private var future: ListenableFuture<Int> =
+        PackageManagerCompat.getUnusedAppRestrictionsStatus(context)
 
     fun isAppWhitelisted(): Boolean {
         val pm = context.packageManager
@@ -30,6 +28,10 @@ class Hibernation(private val context: Context, private val activity: AdSilenceA
             Log.v(TAG, "[isAppWhitelisted] version < R")
             false
         }
+    }
+
+    fun redirectToDisableHibernation() {
+        this.future.addListener({ onResult(future.get()) }, ContextCompat.getMainExecutor(context))
     }
 
     fun onResult(appRestrictionsStatus: Int) {

@@ -29,9 +29,7 @@ class AdSilenceActivity : Activity() {
         configurePermission()
         configureToggle()
         configureAdditionalViews()
-        // handles hibernation for andrroid >= 10
-        // todo handle hibernation for android <= 10
-        Hibernation(applicationContext, this)
+        handleHibernation()
     }
 
     override fun onResume() {
@@ -41,6 +39,7 @@ class AdSilenceActivity : Activity() {
         configurePermission()
         configureToggle()
         configureAdditionalViews()
+        handleHibernation()
     }
 
     private fun configurePermission() {
@@ -397,7 +396,45 @@ class AdSilenceActivity : Activity() {
             }
         }
     }
-    
+
+    private fun handleHibernation() {
+        // todo handle hibernation for android <= 10
+        val hibernation = Hibernation(applicationContext, this)
+        val preference = Preference(applicationContext)
+
+        val hibernationStaus = hibernation.isAppWhitelisted()
+        preference.setHibernatonDisabledStatus(hibernationStaus)
+
+        val disableHibernationButton = findViewById<Button>(R.id.disable_hibernation_button)
+        val disableHibernationTextView = findViewById<TextView>(R.id.disable_hibernation_text_view)
+
+        disableHibernationTextView?.also {
+            it.visibility = View.VISIBLE
+            it.isEnabled = true
+        }
+
+        if (preference.isHibernationDisabled()) {
+            // todo set up ui elements to show hibernation is disabled
+            disableHibernationButton?.also {
+                it.text = resources.getString(R.string.disable_hibernation_granted)
+                it.isEnabled = false
+            }
+            return
+        }
+
+        disableHibernationButton?.also {
+            it.text  = resources.getString(R.string.disable_hibernation)
+            it.isEnabled = true
+
+            it.setOnClickListener {
+                // todo investigate, when notification permission is granted, "Unused app settings" is greyed out
+                //   when notification listener is granted permission (unused app settings is not required?)
+                hibernation.redirectToDisableHibernation()
+            }
+        }
+
+    }
+
 }
 
 

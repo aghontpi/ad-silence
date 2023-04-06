@@ -40,7 +40,8 @@ class Preference(private val context: Context) {
     private val EnableNotifications = "EnableNotifications"
     private val EnableNotificationsDefault = false
 
-
+    private val HAS_DISABLED_HIBERNATION = "HasDisabledHibernation"
+    private val HAS_DISABLED_HIBERNATION_DEFAULT = false
 
 
     fun isEnabled(): Boolean {
@@ -115,6 +116,17 @@ class Preference(private val context: Context) {
         Log.v(TAG, "[configNotificationChange] ${isNotificationsEnabled()} -> $status")
         preference.edit {
             putBoolean(EnableNotifications, status).commit()
+        }
+    }
+
+    fun isHibernationDisabled(): Boolean {
+        return preference.getBoolean(HAS_DISABLED_HIBERNATION, HAS_DISABLED_HIBERNATION_DEFAULT)
+    }
+
+    fun setHibernatonDisabledStatus(status: Boolean) {
+        Log.v(TAG, "[configHibernationEnabled] ${isHibernationDisabled()} -> $status")
+        preference.edit{
+            putBoolean(HAS_DISABLED_HIBERNATION, status).commit()
         }
     }
 }

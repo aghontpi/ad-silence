@@ -55,4 +55,7 @@
     <string name="liveone" translatable="false">LiveOne</string>
     <string name="beta" translatable="false">(Beta)</string>
     <string name="notifications_optional">Notification updates (optional)</string>
+    <string name="disable_hibernation_text_view">Disable hibernation, so app can run in background without being affected by system</string>
+    <string name="disable_hibernation">Disable Hibernation</string>
+    <string name="disable_hibernation_granted">Hibernation disabled</string>
 </resources>
