@@ -29,6 +29,9 @@ class AdSilenceActivity : Activity() {
         configurePermission()
         configureToggle()
         configureAdditionalViews()
+        // handles hibernation for andrroid >= 10
+        // todo handle hibernation for android <= 10
+        Hibernation(applicationContext, this)
     }
 
     override fun onResume() {
@@ -394,6 +397,7 @@ class AdSilenceActivity : Activity() {
             }
         }
     }
+    
 }
 
 
