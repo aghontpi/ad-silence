@@ -25,9 +25,10 @@
         android:id="@+id/disable_hibernation_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:autoLink="web"
         android:gravity="center"
-        android:paddingTop="12dp"
         android:paddingLeft="4dp"
+        android:paddingTop="12dp"
         android:paddingRight="4dp"
         android:paddingBottom="8dp"
         android:text="@string/disable_hibernation_text_view" />

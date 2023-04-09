@@ -28,7 +28,8 @@
     <string name="not_installed">(non installato)</string>
     <string name="Experimental">Sperimentale</string>
     <string name="notifications_optional">Notifiche (opzionale)</string>
-    <string name="disable_hibernation_text_view">Disattiva l\'ibernazione, in modo che l\'app possa essere eseguita in background senza essere influenzata dal sistema</string>
+    <string name="disable_hibernation_text_view">Disattiva l\'ibernazione, in modo che l\'app possa essere eseguita in background senza essere influenzata dal sistema. https://github.com/aghontpi/ad-silence/wiki/Disable-hibernation/</string>
     <string name="disable_hibernation">Disabilita l\'ibernazione</string>
     <string name="disable_hibernation_granted">Ibernazione disabilitata</string>
+    <string name="help">(help)</string>
 </resources>
