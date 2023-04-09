@@ -13,8 +13,7 @@ class Hibernation(private val context: Context, private val activity: AdSilenceA
     private val TAG = "Hibernation"
     val HIBERNATION_REQUEST_CODE = 6868
 
-    private var future: ListenableFuture<Int> =
-        PackageManagerCompat.getUnusedAppRestrictionsStatus(context)
+    private var future: ListenableFuture<Int>? = null
 
     fun isAppWhitelisted(): Boolean {
         val pm = context.packageManager
@@ -24,14 +23,14 @@ class Hibernation(private val context: Context, private val activity: AdSilenceA
             Log.v(TAG, "[isAppWhitelisted] $result")
             result
         } else {
-            // todo
             Log.v(TAG, "[isAppWhitelisted] version < R")
             false
         }
     }
 
     fun redirectToDisableHibernation() {
-        this.future.addListener({ onResult(future.get()) }, ContextCompat.getMainExecutor(context))
+        this.future = PackageManagerCompat.getUnusedAppRestrictionsStatus(context)
+        this.future?.addListener({ onResult(future!!.get()) }, ContextCompat.getMainExecutor(context))
     }
 
     fun onResult(appRestrictionsStatus: Int) {
@@ -58,6 +57,8 @@ class Hibernation(private val context: Context, private val activity: AdSilenceA
 
     fun handleRestrictions(appRestrictionsStatus: Int) {
         // todo check the statuscode & update shareedPreference to show the status in the mainActivity
+
+        Log.v(TAG, "[hibernation] appRestrictionsStatus: $appRestrictionsStatus")
 
 
         // If your app works primarily in the background, you can ask the user

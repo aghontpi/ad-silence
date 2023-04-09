@@ -408,6 +408,18 @@ class AdSilenceActivity : Activity() {
         val disableHibernationButton = findViewById<Button>(R.id.disable_hibernation_button)
         val disableHibernationTextView = findViewById<TextView>(R.id.disable_hibernation_text_view)
 
+        Log.v(TAG, "sdkInt -> ${Build.VERSION.SDK_INT}: ${Build.VERSION_CODES.R}")
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+            disableHibernationButton?.also {
+                it.visibility = View.GONE
+            }
+            disableHibernationTextView?.also {
+                it.visibility = View.GONE
+            }
+
+            return
+        }
+
         disableHibernationTextView?.also {
             it.visibility = View.VISIBLE
             it.isEnabled = true
