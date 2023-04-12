@@ -10,6 +10,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.text.Html
 import android.text.Html.fromHtml
 import android.text.method.LinkMovementMethod
 import android.util.Log
@@ -422,7 +423,12 @@ class AdSilenceActivity : Activity() {
 
         disableHibernationTextView?.also {
             it.visibility = View.VISIBLE
-            it.isEnabled = true
+            it.movementMethod = LinkMovementMethod.getInstance()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                it.text = fromHtml(getString(R.string.disable_hibernation_text_view), Html.FROM_HTML_MODE_LEGACY)
+            } else {
+                it.text = fromHtml(getString(R.string.disable_hibernation_text_view))
+            }
         }
 
         if (preference.isHibernationDisabled()) {
