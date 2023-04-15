@@ -10,6 +10,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.text.Html
 import android.text.Html.fromHtml
 import android.text.method.LinkMovementMethod
 import android.util.Log
@@ -29,6 +30,7 @@ class AdSilenceActivity : Activity() {
         configurePermission()
         configureToggle()
         configureAdditionalViews()
+        handleHibernation()
     }
 
     override fun onResume() {
@@ -38,6 +40,7 @@ class AdSilenceActivity : Activity() {
         configurePermission()
         configureToggle()
         configureAdditionalViews()
+        handleHibernation()
     }
 
     private fun configurePermission() {
@@ -394,6 +397,62 @@ class AdSilenceActivity : Activity() {
             }
         }
     }
+
+    private fun handleHibernation() {
+        // todo handle hibernation for android <= 10
+        val hibernation = Hibernation(applicationContext, this)
+        val preference = Preference(applicationContext)
+
+        val hibernationStaus = hibernation.isAppWhitelisted()
+        preference.setHibernatonDisabledStatus(hibernationStaus)
+
+        val disableHibernationButton = findViewById<Button>(R.id.disable_hibernation_button)
+        val disableHibernationTextView = findViewById<TextView>(R.id.disable_hibernation_text_view)
+
+        Log.v(TAG, "sdkInt -> ${Build.VERSION.SDK_INT}: ${Build.VERSION_CODES.R}")
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+            disableHibernationButton?.also {
+                it.visibility = View.GONE
+            }
+            disableHibernationTextView?.also {
+                it.visibility = View.GONE
+            }
+
+            return
+        }
+
+        disableHibernationTextView?.also {
+            it.visibility = View.VISIBLE
+            it.movementMethod = LinkMovementMethod.getInstance()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                it.text = fromHtml(getString(R.string.disable_hibernation_text_view), Html.FROM_HTML_MODE_LEGACY)
+            } else {
+                it.text = fromHtml(getString(R.string.disable_hibernation_text_view))
+            }
+        }
+
+        if (preference.isHibernationDisabled()) {
+            // todo set up ui elements to show hibernation is disabled
+            disableHibernationButton?.also {
+                it.text = resources.getString(R.string.disable_hibernation_granted)
+                it.isEnabled = false
+            }
+            return
+        }
+
+        disableHibernationButton?.also {
+            it.text  = resources.getString(R.string.disable_hibernation)
+            it.isEnabled = true
+
+            it.setOnClickListener {
+                // todo investigate, when notification permission is granted, "Unused app settings" is greyed out
+                //   when notification listener is granted permission (unused app settings is not required?)
+                hibernation.redirectToDisableHibernation()
+            }
+        }
+
+    }
+
 }
 
 

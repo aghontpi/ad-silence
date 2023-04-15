@@ -21,6 +21,26 @@
         android:text="@string/grant_permission_button"
         android:textIsSelectable="false" />
 
+    <TextView
+        android:id="@+id/disable_hibernation_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingLeft="4dp"
+        android:paddingTop="12dp"
+        android:paddingRight="4dp"
+        android:paddingBottom="8dp"
+        android:text="@string/disable_hibernation_text_view" />
+<!--       above text contains html link, use from html in code to render the view-->
+
+    <Button
+        android:id="@+id/disable_hibernation_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="false"
+        android:text="@string/disable_hibernation"
+        android:textIsSelectable="false" />
+
     <Switch
         android:id="@+id/enable_notifications_switch"
         android:layout_width="match_parent"

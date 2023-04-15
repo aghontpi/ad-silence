@@ -10,8 +10,8 @@ android {
         applicationId "bluepie.ad_silence"
         minSdk 21
         targetSdk 33
-        versionCode 42
-        versionName "0.6.0"
+        versionCode 43
+        versionName "0.6.1-dev"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -55,6 +55,11 @@ dependencies {
     // note: in the end managed to implement the feature, without needing to use.
     //implementation 'androidx.activity:activity-ktx:1.6.1'
     // requirements for android 13 and above end
+
+
+    // requirements for android 11 and above to use hibernation start
+    implementation("androidx.concurrent:concurrent-futures-ktx:1.1.0")
+    // requirements for android 11 and above to use hibernation end
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
