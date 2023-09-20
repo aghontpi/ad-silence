@@ -33,10 +33,14 @@ fun AppNotification.adString(): List<String> {
             *spotifyTrigger
         )
         SupportedApps.TIDAL -> listOf(context.getString(R.string.tidal_ad_string))
-        SupportedApps.PANDORA -> listOf(context.getString(R.string.pandora_ad_string),
-            context.getString(R.string.pandora_ad_string_2))
-        SupportedApps.LiveOne -> listOf(context.getString(R.string.liveOne_ad_string),
-            context.getString(R.string.liveOne_ad_string_2))
+        SupportedApps.PANDORA -> listOf(
+            context.getString(R.string.pandora_ad_string),
+            context.getString(R.string.pandora_ad_string_2)
+        )
+        SupportedApps.LiveOne -> listOf(
+            context.getString(R.string.liveOne_ad_string),
+            context.getString(R.string.liveOne_ad_string_2)
+        )
         else -> listOf("")
     }
 }
@@ -76,40 +80,56 @@ class NotificationParser(override var appNotification: AppNotification) :
             }"
         )
         val notification = appNotification.notification
-        var fields: ArrayList<*>? = null
-        for (field in notification.contentView.javaClass.declaredFields) {
-            if (field.name == "mActions") {
-                field.isAccessible = true
-                fields = field.get(notification.contentView) as ArrayList<*>
+        try {
+            var fields: ArrayList<*>? = null
+
+            var contentView = notification.contentView;
+
+            if (contentView == null) {
+                contentView = notification.bigContentView;
+            }
+            if (contentView == null) {
+                contentView = notification.headsUpContentView;
             }
 
-        }
-        val info = LinkedList<String>()
-        fields?.toArray()?.forEach { it ->
-            if (it != null) {
-                val fieldFilter = it.javaClass.declaredFields.filter { it.name == "value" }
-                if (fieldFilter.size == 1) {
-                    val field = fieldFilter.get(0)
-                    field.isAccessible = true
 
-                    // necessary fields
-                    when (val v = field.get(it)) {
-                        is String -> info.push(v)
+            for (field in contentView.javaClass.declaredFields) {
+                if (field.name == "mActions") {
+                    field.isAccessible = true
+                    fields = field.get(contentView) as ArrayList<*>
+                }
+
+            }
+            val info = LinkedList<String>()
+            fields?.toArray()?.forEach { it ->
+                if (it != null) {
+                    val fieldFilter = it.javaClass.declaredFields.filter { it.name == "value" }
+                    if (fieldFilter.size == 1) {
+                        val field = fieldFilter.get(0)
+                        field.isAccessible = true
+
+                        // necessary fields
+                        when (val v = field.get(it)) {
+                            is String -> info.push(v)
+                        }
                     }
                 }
             }
-        }
 
-        notificationInfo = info
-        var isAd = false
-        for (adString in appNotification.adString()) {
-            if (info.any { it.contains(adString) }) {
-                Log.v(TAG, "detection in Accuradio: $adString")
-                isAd = true
-                break
+            notificationInfo = info
+            var isAd = false
+            for (adString in appNotification.adString()) {
+                if (info.any { it.contains(adString) }) {
+                    Log.v(TAG, "detection in Accuradio: $adString")
+                    isAd = true
+                    break
+                }
             }
+            return isAd
+        } catch (nullPointerException: NullPointerException) {
+            Log.v(TAG, "Ad-silence exception in parsing accuradio")
+            return false;
         }
-        return isAd
     }
 
     private fun parseSpotifyNotification(): Boolean {
@@ -132,17 +152,23 @@ class NotificationParser(override var appNotification: AppNotification) :
             }
         }
 
-        Log.v(TAG, "[spotify notification][new detection] "+ this.appNotification.notification.extras.toString())
-        Log.v(TAG, "[spotify notification][new detection] ticker: ${this.appNotification.notification.tickerText}" )
+        Log.v(
+            TAG,
+            "[spotify notification][new detection] " + this.appNotification.notification.extras.toString()
+        )
+        Log.v(
+            TAG,
+            "[spotify notification][new detection] ticker: ${this.appNotification.notification.tickerText}"
+        )
 
         // miui & stock seems to have sub & txt reversed, https://github.com/aghontpi/ad-silence/pull/64
         val spotifyAdText = appNotification.context.getString(R.string.spotify_ad2);
 
         if (!isAd) {
             // new add detection method https://github.com/aghontpi/ad-silence/issues/63
-            this.appNotification.notification.extras?.get("android.subText") .toString().run {
+            this.appNotification.notification.extras?.get("android.subText").toString().run {
                 if (this.contains(spotifyAdText) || this == spotifyAdText) {
-                    Log.v(TAG,"[new detection][spotify] detected subTxt: '${this}'")
+                    Log.v(TAG, "[new detection][spotify] detected subTxt: '${this}'")
                     isAd = true
                 }
             }
@@ -150,9 +176,9 @@ class NotificationParser(override var appNotification: AppNotification) :
 
         if (!isAd) {
             // new add detection method https://github.com/aghontpi/ad-silence/issues/63
-            this.appNotification.notification.extras?.get("android.text") .toString().run {
+            this.appNotification.notification.extras?.get("android.text").toString().run {
                 if (this.contains(spotifyAdText) || this == spotifyAdText) {
-                    Log.v(TAG,"[spotify][new detection] detected txt: '${this}'")
+                    Log.v(TAG, "[spotify][new detection] detected txt: '${this}'")
                     isAd = true
                 }
             }
@@ -162,14 +188,22 @@ class NotificationParser(override var appNotification: AppNotification) :
         if (!isAd) {
             //https://github.com/aghontpi/ad-silence/pull/64#issuecomment-1179105786
             //also refer miui & stock comment above
-            listOf(this.appNotification.notification.extras?.get("android.subText"),
+            listOf(
+                this.appNotification.notification.extras?.get("android.subText"),
                 this.appNotification.notification.extras?.get("android.title"),
-                this.appNotification.notification.extras?.get("android.text")).forEach { diffTypeString ->
+                this.appNotification.notification.extras?.get("android.text")
+            ).forEach { diffTypeString ->
                 val songString = diffTypeString.toString();
                 if (songString != "null" && songString is String && !isAd) {
-                    val isMatchFound = appNotification.adString().filter { songString.contains(it, ignoreCase = true) }
+                    val isMatchFound = appNotification.adString()
+                        .filter { songString.contains(it, ignoreCase = true) }
                     if (isMatchFound.isNotEmpty() && !isAd) {
-                        Log.v(TAG, "[spotify][new detection][regex match] found \"${isMatchFound.joinToString(separator=",")}\" against \"$songString\"")
+                        Log.v(
+                            TAG,
+                            "[spotify][new detection][regex match] found \"${
+                                isMatchFound.joinToString(separator = ",")
+                            }\" against \"$songString\""
+                        )
                         isAd = true
                     }
                 }
