@@ -32,15 +32,18 @@ fun AppNotification.adString(): List<String> {
             context.getString(R.string.spotify_ad2),
             *spotifyTrigger
         )
+
         SupportedApps.TIDAL -> listOf(context.getString(R.string.tidal_ad_string))
         SupportedApps.PANDORA -> listOf(
             context.getString(R.string.pandora_ad_string),
             context.getString(R.string.pandora_ad_string_2)
         )
+
         SupportedApps.LiveOne -> listOf(
             context.getString(R.string.liveOne_ad_string),
             context.getString(R.string.liveOne_ad_string_2)
         )
+
         else -> listOf("")
     }
 }
@@ -142,7 +145,12 @@ class NotificationParser(override var appNotification: AppNotification) :
 
         var isAd = false
         this.appNotification.notification.extras?.get("android.title").toString().run {
-            Log.v(TAG, "trying match against \"$this\" with ${appNotification.adString().take(40)}")
+            Log.v(
+                TAG,
+                "trying match against \"$this\" with ${
+                    appNotification.adString().take(10)
+                }...refer app/src/main/java/bluepie/ad_silence/triggers/Spotify.kt in source (ie) github"
+            )
             for (adString in appNotification.adString()) {
                 if (this == adString) {
                     Log.v(TAG, "detection in Spotify: $adString")
