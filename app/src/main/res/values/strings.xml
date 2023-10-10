@@ -49,7 +49,7 @@
     <string name="pandora" translatable="false">Pandora</string>
     <string name="pandora_ad_string" translatable="false">Advertisement</string>
     <string name="pandora_ad_string_2" translatable="false">Skip Limit Exceeded</string>
-    <string name="soundcloud" translatable="false">Pandora</string>
+    <string name="soundcloud" translatable="false">Soundcloud</string>
     <string name="soundcloud_ad_string" translatable="false">Advertisement</string>
     <string name="Experimental">Experimental</string>
     <string name="liveOne_package_name" translatable="false">com.slacker.radio</string>
