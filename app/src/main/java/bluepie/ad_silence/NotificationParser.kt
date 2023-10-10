@@ -20,6 +20,7 @@ fun AppNotification.getApp(): SupportedApps {
         context.getString(R.string.spotify_lite_package_name) -> SupportedApps.SPOTIFY_LITE
         context.getString(R.string.pandora_package_name) -> SupportedApps.PANDORA
         context.getString(R.string.liveOne_package_name) -> SupportedApps.LiveOne
+        context.getString(R.string.soundcloud_package_name) -> SupportedApps.Soundcloud
         else -> SupportedApps.INVALID
     }
 }
@@ -44,6 +45,8 @@ fun AppNotification.adString(): List<String> {
             context.getString(R.string.liveOne_ad_string_2)
         )
 
+        SupportedApps.Soundcloud -> listOf(context.getString(R.string.soundcloud_ad_string))
+
         else -> listOf("")
     }
 }
@@ -66,6 +69,7 @@ class NotificationParser(override var appNotification: AppNotification) :
             SupportedApps.TIDAL -> parseTidalNotification()
             SupportedApps.PANDORA -> parsePandoraNotification()
             SupportedApps.LiveOne -> parseLiveOneNotification()
+            SupportedApps.Soundcloud -> parseSoundCloudNotification()
             else -> false
         }
     }
@@ -264,6 +268,28 @@ class NotificationParser(override var appNotification: AppNotification) :
                 isAd = true
                 break
             }
+        }
+        return isAd
+    }
+
+    private fun parseSoundCloudNotification(): Boolean {
+        var isAd = false
+        try {
+            val text = this.appNotification.notification.extras?.get("android.text").toString()
+            val title = this.appNotification.notification.extras?.get("android.title").toString()
+            Log.v(
+                TAG,
+                "[trying] match against \"$text\", \"$title\" with ${appNotification.adString()}"
+            )
+            for (adString in appNotification.adString()) {
+                if (title == adString || text == adString) {
+                    Log.v(TAG, "[detection][soundcloud]: $adString")
+                    isAd = true
+                    break
+                }
+            }
+        } catch (e: Exception) {
+            Log.v(TAG, "[parseSoundcloud][ex] " + e.message)
         }
         return isAd
     }

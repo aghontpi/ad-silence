@@ -13,3 +13,6 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+/app/debug/
+/app/release/
