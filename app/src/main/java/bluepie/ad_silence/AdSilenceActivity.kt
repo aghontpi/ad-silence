@@ -203,6 +203,7 @@ class AdSilenceActivity : Activity() {
         val isSpotifyLiteInstalled = utils.isSpotifyLiteInstalled(applicationContext)
         val isPandoraInstalled = utils.isPandoraInstalled(applicationContext)
         val isLiveOneInstalled = utils.isLiveOneInstalled(applicationContext)
+        val isSoundcloudInstalled = utils.isSoundcloudInstalled(applicationContext)
         val versionCode = BuildConfig.VERSION_CODE
         val versionName = BuildConfig.VERSION_NAME
 
@@ -334,6 +335,22 @@ class AdSilenceActivity : Activity() {
                     preference.setAppConfigured(
                         SupportedApps.LiveOne,
                         !preference.isAppConfigured(SupportedApps.LiveOne)
+                    )
+                }
+            }
+
+            appSelectionView.findViewById<Switch>(R.id.soundcloud_selection_switch)?.run {
+                this.isEnabled = isSoundcloudInstalled
+                this.isChecked = preference.isAppConfigured(SupportedApps.Soundcloud)
+                "${context.getString(R.string.soundcloud)} ${
+                    if (isSoundcloudInstalled) "" else context.getString(R.string.not_installed)
+                }".also {
+                    this.text = it
+                }
+                this.setOnClickListener{
+                    preference.setAppConfigured(
+                        SupportedApps.Soundcloud,
+                        !preference.isAppConfigured(SupportedApps.Soundcloud)
                     )
                 }
             }

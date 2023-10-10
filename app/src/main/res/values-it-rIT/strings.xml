@@ -11,7 +11,7 @@
     <string name="app_status">Abilita (muta gli annunci)</string>
     <string name="about">informazioni</string>
     <string name="select_apps">seleziona le app</string>
-    <string name="about_window_text">"\"Ad-silence\" silenza la pubblicità di Accuradio, Spotify, Spotify-Lite, Tidal &amp; Pandora. L'app funziona utilizzando le notifiche inviate da queste applicazioni. Solo le notifiche di Accuradio, Spotify, Tidal &amp; Pandora vengono utilizzate per l'identificazione e vengono immediatamente dimenticate. Se non sei convinto a dare il permesso, questa app è OpenSource, quindi puoi controllare il codice sorgente su github.\n
+    <string name="about_window_text">"\"Ad-silence\" silenza la pubblicità di Accuradio, Spotify, Spotify-Lite, Tidal, Pandora &amp; Soundcloud . L'app funziona utilizzando le notifiche inviate da queste applicazioni. Solo le notifiche di Accuradio, Spotify, Tidal, Pandora &amp; Soundcloud vengono utilizzate per l'identificazione e vengono immediatamente dimenticate. Se non sei convinto a dare il permesso, questa app è OpenSource, quindi puoi controllare il codice sorgente su github.\n
         <![CDATA[<br/><br/>]]>
 
         <![CDATA[<b>

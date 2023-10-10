@@ -30,6 +30,9 @@ class Preference(private val context: Context) {
     private val PANDORA_DEFAULT = true
     val LIVEONE = "Liveone"
     private val LIVEONE_DEFAULT = true
+    val SOUNDCLOUD = "Soundcloud"
+    private val SOUNDCLOUD_DEFAULT = true
+
 
     private val Android13NotificationPermissionGranted = "Android13NotificationPermissionGranted"
     private val Android13NotificationPermissionGrantedDefault = false
@@ -62,6 +65,7 @@ class Preference(private val context: Context) {
             SupportedApps.SPOTIFY_LITE-> preference.edit { putBoolean(SPOTIFY_LITE, status).commit() }
             SupportedApps.PANDORA-> preference.edit { putBoolean(PANDORA, status).commit() }
             SupportedApps.LiveOne-> preference.edit { putBoolean(LIVEONE, status).commit() }
+            SupportedApps.Soundcloud-> preference.edit { putBoolean(SOUNDCLOUD, status).commit() }
             else -> {}
         }
     }
@@ -74,6 +78,7 @@ class Preference(private val context: Context) {
             SupportedApps.SPOTIFY_LITE-> preference.getBoolean(SPOTIFY_LITE, SPOTIFY_LITE_DEFAULT)
             SupportedApps.PANDORA-> preference.getBoolean(PANDORA, PANDORA_DEFAULT)
             SupportedApps.LiveOne-> preference.getBoolean(LIVEONE, LIVEONE_DEFAULT)
+            SupportedApps.Soundcloud-> preference.getBoolean(SOUNDCLOUD, SOUNDCLOUD_DEFAULT)
             else -> false
         }
 
