@@ -26,10 +26,11 @@
 ## Supported apps?
 
 |     app      | support |
-| :----------: | :-----: |
+|:------------:| :-----: |
 |  Accuradio   |   yes   |
 |   Spotify    |   yes   |
 | Spotify Lite |   yes   |
+|  Soundcloud  |   yes   |
 |    Tidal     |   yes   |
 |   Pandora    |   yes   |
 
@@ -39,6 +40,7 @@
 - `Tidal` is now supported.
 - `Spotify Lite` is now supported.
 - `Pandora` is now supported.
+- `Soundcloud` is now supported.
 - Easily extensible to other apps.
 
 ## Motivation
