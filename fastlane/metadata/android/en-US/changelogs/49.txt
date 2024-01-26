@@ -1,0 +1,5 @@
+- Add soundcloud Support
+- Update spotify detections, add spotify detection for "Catalan" lang and others
+- Fix Accuradio not working on high dpi devices #102
+- Add info on restricted settings
+- Handle Hibernation
