@@ -31,6 +31,7 @@ class AdSilenceActivity : Activity() {
         configureToggle()
         configureAdditionalViews()
         handleHibernation()
+        configureViewsWithLinks()
     }
 
     override fun onResume() {
@@ -41,6 +42,7 @@ class AdSilenceActivity : Activity() {
         configureToggle()
         configureAdditionalViews()
         handleHibernation()
+        configureViewsWithLinks()
     }
 
     private fun configurePermission() {
@@ -68,11 +70,12 @@ class AdSilenceActivity : Activity() {
     private fun notificationListenerPermission() {
         // for notification listener
         findViewById<Button>(R.id.grant_permission)?.run {
-            when (checkNotificationListenerPermission(applicationContext) ) {
+            when (checkNotificationListenerPermission(applicationContext)) {
                 true -> {
                     this.text = getString(R.string.permission_granted)
                     this.isEnabled = false
                 }
+
                 false -> {
                     findViewById<Switch>(R.id.status_toggle)?.text =
                         getString(R.string.app_status_permission_not_granted)
@@ -105,7 +108,9 @@ class AdSilenceActivity : Activity() {
                 // remove any existing notifications
                 // forground service notifications should be cancelled from service directly
                 Log.v(TAG, "[configNotifications] removing any existing notifications")
-                (getSystemService(NOTIFICATION_SERVICE) as NotificationManager).cancel(NOTIFICATION_ID)
+                (getSystemService(NOTIFICATION_SERVICE) as NotificationManager).cancel(
+                    NOTIFICATION_ID
+                )
             }
 
             // setup views for notification settings
@@ -127,8 +132,13 @@ class AdSilenceActivity : Activity() {
                         // launch permission only if it is not triggered for the user already
                         navigateToSettingsPageToGrantNotificationPostingPermission()
                     }
+
                     false -> {
-                        ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.POST_NOTIFICATIONS), NOTIFICATION_PERMISSION_REQUEST_CODE)
+                        ActivityCompat.requestPermissions(
+                            activity,
+                            arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                            NOTIFICATION_PERMISSION_REQUEST_CODE
+                        )
                     }
                 }
 
@@ -142,10 +152,16 @@ class AdSilenceActivity : Activity() {
         //     clicking on it will tirgger this code, if user cancels, launch settings directly and ask them to grant the permission.
 
         val preference = Preference(applicationContext)
-        Log.v(TAG, "[permission][isAlreadyRequestedNotificationPosting] -> " + preference.isNotificationPermissionRequested())
-        Log.v(TAG, "[permission][isGrantedPostingPermission] -> " + preference.isNotificationPostingPermissionGranted())
+        Log.v(
+            TAG,
+            "[permission][isAlreadyRequestedNotificationPosting] -> " + preference.isNotificationPermissionRequested()
+        )
+        Log.v(
+            TAG,
+            "[permission][isGrantedPostingPermission] -> " + preference.isNotificationPostingPermissionGranted()
+        )
 
-        if (checkNotificationPostingPermission(applicationContext)){
+        if (checkNotificationPostingPermission(applicationContext)) {
             Log.v(TAG, "[permission][notification][permissionGranted]")
             preference.setNotificationPostingPermission(true)
             return
@@ -311,7 +327,9 @@ class AdSilenceActivity : Activity() {
                 this.isEnabled = isPandoraInstalled
                 this.isChecked = preference.isAppConfigured(SupportedApps.PANDORA)
                 "${context.getString(R.string.pandora)} ${
-                    if (isPandoraInstalled) applicationContext.getString(R.string.beta) else context.getString(R.string.not_installed)
+                    if (isPandoraInstalled) applicationContext.getString(R.string.beta) else context.getString(
+                        R.string.not_installed
+                    )
                 }".also {
                     this.text = it
                 }
@@ -327,11 +345,13 @@ class AdSilenceActivity : Activity() {
                 this.isEnabled = isLiveOneInstalled
                 this.isChecked = preference.isAppConfigured(SupportedApps.LiveOne)
                 "${context.getString(R.string.liveone)} ${
-                    if (isLiveOneInstalled) applicationContext.getString(R.string.beta) else context.getString(R.string.not_installed)
+                    if (isLiveOneInstalled) applicationContext.getString(R.string.beta) else context.getString(
+                        R.string.not_installed
+                    )
                 }".also {
                     this.text = it
                 }
-                this.setOnClickListener{
+                this.setOnClickListener {
                     preference.setAppConfigured(
                         SupportedApps.LiveOne,
                         !preference.isAppConfigured(SupportedApps.LiveOne)
@@ -347,7 +367,7 @@ class AdSilenceActivity : Activity() {
                 }".also {
                     this.text = it
                 }
-                this.setOnClickListener{
+                this.setOnClickListener {
                     preference.setAppConfigured(
                         SupportedApps.Soundcloud,
                         !preference.isAppConfigured(SupportedApps.Soundcloud)
@@ -367,7 +387,7 @@ class AdSilenceActivity : Activity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         val preference = Preference(applicationContext)
 
-        when(requestCode) {
+        when (requestCode) {
             NOTIFICATION_PERMISSION_REQUEST_CODE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Log.v(TAG, "[permission] permission granted in dialog")
@@ -406,11 +426,12 @@ class AdSilenceActivity : Activity() {
     private fun postANotificationA13() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             // checking if notification is not present.. start it
-            val mNotificationManager: NotificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-            val notifications  = mNotificationManager.activeNotifications
+            val mNotificationManager: NotificationManager =
+                getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            val notifications = mNotificationManager.activeNotifications
             Log.v(TAG, "[notification-a13][count]" + notifications.size)
-            if(notifications.isEmpty()) {
-             AppNotificationHelper(applicationContext).updateNotification("AdSilence, listening for ads")
+            if (notifications.isEmpty()) {
+                AppNotificationHelper(applicationContext).updateNotification("AdSilence, listening for ads")
             }
         }
     }
@@ -427,7 +448,7 @@ class AdSilenceActivity : Activity() {
         val disableHibernationTextView = findViewById<TextView>(R.id.disable_hibernation_text_view)
 
         Log.v(TAG, "sdkInt -> ${Build.VERSION.SDK_INT}: ${Build.VERSION_CODES.R}")
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
             disableHibernationButton?.also {
                 it.visibility = View.GONE
             }
@@ -441,11 +462,6 @@ class AdSilenceActivity : Activity() {
         disableHibernationTextView?.also {
             it.visibility = View.VISIBLE
             it.movementMethod = LinkMovementMethod.getInstance()
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                it.text = fromHtml(getString(R.string.disable_hibernation_text_view), Html.FROM_HTML_MODE_LEGACY)
-            } else {
-                it.text = fromHtml(getString(R.string.disable_hibernation_text_view))
-            }
         }
 
         if (preference.isHibernationDisabled()) {
@@ -458,7 +474,7 @@ class AdSilenceActivity : Activity() {
         }
 
         disableHibernationButton?.also {
-            it.text  = resources.getString(R.string.disable_hibernation)
+            it.text = resources.getString(R.string.disable_hibernation)
             it.isEnabled = true
 
             it.setOnClickListener {
@@ -468,6 +484,28 @@ class AdSilenceActivity : Activity() {
             }
         }
 
+    }
+
+    private fun setTextFromHtml(view: TextView, value: String) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            view.text = fromHtml(value, Html.FROM_HTML_MODE_LEGACY)
+        } else {
+            view.text = fromHtml(value);
+        }
+
+    }
+
+    private fun configureViewsWithLinks() {
+        val unableToGrantPermissionHelp = findViewById<TextView>(R.id.permission_issue_info)
+        val disableHibernationTextView = findViewById<TextView>(R.id.disable_hibernation_text_view)
+        disableHibernationTextView?.also {
+            setTextFromHtml(it, getString(R.string.disable_hibernation_text_view));
+            it.movementMethod = LinkMovementMethod.getInstance();
+        }
+        unableToGrantPermissionHelp?.also {
+            setTextFromHtml(it, getString(R.string.cant_grant_permission_see_help_here))
+            it.movementMethod = LinkMovementMethod.getInstance();
+        }
     }
 
 }
