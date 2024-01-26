@@ -6,6 +6,7 @@
     <string name="spotify_package_name" translatable="false">com.spotify.music</string>
     <string name="tidal_package_name" translatable="false">com.aspiro.tidal</string>
     <string name="pandora_package_name" translatable="false">com.pandora.android</string>
+    <string name="soundcloud_package_name" translatable="false">com.soundcloud.android</string>
     <string name="accuradio_ad_text">Music will resume</string>
     <string name="grant_permission_text_view">App works by using Notification access</string>
     <string name="grant_notification_posting_permission_text_view">Android 13 and above requires notification posting permission</string>
@@ -20,7 +21,7 @@
     <string name="accuradio" translatable="false">Accuradio</string>
     <string name="spotify" translatable="false">Spotify</string>
     <string name="tidal" translatable="false">Tidal</string>
-    <string name="about_window_text">\"Ad-silence\" silences ads on Accuradio, Spotify, Spotify-Lite, Tidal &amp; Pandora . It works utilizing the notification posted by these apps. Only Accuradio\'s, Spotify\'s, Tidal\'s &amp; Pandora\'s notifications are accessed for identification and discarded immediately after. If you are not confident with the permission, This app is OpenSource, you can check the source on github.
+    <string name="about_window_text">\"Ad-silence\" silences ads on Accuradio, Spotify, Spotify-Lite, Tidal, Pandora &amp; Soundcloud . It works utilizing the notification posted by these apps. Only Accuradio\'s, Spotify\'s, Tidal\'s, Pandora\'s &amp; Soundcloud\'s notifications are accessed for identification and discarded immediately after. If you are not confident with the permission, This app is OpenSource, you can check the source on github.
         <![CDATA[<br/><br/>]]>
 
         <![CDATA[<b>
@@ -48,6 +49,8 @@
     <string name="pandora" translatable="false">Pandora</string>
     <string name="pandora_ad_string" translatable="false">Advertisement</string>
     <string name="pandora_ad_string_2" translatable="false">Skip Limit Exceeded</string>
+    <string name="soundcloud" translatable="false">Soundcloud</string>
+    <string name="soundcloud_ad_string" translatable="false">Advertisement</string>
     <string name="Experimental">Experimental</string>
     <string name="liveOne_package_name" translatable="false">com.slacker.radio</string>
     <string name="liveOne_ad_string" translatable="false">Advertisement</string>
@@ -55,4 +58,9 @@
     <string name="liveone" translatable="false">LiveOne</string>
     <string name="beta" translatable="false">(Beta)</string>
     <string name="notifications_optional">Notification updates (optional)</string>
+    <string name="disable_hibernation_text_view">Disable hibernation, so app can run in background without being affected by system. <![CDATA[  <a href="https://github.com/aghontpi/ad-silence/wiki/Disable-hibernation/">View help here!</a>]]></string>
+    <string name="disable_hibernation">Disable Hibernation</string>
+    <string name="disable_hibernation_granted">Hibernation disabled</string>
+    <string name="help">(help)</string>
+    <string name="cant_grant_permission_see_help_here">Cant grant permission? android introduced restrictions on android 13 and above. <![CDATA[  <a href="https://github.com/aghontpi/ad-silence/wiki/Restricted-Setting-or-Unable-to-grant-notification-permission">View wiki here!</a>]]></string>
 </resources>

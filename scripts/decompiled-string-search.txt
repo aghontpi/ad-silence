@@ -1,0 +1,1027 @@
+
+
+Searching 81 files for "ad_label" (case sensitive, whole word)
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values/strings.xml:
+  109      <string name="ad_header_title_music">Your music will continue after the break</string>
+  110      <string name="ad_header_title_podcast">Your podcast will continue after the break</string>
+  111:     <string name="ad_label">Advertisement</string>
+  112      <string name="ad_partner_preferences_url">https://www.spotify.com/account/ads/</string>
+  113      <string name="ad_positive_feedback_reason_1">"It's relevant to me"</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-af/strings.xml:
+  104      <string name="ad_header_title_music">Jou musiek sal ná die onderbreking verder speel</string>
+  105      <string name="ad_header_title_podcast">Jou podsending sal ná die onderbreking verder speel</string>
+  106:     <string name="ad_label">Advertensie</string>
+  107      <string name="ad_positive_feedback_reason_1">Dit is vir my relevant</string>
+  108      <string name="ad_positive_feedback_reason_2">Ek stel in hierdie handelsmerk belang</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-am/strings.xml:
+  105      <string name="ad_header_title_music">ሙዚቃዎ ከእረፍት በኋላ ይቀጥላል</string>
+  106      <string name="ad_header_title_podcast">ፖድካስትዎ ከእረፍት በኋላ ይቀጥላል</string>
+  107:     <string name="ad_label">ማስታወቂያ</string>
+  108      <string name="ad_positive_feedback_reason_1">ለእኔ ጠቃሚ ነው</string>
+  109      <string name="ad_positive_feedback_reason_2">በዚህ የምርት ስም ላይ ፍላጎት አለኝ</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-ar/strings.xml:
+  104      <string name="ad_header_title_music">ستواصل الاستماع إلى الموسيقى بعد الفاصل</string>
+  105      <string name="ad_header_title_podcast">ستواصل الاستماع إلى برنامج البودكاست بعد الفاصل</string>
+  106:     <string name="ad_label">إعلان</string>
+  107      <string name="ad_positive_feedback_reason_1">يناسب اهتماماتي.</string>
+  108      <string name="ad_positive_feedback_reason_2">أنا مهتم بهذه العلامة التجارية.</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-ar-rEG/strings.xml:
+   77      <string name="ad_header_title_music">هتكمِّل الموسيقى اللي بتسمعها بعد الفاصل<
+   78      <string name="ad_header_title_podcast">هتكمِّل برنامج البودكاست بعد الفاصل</string>
+   79:     <string name="ad_label">إعلان</string>
+   80      <string name="ad_positive_feedback_reason_1">مناسب ليا</string>
+   81      <string name="ad_positive_feedback_reason_2">أنا مهتم بالعلامة التجارية دي</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-ar-rMA/strings.xml:
+   78      <string name="ad_header_title_music">ستستمر الموسيقى الخاصة بك بعد الاستراحة</string>
+   79      <string name="ad_header_title_podcast">سيستمر البودكاست الخاص بك بعد الاستراحة</string>
+   80:     <string name="ad_label">إشهار</string>
+   81      <string name="ad_positive_feedback_reason_1">مناسبني</string>
+   82      <string name="ad_positive_feedback_reason_2">أنا مهتم بهد الماركة</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-ar-rSA/strings.xml:
+   78      <string name="ad_header_title_music">رح يتم متابعة الموسيقى حقتك بعد الفاصل</string>
+   79      <string name="ad_header_title_podcast">رح يتم متابعة البودكاست حقك بعد الفاصل</string>
+   80:     <string name="ad_label">الإعلانات</string>
+   81      <string name="ad_positive_feedback_reason_1">المحتوى ذا من اهتماماتي</string>
+   82      <string name="ad_positive_feedback_reason_2">أنا مهتم بالعلامة التجارية ذي</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-az/strings.xml:
+  104      <string name="ad_header_title_music">Musiqiniz fasilədən sonra davam edəcək</string>
+  105      <string name="ad_header_title_podcast">Podkastınız fasilədən sonra davam edəcək</string>
+  106:     <string name="ad_label">Reklam</string>
+  107      <string name="ad_positive_feedback_reason_1">Mənə aiddir</string>
+  108      <string name="ad_positive_feedback_reason_2">Mən bu brendlə maraqlanıram</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-bg/strings.xml:
+  104      <string name="ad_header_title_music">Музиката ви ще продължи след паузата</string>
+  105      <string name="ad_header_title_podcast">Подкастът ви ще продължи след паузата</string>
+  106:     <string name="ad_label">Реклама</string>
+  107      <string name="ad_positive_feedback_reason_1">Близо е до моите интереси</string>
+  108      <string name="ad_positive_feedback_reason_2">Интересувам се от тази марка</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-bn/strings.xml:
+  104      <string name="ad_header_title_music">বিরতির পরে আপনার মিউজিক চলতে থাকবে</string>
+  105      <string name="ad_header_title_podcast">বিরতির পরে আপনার পডকাস্ট চলতে থাকবে</string>
+  106:     <string name="ad_label">বিজ্ঞাপন</string>
+  107      <string name="ad_positive_feedback_reason_1">এটি আমার জন্য প্রাসঙ্গিক</string>
+  108      <string name="ad_positive_feedback_reason_2">আমি এই ব্র্যান্ডে আগ্রহী</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-bs/strings.xml:
+  104      <string name="ad_header_title_music">Muzika će se nastaviti nakon oglasa</string>
+  105      <string name="ad_header_title_podcast">Podcast će se nastaviti nakon oglasa</string>
+  106:     <string name="ad_label">Oglas</string>
+  107      <string name="ad_positive_feedback_reason_1">Relevantan mi je</string>
+  108      <string name="ad_positive_feedback_reason_2">Zanima me ovaj brend</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-ca/strings.xml:
+  103      <string name="ad_header_title_music">La música continuarà després de la pausa</string>
+  104      <string name="ad_header_title_podcast">El pòdcast continuarà després de la pausa</string>
+  105:     <string name="ad_label">Anunci</string>
+  106      <string name="ad_positive_feedback_reason_1">És rellevant per a mi</string>
+  107      <string name="ad_positive_feedback_reason_2">"M'interessa aquesta marca"</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-cs/strings.xml:
+  105      <string name="ad_header_title_music">Hudba bude pokračovat po přestávce</string>
+  106      <string name="ad_header_title_podcast">Podcast bude pokračovat po přestávce</string>
+  107:     <string name="ad_label">Reklama</string>
+  108      <string name="ad_positive_feedback_reason_1">Je to pro mě relevantní</string>
+  109      <string name="ad_positive_feedback_reason_2">Zajímám se o tuhle značku</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-da/strings.xml:
+  104      <string name="ad_header_title_music">Musikken fortsætter efter pausen</string>
+  105      <string name="ad_header_title_podcast">Podcasten fortsætter efter pausen</string>
+  106:     <string name="ad_label">Reklame</string>
+  107      <string name="ad_positive_feedback_reason_1">Den er relevant for mig</string>
+  108      <string name="ad_positive_feedback_reason_2">Jeg er interesseret i dette brand</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-de/strings.xml:
+  105      <string name="ad_header_title_music">Deine Musik geht nach der Werbepause weiter</string>
+  106      <string name="ad_header_title_podcast">Dein Podcast geht nach der Werbepause weiter</string>
+  107:     <string name="ad_label">Werbung</string>
+  108      <string name="ad_positive_feedback_reason_1">Diese Ad ist für mich relevant</string>
+  109      <string name="ad_positive_feedback_reason_2">Ich interessiere mich für diese Marke</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-el/strings.xml:
+  104      <string name="ad_header_title_music">Η μουσική σου θα συνεχιστεί μετά το διάλειμμα</string>
+  105      <string name="ad_header_title_podcast">Το podcast σου θα συνεχιστεί μετά το διάλειμμα</string>
+  106:     <string name="ad_label">Διαφήμιση</string>
+  107      <string name="ad_positive_feedback_reason_1">Είναι σχετική με αυτά που με ενδιαφέρουν</string>
+  108      <string name="ad_positive_feedback_reason_2">Ενδιαφέρομαι για αυτή την επωνυμία</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-en-rGB/strings.xml:
+  105      <string name="ad_header_title_music">Your music will continue after the break</string>
+  106      <string name="ad_header_title_podcast">Your podcast will continue after the break</string>
+  107:     <string name="ad_label">Advertisement</string>
+  108      <string name="ad_positive_feedback_reason_1">"It's relevant to me"</string>
+  109      <string name="ad_positive_feedback_reason_2">"I'm interested in this brand"</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-es/strings.xml:
+  104      <string name="ad_header_title_music">La música continuará después del anuncio</string>
+  105      <string name="ad_header_title_podcast">El podcast continuará después del anuncio</string>
+  106:     <string name="ad_label">Anuncio</string>
+  107      <string name="ad_positive_feedback_reason_1">Es relevante para mí</string>
+  108      <string name="ad_positive_feedback_reason_2">Me interesa esta marca</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-es-rAR/strings.xml:
+   76      <string name="ad_header_title_music">La música va a continuar después del anuncio</string>
+   77      <string name="ad_header_title_podcast">El podcast va a continuar después del anuncio</string>
+   78:     <string name="ad_label">Anuncio</string>
+   79      <string name="ad_positive_feedback_reason_1">Es relevante para mí</string>
+   80      <string name="ad_positive_feedback_reason_2">Me interesa esta marca</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-es-rES/strings.xml:
+   77      <string name="ad_header_title_music">La música continuará después de la pausa</string>
+   78      <string name="ad_header_title_podcast">El pódcast continuará después de la pausa</string>
+   79:     <string name="ad_label">Publicidad</string>
+   80      <string name="ad_positive_feedback_reason_1">Es relevante para mí</string>
+   81      <string name="ad_positive_feedback_reason_2">Me interesa esta marca</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-es-rMX/strings.xml:
+   76      <string name="ad_header_title_music">La música continuará después del anuncio</string>
+   77      <string name="ad_header_title_podcast">El podcast continuará después del anuncio</string>
+   78:     <string name="ad_label">Anuncio</string>
+   79      <string name="ad_positive_feedback_reason_1">Es relevante para mí</string>
+   80      <string name="ad_positive_feedback_reason_2">Me interesa esta marca</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-et/strings.xml:
+  105      <string name="ad_header_title_music">Sinu muusika jätkub pärast reklaamipausi</string>
+  106      <string name="ad_header_title_podcast">Sinu netisaade jätkub pärast reklaamipausi</string>
+  107:     <string name="ad_label">Reklaam</string>
+  108      <string name="ad_positive_feedback_reason_1">See on minu jaoks asjakohane</string>
+  109      <string name="ad_positive_feedback_reason_2">Mulle pakub see tootemark huvi</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-eu/strings.xml:
+  104      <string name="ad_header_title_music">Atsedenaldiaren ondoren jarraituko du musikak</string>
+  105      <string name="ad_header_title_podcast">Atsedenaldiaren ondoren jarraituko du podcastak</string>
+  106:     <string name="ad_label">Iragarkia</string>
+  107      <string name="ad_positive_feedback_reason_1">Niretzat garrantzitsua da</string>
+  108      <string name="ad_positive_feedback_reason_2">Marka interesatzen zait</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-fa/strings.xml:
+  104      <string name="ad_header_title_music">ادامه موسیقی پس از وقفه تبلیغاتی</string>
+  105      <string name="ad_header_title_podcast">ادامه پادکست پس از وقفه تبلیغاتی</string>
+  106:     <string name="ad_label">تبلیغ</string>
+  107      <string name="ad_positive_feedback_reason_1">به من مرتبط بود</string>
+  108      <string name="ad_positive_feedback_reason_2">به این برند علاقه‌مندم</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-fi/strings.xml:
+  104      <string name="ad_header_title_music">Musiikki jatkuu tauon jälkeen</string>
+  105      <string name="ad_header_title_podcast">Podcast jatkuu tauon jälkeen</string>
+  106:     <string name="ad_label">Mainos</string>
+  107      <string name="ad_positive_feedback_reason_1">Se vastaa kiinnostuksen kohteitani</string>
+  108      <string name="ad_positive_feedback_reason_2">Olen kiinnostunut tästä brändistä</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-fr/strings.xml:
+  104      <string name="ad_header_title_music">Votre musique continuera après la pub</string>
+  105      <string name="ad_header_title_podcast">Votre podcast continuera après la pub</string>
+  106:     <string name="ad_label">Annonce</string>
+  107      <string name="ad_positive_feedback_reason_1">"L'annonce me paraît pertinente"</string>
+  108      <string name="ad_positive_feedback_reason_2">"Cette marque m'intéresse"</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-fr-rCA/strings.xml:
+  104      <string name="ad_header_title_music">La musique se poursuivra après la pause</string>
+  105      <string name="ad_header_title_podcast">Votre balado se poursuivra après la pause</string>
+  106:     <string name="ad_label">Publicité</string>
+  107      <string name="ad_positive_feedback_reason_1">Cette publicité est pertinente pour moi</string>
+  108      <string name="ad_positive_feedback_reason_2">"Cette marque m'intéresse"</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-gl/strings.xml:
+  105      <string name="ad_header_title_music">Seguirás escoitando a túa música despois da pausa</string>
+  106      <string name="ad_header_title_podcast">Seguirás escoitando o teu podcast despois da pausa</string>
+  107:     <string name="ad_label">Publicidade</string>
+  108      <string name="ad_positive_feedback_reason_1">É relevante para min</string>
+  109      <string name="ad_positive_feedback_reason_2">Interésame esta marca</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-gu/strings.xml:
+  105      <string name="ad_header_title_music">વિરામ પછી તમારું મ્યુઝિક ચાલુ રહેશે</string>
+  106      <string name="ad_header_title_podcast">વિરામ પછી તમારું પોડકાસ્ટ ચાલુ રહેશે</string>
+  107:     <string name="ad_label">જાહેરાત</string>
+  108      <string name="ad_positive_feedback_reason_1">તે મારા માટે સુસંગત છે</string>
+  109      <string name="ad_positive_feedback_reason_2">મને આ બ્રાંડમાં રસ છે</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-hi/strings.xml:
+  104      <string name="ad_header_title_music">ब्रेक के बाद आपका म्यूज़िक जारी रहेगा</string>
+  105      <string name="ad_header_title_podcast">ब्रेक के बाद आपका पॉडकास्ट जारी रहेगा</string>
+  106:     <string name="ad_label">विज्ञापन</string>
+  107      <string name="ad_positive_feedback_reason_1">यह मेरे काम का है</string>
+  108      <string name="ad_positive_feedback_reason_2">मुझे इस ब्रैंड में दिलचस्पी है</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-hr/strings.xml:
+  105      <string name="ad_header_title_music">Glazba će se nastaviti nakon pauze</string>
+  106      <string name="ad_header_title_podcast">Podcast će se nastaviti nakon pauze</string>
+  107:     <string name="ad_label">Oglas</string>
+  108      <string name="ad_positive_feedback_reason_1">To mi je relevantno</string>
+  109      <string name="ad_positive_feedback_reason_2">Zanima me ta robna marka</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-hu/strings.xml:
+  105      <string name="ad_header_title_music">A zenéd a szünet után folytatódik</string>
+  106      <string name="ad_header_title_podcast">A podcastod a szünet után folytatódik</string>
+  107:     <string name="ad_label">Reklám</string>
+  108      <string name="ad_positive_feedback_reason_1">Releváns számomra</string>
+  109      <string name="ad_positive_feedback_reason_2">Érdekel ez a márka</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-in/strings.xml:
+  104      <string name="ad_header_title_music">Musikmu akan berlanjut sesudah jeda</string>
+  105      <string name="ad_header_title_podcast">Podcast-mu akan berlanjut sesudah jeda</string>
+  106:     <string name="ad_label">Iklan</string>
+  107      <string name="ad_positive_feedback_reason_1">Relevan bagi saya</string>
+  108      <string name="ad_positive_feedback_reason_2">Saya tertarik pada merek ini</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-is/strings.xml:
+  104      <string name="ad_header_title_music">Tónlistin þín heldur áfram eftir hléið</string>
+  105      <string name="ad_header_title_podcast">Hlaðvarpið þitt heldur áfram eftir hléið</string>
+  106:     <string name="ad_label">Auglýsing</string>
+  107      <string name="ad_positive_feedback_reason_1">Þetta höfðar til mín</string>
+  108      <string name="ad_positive_feedback_reason_2">Ég hef áhuga á þessu vörumerki</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-it/strings.xml:
+  105      <string name="ad_header_title_music">La musica continuerà dopo la pausa</string>
+  106      <string name="ad_header_title_podcast">Il podcast continuerà dopo la pausa</string>
+  107:     <string name="ad_label">Pubblicità</string>
+  108      <string name="ad_positive_feedback_reason_1">È rilevante per me</string>
+  109      <string name="ad_positive_feedback_reason_2">Questo brand mi interessa</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-iw/strings.xml:
+  104      <string name="ad_header_title_music">ניגון המוזיקה ימשיך אחרי הפרסומת</string>
+  105      <string name="ad_header_title_podcast">ניגון הפודקסט ימשיך אחרי הפרסומת</string>
+  106:     <string name="ad_label">פרסומת</string>
+  107      <string name="ad_positive_feedback_reason_1">זה רלוונטי בשבילי</string>
+  108      <string name="ad_positive_feedback_reason_2">המותג הזה מעניין אותי</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-ja/strings.xml:
+  106      <string name="ad_header_title_music">音楽は広告の後に再開されます</string>
+  107      <string name="ad_header_title_podcast">ポッドキャストは広告の後に再開されます</string>
+  108:     <string name="ad_label">広告</string>
+  109      <string name="ad_positive_feedback_reason_1">自分に関係のある内容だから</string>
+  110      <string name="ad_positive_feedback_reason_2">このブランドに関心があるから</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-kn/strings.xml:
+  105      <string name="ad_header_title_music">ವಿರಾಮದ ನಂತರ ನಿಮ್ಮ ಸಂಗೀತ ಪ್ಲೇ ಆಗುವುದು ಮುಂದುವರಿಯುತ್ತದೆ</string>
+  106      <string name="ad_header_title_podcast">ವಿರಾಮದ ನಂತರ ನಿಮ್ಮ ಪಾಡ್‌ಕಾಸ್ಟ್ ಪ್ಲೇ ಆಗುವುದು ಮುಂದುವರಿಯುತ್ತದೆ</string>
+  107:     <string name="ad_label">ಜಾಹೀರಾತು</string>
+  108      <string name="ad_positive_feedback_reason_1">ಇದು ನನಗೆ ಪ್ರಸ್ತುತವಾಗಿದೆ</string>
+  109      <string name="ad_positive_feedback_reason_2">ನನಗೆ ಈ ಬ್ರ್ಯಾಂಡ್‌ನಲ್ಲಿ ಆಸಕ್ತಿ ಇದೆ</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-ko/strings.xml:
+  105      <string name="ad_header_title_music">광고 후 음악이 이어서 재생됩니다</string>
+  106      <string name="ad_header_title_podcast">광고 후 팟캐스트가 이어서 재생됩니다</string>
+  107:     <string name="ad_label">광고</string>
+  108      <string name="ad_positive_feedback_reason_1">나와 관련이 있음</string>
+  109      <string name="ad_positive_feedback_reason_2">이 브랜드에 관심이 있음</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-lt/strings.xml:
+  105      <string name="ad_header_title_music">Po pertraukos galėsi toliau klausytis muzikos</string>
+  106      <string name="ad_header_title_podcast">Po pertraukos galėsi toliau klausytis tinklalaidės</string>
+  107:     <string name="ad_label">Reklama</string>
+  108      <string name="ad_positive_feedback_reason_1">Man tai neaktualu</string>
+  109      <string name="ad_positive_feedback_reason_2">Mane domina šis prekių ženklas</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-lv/strings.xml:
+  104      <string name="ad_header_title_music">Tavas mūzikas atskaņošana turpināsies pēc pārtraukuma</string>
+  105      <string name="ad_header_title_podcast">Tava raidieraksta atskaņošana turpināsies pēc pārtraukuma</string>
+  106:     <string name="ad_label">Reklāma</string>
+  107      <string name="ad_positive_feedback_reason_1">Tā ir man atbilstoša</string>
+  108      <string name="ad_positive_feedback_reason_2">Mani interesē šis zīmols</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-mk/strings.xml:
+  104      <string name="ad_header_title_music">Музиката ќе продолжи по паузата</string>
+  105      <string name="ad_header_title_podcast">Поткастот ќе продолжи по паузата</string>
+  106:     <string name="ad_label">Реклама</string>
+  107      <string name="ad_positive_feedback_reason_1">Релевантно ми е</string>
+  108      <string name="ad_positive_feedback_reason_2">Ме интересира овој бренд</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-ml/strings.xml:
+  105      <string name="ad_header_title_music">ഇടവേളയ്ക്ക് ശേഷം നിങ്ങളുടെ സംഗീതം തുടരും</string>
+  106      <string name="ad_header_title_podcast">ഇടവേളയ്ക്ക് ശേഷം നിങ്ങളുടെ പോഡ്‌കാസ്റ്റ് തുടരും</string>
+  107:     <string name="ad_label">പരസ്യം</string>
+  108      <string name="ad_positive_feedback_reason_1">ഇതെനിക്ക് പ്രസക്തമാണ്</string>
+  109      <string name="ad_positive_feedback_reason_2">എനിക്ക് ഈ ബ്രാൻഡിൽ താൽപ്പര്യമുണ്ട്</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-mr/strings.xml:
+  104      <string name="ad_header_title_music">ब्रेक नंतर तुमचे संगीत पुढे चालू राहील</string>
+  105      <string name="ad_header_title_podcast">ब्रेक नंतर तुमचे पॉडकास्ट पुढे चालू राहील</string>
+  106:     <string name="ad_label">जाहिरात</string>
+  107      <string name="ad_positive_feedback_reason_1">हे माझ्याशी संबंधित आहे</string>
+  108      <string name="ad_positive_feedback_reason_2">मला या ब्रँडमध्ये रस आहे</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-ms/strings.xml:
+  104      <string name="ad_header_title_music">Muzik anda akan diteruskan selepas selingan</string>
+  105      <string name="ad_header_title_podcast">Podcast anda akan diteruskan selepas selingan</string>
+  106:     <string name="ad_label">Iklan</string>
+  107      <string name="ad_positive_feedback_reason_1">Iklan ini relevan bagi saya</string>
+  108      <string name="ad_positive_feedback_reason_2">Saya berminat dengan jenama ini</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-mzn/strings.xml:
+   77      <string name="ad_header_title_music">ادامه موسیقی پس از وقفه تبلیغاتی</string>
+   78      <string name="ad_header_title_podcast">ادامه پادکست پس از وقفه تبلیغاتی</string>
+   79:     <string name="ad_label">تبلیغ</string>
+   80      <string name="ad_positive_feedback_reason_1">به من مرتبط بود</string>
+   81      <string name="ad_positive_feedback_reason_2">به این برند علاقه‌مندم</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-nb/strings.xml:
+  105      <string name="ad_header_title_music">Musikken fortsetter etter pausen</string>
+  106      <string name="ad_header_title_podcast">Podkasten fortsetter etter pausen</string>
+  107:     <string name="ad_label">Annonser</string>
+  108      <string name="ad_positive_feedback_reason_1">Den er relevant for meg</string>
+  109      <string name="ad_positive_feedback_reason_2">Jeg er interessert i denne merkevaren</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-ne/strings.xml:
+  105      <string name="ad_header_title_music">व्यापारिक विश्रामपछि तपाईंले सुनिरहनुभएको सङ्गीत जारी रहने छ</string>
+  106      <string name="ad_header_title_podcast">व्यापारिक विश्रामपछि तपाईंले सुनिरहनुभएको पोडकास्ट जारी रहने छ</string>
+  107:     <string name="ad_label">विज्ञापन</string>
+  108      <string name="ad_positive_feedback_reason_1">यो विज्ञापन मेरा लागि सान्दर्भिक छ</string>
+  109      <string name="ad_positive_feedback_reason_2">मलाई यो ब्रान्डप्रति रुचि छ</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-nl/strings.xml:
+  105      <string name="ad_header_title_music">Je muziek wordt hervat na de onderbreking</string>
+  106      <string name="ad_header_title_podcast">Je podcast wordt hervat na de onderbreking</string>
+  107:     <string name="ad_label">Advertentie</string>
+  108      <string name="ad_positive_feedback_reason_1">Deze is relevant voor mij</string>
+  109      <string name="ad_positive_feedback_reason_2">Ik heb interesse in dit merk</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-or/strings.xml:
+  104      <string name="ad_header_title_music">ବିରତି ପରେ ଆପଣଙ୍କ ମ୍ୟୁଜିକ୍ ଜାରି ରହିବ</string>
+  105      <string name="ad_header_title_podcast">ବିରତି ପରେ ଆପଣଙ୍କ ପୋଡକାଷ୍ଟ ଜାରି ରହିବ</string>
+  106:     <string name="ad_label">ବିଜ୍ଞାପନ</string>
+  107      <string name="ad_positive_feedback_reason_1">ଏହା ମୋ ପାଇଁ ପ୍ରାସଙ୍ଗିକ ଅଟେ</string>
+  108      <string name="ad_positive_feedback_reason_2">ମୁଁ ଏହି ବ୍ରାଣ୍ଡରେ ଆଗ୍ରହୀ ଅଟେ</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-pa-rIN/strings.xml:
+   78      <string name="ad_header_title_music">ਤੁਹਾਡਾ ਸੰਗੀਤ ਬਰੇਕ ਤੋਂ ਬਾਅਦ ਜਾਰੀ ਰਹੇਗਾ</string>
+   79      <string name="ad_header_title_podcast">ਤੁਹਾਡਾ ਪੋਡਕਾਸਟ ਬਰੇਕ ਤੋਂ ਬਾਅਦ ਜਾਰੀ ਰਹੇਗਾ</string>
+   80:     <string name="ad_label">ਵਿਗਿਆਪਨ</string>
+   81      <string name="ad_positive_feedback_reason_1">ਇਹ ਮੇਰੇ ਲਈ ਢੁੱਕਵਾਂ ਹੈ</string>
+   82      <string name="ad_positive_feedback_reason_2">ਮੈਨੂੰ ਇਸ ਬ੍ਰਾਂਡ ਵਿੱਚ ਦਿਲਚਸਪੀ ਹੈ</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-pa-rPK/strings.xml:
+   77      <string name="ad_header_title_music">تہاڈی موسیقی وقفے دے بعد جاری رہے گی</string>
+   78      <string name="ad_header_title_podcast">تہاڈی پوڈکاسٹ وقفے دے بعد جاری رہے گی</string>
+   79:     <string name="ad_label">اشتہار</string>
+   80      <string name="ad_positive_feedback_reason_1">ایہہ میرے متعلق اے</string>
+   81      <string name="ad_positive_feedback_reason_2">میں ایس برانڈ وچ دلچسپی لینا واں</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-pl/strings.xml:
+  104      <string name="ad_header_title_music">Odtworzymy muzykę po przerwie</string>
+  105      <string name="ad_header_title_podcast">Odtworzymy podcast po przerwie</string>
+  106:     <string name="ad_label">Reklama</string>
+  107      <string name="ad_positive_feedback_reason_1">Treść mnie dotyczy</string>
+  108      <string name="ad_positive_feedback_reason_2">Interesuje mnie ta marka</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-pt-rBR/strings.xml:
+  104      <string name="ad_header_title_music">Sua música vai continuar depois do anúncio</string>
+  105      <string name="ad_header_title_podcast">Seu podcast vai continuar depois do anúncio</string>
+  106:     <string name="ad_label">Anúncio</string>
+  107      <string name="ad_positive_feedback_reason_1">É relevante para mim</string>
+  108      <string name="ad_positive_feedback_reason_2">Tenho interesse nessa marca</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-pt-rPT/strings.xml:
+  104      <string name="ad_header_title_music">A tua música continua depois do intervalo</string>
+  105      <string name="ad_header_title_podcast">O teu podcast continua depois do intervalo</string>
+  106:     <string name="ad_label">Publicidade</string>
+  107      <string name="ad_positive_feedback_reason_1">Acho relevante</string>
+  108      <string name="ad_positive_feedback_reason_2">Esta marca interessa-me</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-ro/strings.xml:
+  104      <string name="ad_header_title_music">Muzica va continua după pauză</string>
+  105      <string name="ad_header_title_podcast">Podcastul va continua după pauză</string>
+  106:     <string name="ad_label">Anunț</string>
+  107      <string name="ad_positive_feedback_reason_1">Feedbackul este relevant pentru mine</string>
+  108      <string name="ad_positive_feedback_reason_2">Mă interesează această marcă</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-ru/strings.xml:
+  104      <string name="ad_header_title_music">Воспроизведение продолжится после перерыва</string>
+  105      <string name="ad_header_title_podcast">Воспроизведение продолжится после перерыва</string>
+  106:     <string name="ad_label">Реклама</string>
+  107      <string name="ad_positive_feedback_reason_1">Актуальный для меня контент</string>
+  108      <string name="ad_positive_feedback_reason_2">Меня интересует этот бренд</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-sk/strings.xml:
+  105      <string name="ad_header_title_music">Hudba bude pokračovať po prestávke</string>
+  106      <string name="ad_header_title_podcast">Podcast bude pokračovať po prestávke</string>
+  107:     <string name="ad_label">Reklama</string>
+  108      <string name="ad_positive_feedback_reason_1">Je pre mňa relevantná</string>
+  109      <string name="ad_positive_feedback_reason_2">Zaujímam sa o túto značku</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-sl/strings.xml:
+  104      <string name="ad_header_title_music">Tvoja glasba se bo nadaljevala po oglasu</string>
+  105      <string name="ad_header_title_podcast">Tvoj podkast se bo nadaljeval po oglasu</string>
+  106:     <string name="ad_label">Oglas</string>
+  107      <string name="ad_positive_feedback_reason_1">Pomembno zame</string>
+  108      <string name="ad_positive_feedback_reason_2">Zanima me ta znamka</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-sr/strings.xml:
+  105      <string name="ad_header_title_music">Muzika će se nastaviti posle pauze</string>
+  106      <string name="ad_header_title_podcast">Podkast će se nastaviti posle pauze</string>
+  107:     <string name="ad_label">Oglas</string>
+  108      <string name="ad_positive_feedback_reason_1">Relevantno je za mene</string>
+  109      <string name="ad_positive_feedback_reason_2">Zanima me ovaj brend</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-sv/strings.xml:
+  104      <string name="ad_header_title_music">Musiken fortsätter efter pausen</string>
+  105      <string name="ad_header_title_podcast">Podden fortsätter efter pausen</string>
+  106:     <string name="ad_label">Reklam</string>
+  107      <string name="ad_positive_feedback_reason_1">Den är relevant för mig</string>
+  108      <string name="ad_positive_feedback_reason_2">Jag är intresserad av det här varumärket</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-sw/strings.xml:
+  105      <string name="ad_header_title_music">Muziki wako utaendelea baada ya mapumziko</string>
+  106      <string name="ad_header_title_podcast">Podikasti yako itaendelea baada ya mapumziko</string>
+  107:     <string name="ad_label">Tangazo</string>
+  108      <string name="ad_positive_feedback_reason_1">Linanifaa</string>
+  109      <string name="ad_positive_feedback_reason_2">Ninavutiwa na biashara hii</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-ta/strings.xml:
+  105      <string name="ad_header_title_music">இடைவேளைக்குப் பிறகு உங்கள் இசை தொடர்ந்து பிளேயாகும்</string>
+  106      <string name="ad_header_title_podcast">இடைவேளைக்குப் பிறகு உங்கள் பாட்காஸ்ட் தொடர்ந்து பிளேயாகும்</string>
+  107:     <string name="ad_label">விளம்பரம்</string>
+  108      <string name="ad_positive_feedback_reason_1">இது எனக்குத் தொடர்புடையது</string>
+  109      <string name="ad_positive_feedback_reason_2">இந்தப் பிராண்டு மீது எனக்கு ஆர்வமுள்ளது</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-te/strings.xml:
+  104      <string name="ad_header_title_music">విరామం తర్వాత మీ సంగీతం కొనసాగుతుంది</string>
+  105      <string name="ad_header_title_podcast">విరామం తర్వాత మీ పాడ్‌కాస్ట్ కొనసాగుతుంది</string>
+  106:     <string name="ad_label">ప్రచారం</string>
+  107      <string name="ad_positive_feedback_reason_1">ఇది నాకు సంబంధించినది</string>
+  108      <string name="ad_positive_feedback_reason_2">నాకు ఈ బ్రాండ్ పట్ల ఆసక్తి ఉంది</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-th/strings.xml:
+  105      <string name="ad_header_title_music">เพลงจะเล่นหลังจบโฆษณา</string>
+  106      <string name="ad_header_title_podcast">พอดแคสต์จะเล่นหลังจบโฆษณา</string>
+  107:     <string name="ad_label">โฆษณา</string>
+  108      <string name="ad_positive_feedback_reason_1">โฆษณานี้เกี่ยวข้องกับฉัน</string>
+  109      <string name="ad_positive_feedback_reason_2">ฉันสนใจแบรนด์นี้</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-tl/strings.xml:
+  104      <string name="ad_header_title_music">Magpapatuloy ang music mo pagkatapos ng break</string>
+  105      <string name="ad_header_title_podcast">Magpapatuloy ang podcast mo pagkatapos ng break</string>
+  106:     <string name="ad_label">Advertisement</string>
+  107      <string name="ad_positive_feedback_reason_1">"Relevant 'to sa'kin"</string>
+  108      <string name="ad_positive_feedback_reason_2">"Interesado ako sa brand na 'to"</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-tr/strings.xml:
+  104      <string name="ad_header_title_music">Müziğin aradan sonra devam edecek</string>
+  105      <string name="ad_header_title_podcast">"Podcast'in aradan sonra devam edecek"</string>
+  106:     <string name="ad_label">Reklam</string>
+  107      <string name="ad_positive_feedback_reason_1">Benimle alakalı</string>
+  108      <string name="ad_positive_feedback_reason_2">Bu markayla ilgileniyorum</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-uk/strings.xml:
+  104      <string name="ad_header_title_music">Музика продовжиться після перерви</string>
+  105      <string name="ad_header_title_podcast">Подкаст продовжиться після перерви</string>
+  106:     <string name="ad_label">Реклама</string>
+  107      <string name="ad_positive_feedback_reason_1">Мене це цікавить</string>
+  108      <string name="ad_positive_feedback_reason_2">Мене цікавить цей бренд</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-ur/strings.xml:
+  105      <string name="ad_header_title_music">آپ کی موسیقی وقفے کے بعد شروع ہو جائے گی</string>
+  106      <string name="ad_header_title_podcast">آپ کا پوڈکاسٹ وقفے کے بعد شروع ہو جائے گا</string>
+  107:     <string name="ad_label">اشتہار</string>
+  108      <string name="ad_positive_feedback_reason_1">یہ میرے لیے متعلقہ ہے</string>
+  109      <string name="ad_positive_feedback_reason_2">مجھے اس برانڈ میں دلچسپی ہے</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-vi/strings.xml:
+  105      <string name="ad_header_title_music">Nhạc của bạn sẽ tiếp tục sau quảng cáo</string>
+  106      <string name="ad_header_title_podcast">Podcast của bạn sẽ tiếp tục sau quảng cáo</string>
+  107:     <string name="ad_label">Quảng cáo</string>
+  108      <string name="ad_positive_feedback_reason_1">Quảng cáo có liên quan đến tôi</string>
+  109      <string name="ad_positive_feedback_reason_2">Tôi quan tâm đến thương hiệu này</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-zh/strings.xml:
+   78      <string name="ad_header_title_music">广告之后音乐将会继续播放</string>
+   79      <string name="ad_header_title_podcast">广告之后播客将会继续播放</string>
+   80:     <string name="ad_label">广告</string>
+   81      <string name="ad_positive_feedback_reason_1">它与我很相关</string>
+   82      <string name="ad_positive_feedback_reason_2">我对这个品牌感兴趣</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-zh-rHK/strings.xml:
+  104      <string name="ad_header_title_music">廣告後將繼續播放音樂</string>
+  105      <string name="ad_header_title_podcast">廣告後將繼續播放 Podcast</string>
+  106:     <string name="ad_label">廣告</string>
+  107      <string name="ad_positive_feedback_reason_1">廣告與我相關</string>
+  108      <string name="ad_positive_feedback_reason_2">我對這個品牌感興趣</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-zh-rTW/strings.xml:
+  105      <string name="ad_header_title_music">廣告後將繼續播放音樂</string>
+  106      <string name="ad_header_title_podcast">廣告後將繼續播放 Podcast</string>
+  107:     <string name="ad_label">廣告</string>
+  108      <string name="ad_positive_feedback_reason_1">跟我有關連</string>
+  109      <string name="ad_positive_feedback_reason_2">我對這個品牌感興趣</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-zu/strings.xml:
+  105      <string name="ad_header_title_music">Umculo uzoqhubeka ngemva kwekhefu</string>
+  106      <string name="ad_header_title_podcast">I-podcast yakho izoqhubeka ngemva kwekhefu</string>
+  107:     <string name="ad_label">Isikhangiso</string>
+  108      <string name="ad_positive_feedback_reason_1">Kubalulekile kimi</string>
+  109      <string name="ad_positive_feedback_reason_2">Nginentshisekelo kule bhrendi</string>
+
+74 matches across 74 files
+
+
+
+
+Searching 81 files for "sas_interruption_title" (case sensitive, whole word)
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values/strings.xml:
+ 4391      <string name="samsung_link_account_button_text">Activate</string>
+ 4392      <string name="samsung_shortcut_label">Made for you</string>
+ 4393:     <string name="sas_interruption_title">Your song will play after this short message</string>
+ 4394      <string name="save_profile_dialog_body_failed">Something went wrong. Give it another go?</string>
+ 4395      <string name="save_profile_dialog_cancel_button">Cancel</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-af/strings.xml:
+ 3675      <string name="samsung_link_account_button_text">Aktiveer</string>
+ 3676      <string name="samsung_shortcut_label">Vir jou gemaak</string>
+ 3677:     <string name="sas_interruption_title">Jou liedjie gaan na hierdie kort boodskap speel</string>
+ 3678      <string name="save_profile_dialog_body_failed">Iets het skeefgeloop. Wil jy weer ’n keer probeer?</string>
+ 3679      <string name="save_profile_dialog_cancel_button">Kanselleer</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-am/strings.xml:
+ 3665      <string name="samsung_link_account_button_text">አንቃ</string>
+ 3666      <string name="samsung_shortcut_label">ለእርስዎ የተሰራ</string>
+ 3667:     <string name="sas_interruption_title">ሙዚቃዎ ከዚህ አጭር መልዕክት በኋላ ይጫወታል</string>
+ 3668      <string name="save_profile_dialog_body_failed">የሆነ ስህተት ተከስቷል። እንደገና ይሞክር?</string>
+ 3669      <string name="save_profile_dialog_cancel_button">ሰርዝ</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-ar/strings.xml:
+ 3676      <string name="samsung_link_account_button_text">تفعيل</string>
+ 3677      <string name="samsung_shortcut_label">مُصممة من أجلك</string>
+ 3678:     <string name="sas_interruption_title">ستبدأ بالاستماع إلى أغنيتك بعد هذه الرسالة القصيرة</string>
+ 3679      <string name="save_profile_dialog_body_failed">حدث خطأ ما. هل تريد إعادة المحاولة؟</string>
+ 3680      <string name="save_profile_dialog_cancel_button">إلغاء</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-ar-rEG/strings.xml:
+ 3357      <string name="samsung_link_account_button_text">تشغيل</string>
+ 3358      <string name="samsung_shortcut_label">مخصوص عشانك</string>
+ 3359:     <string name="sas_interruption_title">أغنيتك هتشتغل بعد الرسالة القصيرة دي</string>
+ 3360      <string name="save_profile_dialog_body_failed">فيه حاجة غلط حصلت. تجرَّب مرة تانية؟</string>
+ 3361      <string name="save_profile_dialog_cancel_button">إلغاء</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-ar-rMA/strings.xml:
+ 3382      <string name="samsung_link_account_button_text">فعّل</string>
+ 3383      <string name="samsung_shortcut_label">مصممة على ودك</string>
+ 3384:     <string name="sas_interruption_title">أغنيتك غادي تخدم من بعد هاد الرسالة القصير</string>
+ 3385      <string name="save_profile_dialog_body_failed">شي حاجة ماشي هي هاديك. جرّب مرة أخرى؟</string>
+ 3386      <string name="save_profile_dialog_cancel_button">الغي</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-ar-rSA/strings.xml:
+ 3373      <string name="samsung_link_account_button_text">تفعيل</string>
+ 3374      <string name="samsung_shortcut_label">مصممة علشانك</string>
+ 3375:     <string name="sas_interruption_title">أغنيتك رح تشتغل بعد هذه الرسالة القصيرة</string>
+ 3376      <string name="save_profile_dialog_body_failed">في شي غلط. تبي تحاول مرة ثانية؟</string>
+ 3377      <string name="save_profile_dialog_cancel_button">إلغاء</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-az/strings.xml:
+ 3651      <string name="samsung_link_account_button_text">Aktivləşdir</string>
+ 3652      <string name="samsung_shortcut_label">Sənin üçün hazırlanıb</string>
+ 3653:     <string name="sas_interruption_title">Mahnın bu qısa mesajdan sonra oxudulacaq</string>
+ 3654      <string name="save_profile_dialog_body_failed">Xəta baş verdi. Bir də cəhd edilsin?</string>
+ 3655      <string name="save_profile_dialog_cancel_button">Ləğv et</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-bg/strings.xml:
+ 3650      <string name="samsung_link_account_button_text">Активирайте</string>
+ 3651      <string name="samsung_shortcut_label">Подбрано за вас</string>
+ 3652:     <string name="sas_interruption_title">Песента ви ще се пусне след това кратко съобщение</string>
+ 3653      <string name="save_profile_dialog_body_failed">Нещо се обърка. Опитайте пак?</string>
+ 3654      <string name="save_profile_dialog_cancel_button">Отмяна</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-bn/strings.xml:
+ 3674      <string name="samsung_link_account_button_text">চালু করুন</string>
+ 3675      <string name="samsung_shortcut_label">আপনার জন্য তৈরি</string>
+ 3676:     <string name="sas_interruption_title">আপনার গানটি এই সংক্ষিপ্ত বার্তার পরে চলবে</string>
+ 3677      <string name="save_profile_dialog_body_failed">কিছু সমস্যা হয়েছে। আর একবার চেষ্টা করবেন?</string>
+ 3678      <string name="save_profile_dialog_cancel_button">বাতিল করুন</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-bs/strings.xml:
+ 3646      <string name="samsung_link_account_button_text">Aktiviraj</string>
+ 3647      <string name="samsung_shortcut_label">Napravljeno za vas</string>
+ 3648:     <string name="sas_interruption_title">Pjesma će se reproducirati nakon ove kratke poruke</string>
+ 3649      <string name="save_profile_dialog_body_failed">Nešto nije uredu. Pokušati ponovo?</string>
+ 3650      <string name="save_profile_dialog_cancel_button">Otkaži</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-cs/strings.xml:
+ 3693      <string name="samsung_link_account_button_text">Aktivovat</string>
+ 3694      <string name="samsung_shortcut_label">Vytvořeno pro tebe</string>
+ 3695:     <string name="sas_interruption_title">Skladba se přehraje po této krátké zprávě.</string>
+ 3696      <string name="save_profile_dialog_body_failed">Něco se pokazilo. Zkusíme to ještě jednou?</string>
+ 3697      <string name="save_profile_dialog_cancel_button">Zrušit</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-da/strings.xml:
+ 3672      <string name="samsung_link_account_button_text">Slå til</string>
+ 3673      <string name="samsung_shortcut_label">Specielt til dig</string>
+ 3674:     <string name="sas_interruption_title">Din sang afspilles efter denne korte meddelelse</string>
+ 3675      <string name="save_profile_dialog_body_failed">Der gik noget galt. Vil du prøve igen?</string>
+ 3676      <string name="save_profile_dialog_cancel_button">Annuller</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-de/strings.xml:
+ 3699      <string name="samsung_link_account_button_text">Aktivieren</string>
+ 3700      <string name="samsung_shortcut_label">Für dich erstellt</string>
+ 3701:     <string name="sas_interruption_title">Deinen Song hörst du nach dieser kurzen Botschaft.</string>
+ 3702      <string name="save_profile_dialog_body_failed">Irgendwas ist schiefgelaufen. Willst du es nochmal versuchen?</string>
+ 3703      <string name="save_profile_dialog_cancel_button">Abbrechen</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-el/strings.xml:
+ 3676      <string name="samsung_link_account_button_text">Ενεργοποίηση</string>
+ 3677      <string name="samsung_shortcut_label">Ειδικά για σένα</string>
+ 3678:     <string name="sas_interruption_title">Το τραγούδι σου θα ξεκινήσει μετά από αυτό το σύντομο μήνυμα</string>
+ 3679      <string name="save_profile_dialog_body_failed">Κάτι πήγε στραβά. Θέλεις να ξαναδοκιμάσεις;</string>
+ 3680      <string name="save_profile_dialog_cancel_button">Ακύρωση</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-en-rGB/strings.xml:
+ 3675      <string name="samsung_link_account_button_text">Activate</string>
+ 3676      <string name="samsung_shortcut_label">Made for you</string>
+ 3677:     <string name="sas_interruption_title">Your song will play after this short message</string>
+ 3678      <string name="save_profile_dialog_body_failed">Something went wrong. Give it another go?</string>
+ 3679      <string name="save_profile_dialog_cancel_button">Cancel</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-es/strings.xml:
+ 3693      <string name="samsung_link_account_button_text">Activar</string>
+ 3694      <string name="samsung_shortcut_label">Creada para ti</string>
+ 3695:     <string name="sas_interruption_title">Tu canción se reproducirá después de este breve mensaje</string>
+ 3696      <string name="save_profile_dialog_body_failed">Algo salió mal. ¿Quieres volver a intentarlo?</string>
+ 3697      <string name="save_profile_dialog_cancel_button">Cancelar</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-es-rES/strings.xml:
+ 3392      <string name="samsung_link_account_button_text">Activar</string>
+ 3393      <string name="samsung_shortcut_label">Especialmente para ti</string>
+ 3394:     <string name="sas_interruption_title">Tu canción sonará tras este breve mensaje.</string>
+ 3395      <string name="save_profile_dialog_body_failed">Ha habido un error. ¿Lo intentamos otra vez?</string>
+ 3396      <string name="save_profile_dialog_cancel_button">Cancelar</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-et/strings.xml:
+ 3662      <string name="samsung_link_account_button_text">Aktiveeri</string>
+ 3663      <string name="samsung_shortcut_label">Sulle loodud</string>
+ 3664:     <string name="sas_interruption_title">Sinu laul esitatakse pärast seda lühisõnumit</string>
+ 3665      <string name="save_profile_dialog_body_failed">Midagi läks valesti. Kas proovida veel kord?</string>
+ 3666      <string name="save_profile_dialog_cancel_button">Tühista</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-eu/strings.xml:
+ 3648      <string name="samsung_link_account_button_text">Aktibatu</string>
+ 3649      <string name="samsung_shortcut_label">Zuretzat eginak</string>
+ 3650:     <string name="sas_interruption_title">Mezu labur honen ondoren erreproduzituko da abestia</string>
+ 3651      <string name="save_profile_dialog_body_failed">Arazoren bat egon da. Berriro saiatu nahi duzu?</string>
+ 3652      <string name="save_profile_dialog_cancel_button">Utzi</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-fa/strings.xml:
+ 3651      <string name="samsung_link_account_button_text">فعال کردن</string>
+ 3652      <string name="samsung_shortcut_label">سفارشی برای شما</string>
+ 3653:     <string name="sas_interruption_title">آهنگ شما بعد از این پیام کوتاه پخش خواهد شد</string>
+ 3654      <string name="save_profile_dialog_body_failed">مشکلی روی داد. یک بار دیگر امتحان کنید؟</string>
+ 3655      <string name="save_profile_dialog_cancel_button">لغو</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-fi/strings.xml:
+ 3676      <string name="samsung_link_account_button_text">Aktivoi</string>
+ 3677      <string name="samsung_shortcut_label">Luotu sinulle</string>
+ 3678:     <string name="sas_interruption_title">Kappale soi tämän lyhyen viestin jälkeen</string>
+ 3679      <string name="save_profile_dialog_body_failed">Jotain meni pieleen. Yritetäänkö uudelleen?</string>
+ 3680      <string name="save_profile_dialog_cancel_button">Peruuta</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-fr/strings.xml:
+ 3682      <string name="samsung_link_account_button_text">Activer</string>
+ 3683      <string name="samsung_shortcut_label">Conçu spécialement pour vous</string>
+ 3684:     <string name="sas_interruption_title">Votre titre se lancera après cette courte pub</string>
+ 3685      <string name="save_profile_dialog_body_failed">"Une erreur s'est produite. Vous voulez faire une nouvelle tentative ?"</string>
+ 3686      <string name="save_profile_dialog_cancel_button">Annuler</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-fr-rCA/strings.xml:
+ 3682      <string name="samsung_link_account_button_text">Activer</string>
+ 3683      <string name="samsung_shortcut_label">Juste pour vous</string>
+ 3684:     <string name="sas_interruption_title">Nous ferons jouer votre chanson après ce court message</string>
+ 3685      <string name="save_profile_dialog_body_failed">"Une erreur s'est produite. Voulez-vous réessayer?"</string>
+ 3686      <string name="save_profile_dialog_cancel_button">Annuler</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-gl/strings.xml:
+ 3662      <string name="samsung_link_account_button_text">Activar</string>
+ 3663      <string name="samsung_shortcut_label">Especialmente para ti</string>
+ 3664:     <string name="sas_interruption_title">A canción reproducirase despois desta breve mensaxe</string>
+ 3665      <string name="save_profile_dialog_body_failed">Algo saíu mal. Queres probar outra vez?</string>
+ 3666      <string name="save_profile_dialog_cancel_button">Cancelar</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-gu/strings.xml:
+ 3690      <string name="samsung_link_account_button_text">એક્ટિવેટ કરો</string>
+ 3691      <string name="samsung_shortcut_label">ખાસ તમારા માટે</string>
+ 3692:     <string name="sas_interruption_title">તમારું ગીત આ ટૂંકા સંદેશ પછી વાગશે</string>
+ 3693      <string name="save_profile_dialog_body_failed">કંઈક ભૂલ થઈ. બીજી વાર પ્રયત્ન કરવા માંગો છો?</string>
+ 3694      <string name="save_profile_dialog_cancel_button">રદ કરો</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-hi/strings.xml:
+ 3673      <string name="samsung_link_account_button_text">एक्टिवेट करें</string>
+ 3674      <string name="samsung_shortcut_label">खास आपके लिए</string>
+ 3675:     <string name="sas_interruption_title">आपका गाना इस छोटे से संदेश के बाद चलेगा</string>
+ 3676      <string name="save_profile_dialog_body_failed">कोई गड़बड़ हुई. फिर से कोशिश करेंगे?</string>
+ 3677      <string name="save_profile_dialog_cancel_button">कैंसिल करें</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-hr/strings.xml:
+ 3689      <string name="samsung_link_account_button_text">Aktiviraj</string>
+ 3690      <string name="samsung_shortcut_label">Za vas</string>
+ 3691:     <string name="sas_interruption_title">Vaša pjesma reproducirat će se nakon ove kratke poruke</string>
+ 3692      <string name="save_profile_dialog_body_failed">Došlo je do pogreške. Želite li ponovno pokušati?</string>
+ 3693      <string name="save_profile_dialog_cancel_button">Odustani</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-hu/strings.xml:
+ 3692      <string name="samsung_link_account_button_text">Aktiválás</string>
+ 3693      <string name="samsung_shortcut_label">Neked összeállítva</string>
+ 3694:     <string name="sas_interruption_title">A dal a rövid üzenet után indul</string>
+ 3695      <string name="save_profile_dialog_body_failed">Valami hiba történt. Megpróbálod még egyszer?</string>
+ 3696      <string name="save_profile_dialog_cancel_button">Mégse</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-in/strings.xml:
+ 3676      <string name="samsung_link_account_button_text">Aktifkan</string>
+ 3677      <string name="samsung_shortcut_label">Dibuat untukmu</string>
+ 3678:     <string name="sas_interruption_title">Lagu kamu akan diputar setelah pesan singkat ini</string>
+ 3679      <string name="save_profile_dialog_body_failed">Ada yang salah. Coba sekali lagi?</string>
+ 3680      <string name="save_profile_dialog_cancel_button">Batalkan</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-is/strings.xml:
+ 3657      <string name="samsung_link_account_button_text">Virkja</string>
+ 3658      <string name="samsung_shortcut_label">Fyrir þig</string>
+ 3659:     <string name="sas_interruption_title">Lagið spilast eftir þessi stuttu skilaboð</string>
+ 3660      <string name="save_profile_dialog_body_failed">Eitthvað fór úrskeiðis. Viltu reyna aftur?</string>
+ 3661      <string name="save_profile_dialog_cancel_button">Hætta við</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-it/strings.xml:
+ 3693      <string name="samsung_link_account_button_text">Attiva</string>
+ 3694      <string name="samsung_shortcut_label">Solo per te</string>
+ 3695:     <string name="sas_interruption_title">Il brano inizierà dopo questo breve messaggio</string>
+ 3696      <string name="save_profile_dialog_body_failed">Si è verificato un errore. Ancora un tentativo?</string>
+ 3697      <string name="save_profile_dialog_cancel_button">Annulla</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-iw/strings.xml:
+ 3677      <string name="samsung_link_account_button_text">הפעלה</string>
+ 3678      <string name="samsung_shortcut_label">במיוחד בשבילכם</string>
+ 3679:     <string name="sas_interruption_title">הישר יושמע אחרי ההודעה הקצרה הבאה</string>
+ 3680      <string name="save_profile_dialog_body_failed">משהו השתבש. שננסה שוב?</string>
+ 3681      <string name="save_profile_dialog_cancel_button">ביטול</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-ja/strings.xml:
+ 3701      <string name="samsung_link_account_button_text">有効にする</string>
+ 3702      <string name="samsung_shortcut_label">メイド・フォー・ユー</string>
+ 3703:     <string name="sas_interruption_title">音楽は広告の後に再生されます</string>
+ 3704      <string name="save_profile_dialog_body_failed">エラーが発生したようです。もう一度お試しください。</string>
+ 3705      <string name="save_profile_dialog_cancel_button">キャンセル</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-kn/strings.xml:
+ 3689      <string name="samsung_link_account_button_text">ಆ್ಯಕ್ಟಿವೇಟ್</string>
+ 3690      <string name="samsung_shortcut_label">ನಿಮಗಾಗಿ ಸಿದ್ಧವಾಗಿರುವುದು</string>
+ 3691:     <string name="sas_interruption_title">ಈ ಕಿರು ಸಂದೇಶದ ನಂತರ ನಿಮ್ಮ ಹಾಡು ಪ್ಲೇ ಆಗುತ್ತದೆ</string>
+ 3692      <string name="save_profile_dialog_body_failed">ಏನೋ ತಪ್ಪಾಗಿದೆ. ಇನ್ನೊಂದು ಪ್ರಯತ್ನ ಮಾಡುವಿರಾ?</string>
+ 3693      <string name="save_profile_dialog_cancel_button">ರದ್ದು</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-ko/strings.xml:
+ 3691      <string name="samsung_link_account_button_text">활성화하기</string>
+ 3692      <string name="samsung_shortcut_label">나만의 플레이리스트</string>
+ 3693:     <string name="sas_interruption_title">짧은 광고 후에 곡이 재생됩니다.</string>
+ 3694      <string name="save_profile_dialog_body_failed">문제가 발생했습니다. 다시 시도하시겠어요?</string>
+ 3695      <string name="save_profile_dialog_cancel_button">취소하기</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-lt/strings.xml:
+ 3666      <string name="samsung_link_account_button_text">Aktyvuoti</string>
+ 3667      <string name="samsung_shortcut_label">Sukurta tau</string>
+ 3668:     <string name="sas_interruption_title">Daina bus paleista po šio trumpo pranešimo</string>
+ 3669      <string name="save_profile_dialog_body_failed">Kažkas nepavyko. Bandyti dar kartą?</string>
+ 3670      <string name="save_profile_dialog_cancel_button">Atšaukti</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-lv/strings.xml:
+ 3648      <string name="samsung_link_account_button_text">Aktivizēt</string>
+ 3649      <string name="samsung_shortcut_label">Izveidots tev</string>
+ 3650:     <string name="sas_interruption_title">Tava dziesma tiks atskaņota pēc īsas ziņas</string>
+ 3651      <string name="save_profile_dialog_body_failed">Radās problēma. Vai mēģināt vēlreiz?</string>
+ 3652      <string name="save_profile_dialog_cancel_button">Atcelt</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-mk/strings.xml:
+ 3637      <string name="samsung_link_account_button_text">Активирај</string>
+ 3638      <string name="samsung_shortcut_label">Создадени за тебе</string>
+ 3639:     <string name="sas_interruption_title">Песната ќе се пушти по краткава порака</string>
+ 3640      <string name="save_profile_dialog_body_failed">Нешто не е во ред. Да се обидеме повторно?</string>
+ 3641      <string name="save_profile_dialog_cancel_button">Откажи</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-ml/strings.xml:
+ 3689      <string name="samsung_link_account_button_text">സജീവമാക്കുക</string>
+ 3690      <string name="samsung_shortcut_label">നിങ്ങൾക്കായി സൃഷ്ടിച്ചത്</string>
+ 3691:     <string name="sas_interruption_title">ഈ ഹ്രസ്വ സന്ദേശത്തിന് ശേഷം നിങ്ങളുടെ ഗാനം പ്ലേ ചെയ്യും</string>
+ 3692      <string name="save_profile_dialog_body_failed">എന്തോ കുഴപ്പം സംഭവിച്ചു. ഒരു ശ്രമം കൂടി നടത്തണോ?</string>
+ 3693      <string name="save_profile_dialog_cancel_button">റദ്ദാക്കുക</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-mr/strings.xml:
+ 3673      <string name="samsung_link_account_button_text">सक्रिय करा</string>
+ 3674      <string name="samsung_shortcut_label">तुमच्यासाठी बनवलेले</string>
+ 3675:     <string name="sas_interruption_title">या छोट्याशा संदेशानंतर तुमचे गाणे प्ले केले जाईल</string>
+ 3676      <string name="save_profile_dialog_body_failed">काहीतरी चूक झाली. अजून एक प्रयत्न करायचा का?</string>
+ 3677      <string name="save_profile_dialog_cancel_button">रद्द करा</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-ms/strings.xml:
+ 3676      <string name="samsung_link_account_button_text">Aktifkan</string>
+ 3677      <string name="samsung_shortcut_label">Dibuat untuk anda</string>
+ 3678:     <string name="sas_interruption_title">Lagu anda akan dimainkan selepas pesanan ringkas ini</string>
+ 3679      <string name="save_profile_dialog_body_failed">Ada yang tidak kena. Cuba sekali lagi?</string>
+ 3680      <string name="save_profile_dialog_cancel_button">Batal</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-mzn/strings.xml:
+ 3362      <string name="samsung_link_account_button_text">فعال کردن</string>
+ 3363      <string name="samsung_shortcut_label">سفارشی برای شما</string>
+ 3364:     <string name="sas_interruption_title">آهنگ شما بعد از این پیام کوتاه پخش خواهد شد</string>
+ 3365      <string name="save_profile_dialog_body_failed">مشکلی روی داد. یک بار دیگر امتحان کنید؟</string>
+ 3366      <string name="save_profile_dialog_cancel_button">لغو</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-nb/strings.xml:
+ 3688      <string name="samsung_link_account_button_text">Aktiver</string>
+ 3689      <string name="samsung_shortcut_label">Spesielt for deg</string>
+ 3690:     <string name="sas_interruption_title">Låten din spilles av etter denne korte meldingen</string>
+ 3691      <string name="save_profile_dialog_body_failed">Noe gikk galt. Vil du prøve igjen?</string>
+ 3692      <string name="save_profile_dialog_cancel_button">Avbryt</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-ne/strings.xml:
+ 3666      <string name="samsung_link_account_button_text">सक्रिय गर्नुहोस्</string>
+ 3667      <string name="samsung_shortcut_label">तपाईंका लागि बनाइएको</string>
+ 3668:     <string name="sas_interruption_title">तपाईंको गीत यो छोटो सन्देश सकिएपछि बज्ने छ</string>
+ 3669      <string name="save_profile_dialog_body_failed">केही समस्या भयो। एक पटक फेरि प्रयास गर्ने हो?</string>
+ 3670      <string name="save_profile_dialog_cancel_button">रद्द गर्नुहोस्</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-nl/strings.xml:
+ 3693      <string name="samsung_link_account_button_text">Aanzetten</string>
+ 3694      <string name="samsung_shortcut_label">Speciaal voor jou</string>
+ 3695:     <string name="sas_interruption_title">Het nummer begint na deze korte reclameboodschap.</string>
+ 3696      <string name="save_profile_dialog_body_failed">Er is iets fout gegaan. Nog een keer proberen?</string>
+ 3697      <string name="save_profile_dialog_cancel_button">Annuleren</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-or/strings.xml:
+ 3600      <string name="samsung_link_account_button_text">ସକ୍ରିୟ କରନ୍ତୁ</string>
+ 3601      <string name="samsung_shortcut_label">ଆପଣଙ୍କ ପାଇଁ ତିଆରି କରାଯାଇଛି</string>
+ 3602:     <string name="sas_interruption_title">ଆପଣଙ୍କର ଗୀତ ଏହି କ୍ଷୁଦ୍ର ବାର୍ତ୍ତା ପରେ ଚାଲିବ</string>
+ 3603      <string name="save_profile_dialog_body_failed">କିଛି ଭୁଲ ହୋଇଗଲା। ଏହାକୁ ଆଉଥରେ ଦିଅନ୍ତୁ?</string>
+ 3604      <string name="save_profile_dialog_cancel_button">ବାତିଲ୍ କରନ୍ତୁ</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-pa-rIN/strings.xml:
+ 3375      <string name="samsung_link_account_button_text">ਕਿਰਿਆਸ਼ੀਲ ਕਰੋ</string>
+ 3376      <string name="samsung_shortcut_label">ਖਾਸ ਤੁਹਾਡੇ ਲਈ</string>
+ 3377:     <string name="sas_interruption_title">ਤੁਹਾਡਾ ਗਾਣਾ ਇਸ ਛੋਟੇ ਸੁਨੇਹੇ ਤੋਂ ਬਾਅਦ ਚੱਲੇਗਾ</string>
+ 3378      <string name="save_profile_dialog_body_failed">ਕੁਝ ਗਲਤ ਹੋਇਆ ਹੈ। ਇੱਕ ਵਾਰ ਹੋਰ ਕੋਸ਼ਿਸ਼ ਕਰਨੀ ਹੈ?</string>
+ 3379      <string name="save_profile_dialog_cancel_button">ਰੱਦ ਕਰੋ</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-pa-rPK/strings.xml:
+ 3362      <string name="samsung_link_account_button_text">فعال کرو</string>
+ 3363      <string name="samsung_shortcut_label">تہاڈے لئی بنیا</string>
+ 3364:     <string name="sas_interruption_title">تہاڈا گانا ایس چھوٹے پیغام توں بعد چلایا جاوے گا</string>
+ 3365      <string name="save_profile_dialog_body_failed">کجھ غلط ہو گیا اے۔ اک واری فیر کوشش کرو؟</string>
+ 3366      <string name="save_profile_dialog_cancel_button">منسوخ کرو</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-pl/strings.xml:
+ 3677      <string name="samsung_link_account_button_text">Aktywuj</string>
+ 3678      <string name="samsung_shortcut_label">Przygotowane dla Ciebie</string>
+ 3679:     <string name="sas_interruption_title">Utwór zostanie odtworzony po krótkim komunikacie.</string>
+ 3680      <string name="save_profile_dialog_body_failed">Coś poszło nie tak. Spróbować jeszcze raz?</string>
+ 3681      <string name="save_profile_dialog_cancel_button">Anuluj</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-pt-rBR/strings.xml:
+ 3602      <string name="samsung_link_account_button_text">Ativar</string>
+ 3603      <string name="samsung_shortcut_label">Feito para você</string>
+ 3604:     <string name="sas_interruption_title">Sua música será reproduzida depois desta breve mensagem</string>
+ 3605      <string name="save_profile_dialog_body_failed">Algo deu errado. Quer tentar de novo?</string>
+ 3606      <string name="save_profile_dialog_cancel_button">Cancelar</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-pt-rPT/strings.xml:
+ 3673      <string name="samsung_link_account_button_text">Ativar</string>
+ 3674      <string name="samsung_shortcut_label">Feita para ti</string>
+ 3675:     <string name="sas_interruption_title">A tua música será reproduzida após esta breve mensagem</string>
+ 3676      <string name="save_profile_dialog_body_failed">Ocorreu um problema. Queres tentar outra vez?</string>
+ 3677      <string name="save_profile_dialog_cancel_button">Cancelar</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-ro/strings.xml:
+ 3673      <string name="samsung_link_account_button_text">Activează</string>
+ 3674      <string name="samsung_shortcut_label">Realizate pentru tine</string>
+ 3675:     <string name="sas_interruption_title">Melodia ta se va reda după acest mesaj scurt</string>
+ 3676      <string name="save_profile_dialog_body_failed">Ceva nu a funcționat corect. Încerci încă o dată?</string>
+ 3677      <string name="save_profile_dialog_cancel_button">Anulează</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-ru/strings.xml:
+ 3676      <string name="samsung_link_account_button_text">Активировать</string>
+ 3677      <string name="samsung_shortcut_label">Для тебя</string>
+ 3678:     <string name="sas_interruption_title">Трек начнется после короткого сообщения</string>
+ 3679      <string name="save_profile_dialog_body_failed">Что-то пошло не так. Попробовать еще раз?</string>
+ 3680      <string name="save_profile_dialog_cancel_button">Отмена</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-sk/strings.xml:
+ 3689      <string name="samsung_link_account_button_text">Aktivovať</string>
+ 3690      <string name="samsung_shortcut_label">Len pre teba</string>
+ 3691:     <string name="sas_interruption_title">Skladba sa prehrá po tejto krátkej správe</string>
+ 3692      <string name="save_profile_dialog_body_failed">Niečo sa nepodarilo. Skúsiš to znova?</string>
+ 3693      <string name="save_profile_dialog_cancel_button">Zrušiť</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-sl/strings.xml:
+ 3650      <string name="samsung_link_account_button_text">Aktiviraj</string>
+ 3651      <string name="samsung_shortcut_label">Izbrano zate</string>
+ 3652:     <string name="sas_interruption_title">Tvoja skladba se bo predvajala po tem kratkem sporočilu</string>
+ 3653      <string name="save_profile_dialog_body_failed">Prišlo je do težave. Želiš poskusiti znova?</string>
+ 3654      <string name="save_profile_dialog_cancel_button">Prekliči</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-sr/strings.xml:
+ 3666      <string name="samsung_link_account_button_text">Aktiviraj</string>
+ 3667      <string name="samsung_shortcut_label">Napravljeno za vas</string>
+ 3668:     <string name="sas_interruption_title">Pesma će se pustiti posle ove kratke poruke</string>
+ 3669      <string name="save_profile_dialog_body_failed">Došlo je do greške. Želite ponovo da pokušate?</string>
+ 3670      <string name="save_profile_dialog_cancel_button">Otkaži</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-sv/strings.xml:
+ 3676      <string name="samsung_link_account_button_text">Aktivera</string>
+ 3677      <string name="samsung_shortcut_label">Skapat för dig</string>
+ 3678:     <string name="sas_interruption_title">Låten spelas upp efter det här korta meddelandet</string>
+ 3679      <string name="save_profile_dialog_body_failed">Något blev fel. Vill du försöka igen?</string>
+ 3680      <string name="save_profile_dialog_cancel_button">Avbryt</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-sw/strings.xml:
+ 3666      <string name="samsung_link_account_button_text">Wezesha</string>
+ 3667      <string name="samsung_shortcut_label">Kwa ajili yako</string>
+ 3668:     <string name="sas_interruption_title">Wimbo wako utachezwa baada ya ujumbe huu mfupi</string>
+ 3669      <string name="save_profile_dialog_body_failed">Hitilafu fulani imetokea. Ungependa kujaribu tena?</string>
+ 3670      <string name="save_profile_dialog_cancel_button">Ghairi</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-ta/strings.xml:
+ 3688      <string name="samsung_link_account_button_text">செயல்படுத்து</string>
+ 3689      <string name="samsung_shortcut_label">உங்களுக்காக உருவாக்கியது</string>
+ 3690:     <string name="sas_interruption_title">இந்தக் குறுகிய செய்திக்குப் பிறகு உங்கள் பாடல் பிளே ஆகும்</string>
+ 3691      <string name="save_profile_dialog_body_failed">ஏதோ தவறு நடந்திருக்கிறது. இதை இன்னொரு முறை முயற்சி செய்யவா?</string>
+ 3692      <string name="save_profile_dialog_cancel_button">ரத்துசெய்</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-te/strings.xml:
+ 3672      <string name="samsung_link_account_button_text">యాక్టివేట్ చేయి</string>
+ 3673      <string name="samsung_shortcut_label">మీ కోసం చేయబడింది</string>
+ 3674:     <string name="sas_interruption_title">ఈ చిన్న సందేశం తర్వాత మీ పాట ప్లే అవుతుంది</string>
+ 3675      <string name="save_profile_dialog_body_failed">ఏదో తప్పు జరిగింది. మరొకటి ఉందా?</string>
+ 3676      <string name="save_profile_dialog_cancel_button">రద్దు చేయండి</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-th/strings.xml:
+ 3692      <string name="samsung_link_account_button_text">เปิดใช้งาน</string>
+ 3693      <string name="samsung_shortcut_label">จัดทำขึ้นเพื่อคุณ</string>
+ 3694:     <string name="sas_interruption_title">เพลงของคุณจะเล่นหลังสิ้นสุดข้อความสั้นๆ นี้</string>
+ 3695      <string name="save_profile_dialog_body_failed">มีข้อผิดพลาดบางประการ ลองอีกครั้งไหม</string>
+ 3696      <string name="save_profile_dialog_cancel_button">ยกเลิก</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-tl/strings.xml:
+ 3672      <string name="samsung_link_account_button_text">I-activate</string>
+ 3673      <string name="samsung_shortcut_label">"Para sa 'yo"</string>
+ 3674:     <string name="sas_interruption_title">"Magpe-play ang kanta mo pagkatapos ng patalastas na 'to"</string>
+ 3675      <string name="save_profile_dialog_body_failed">Nagkaproblema. Subukan ulit?</string>
+ 3676      <string name="save_profile_dialog_cancel_button">I-cancel</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-tr/strings.xml:
+ 3677      <string name="samsung_link_account_button_text">Etkinleştir</string>
+ 3678      <string name="samsung_shortcut_label">Senin için hazırlandı</string>
+ 3679:     <string name="sas_interruption_title">Şarkın bu kısa mesajdan sonra çalacak</string>
+ 3680      <string name="save_profile_dialog_body_failed">Bir sorun oluştu. Tekrar denemek ister misin?</string>
+ 3681      <string name="save_profile_dialog_cancel_button">İptal et</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-uk/strings.xml:
+ 3666      <string name="samsung_link_account_button_text">Активувати</string>
+ 3667      <string name="samsung_shortcut_label">Для вас</string>
+ 3668:     <string name="sas_interruption_title">Пісня відтвориться після цього короткого повідомлення</string>
+ 3669      <string name="save_profile_dialog_body_failed">Сталася помилка. Спробувати ще раз?</string>
+ 3670      <string name="save_profile_dialog_cancel_button">Скасувати</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-ur/strings.xml:
+ 3664      <string name="samsung_link_account_button_text">فعال کریں</string>
+ 3665      <string name="samsung_shortcut_label">آپ کے لیے تیار کردہ</string>
+ 3666:     <string name="sas_interruption_title">آپ کا گانا اس مختصر میسج کے بعد پلے ہوگا</string>
+ 3667      <string name="save_profile_dialog_body_failed">کچھ خرابی پیش آگئی ہے۔ ایک اور بار کوشش کرنا چاہتے ہیں؟</string>
+ 3668      <string name="save_profile_dialog_cancel_button">منسوخ کریں</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-vi/strings.xml:
+ 3692      <string name="samsung_link_account_button_text">Kích hoạt</string>
+ 3693      <string name="samsung_shortcut_label">Dành cho bạn</string>
+ 3694:     <string name="sas_interruption_title">Bài hát của bạn sẽ phát sau thông điệp ngắn này</string>
+ 3695      <string name="save_profile_dialog_body_failed">Đã xảy ra lỗi. Bạn có muốn thử lại không?</string>
+ 3696      <string name="save_profile_dialog_cancel_button">Hủy</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-zh/strings.xml:
+ 3384      <string name="samsung_link_account_button_text">激活</string>
+ 3385      <string name="samsung_shortcut_label">为你打造</string>
+ 3386:     <string name="sas_interruption_title">你的歌曲将在此短信送达后播放</string>
+ 3387      <string name="save_profile_dialog_body_failed">出错了。再试一次？</string>
+ 3388      <string name="save_profile_dialog_cancel_button">取消</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-zh-rHK/strings.xml:
+ 3674      <string name="samsung_link_account_button_text">啟用</string>
+ 3675      <string name="samsung_shortcut_label">為你精心打造</string>
+ 3676:     <string name="sas_interruption_title">你的歌曲會在此簡短訊息結束後播放</string>
+ 3677      <string name="save_profile_dialog_body_failed">系統出現錯誤。再試一次？</string>
+ 3678      <string name="save_profile_dialog_cancel_button">取消</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-zh-rTW/strings.xml:
+ 3694      <string name="samsung_link_account_button_text">啟用</string>
+ 3695      <string name="samsung_shortcut_label">專為你打造</string>
+ 3696:     <string name="sas_interruption_title">你的歌曲將在這則簡短訊息後播放</string>
+ 3697      <string name="save_profile_dialog_body_failed">發生錯誤。再試一次？</string>
+ 3698      <string name="save_profile_dialog_cancel_button">取消</string>
+
+~/Development/Reversing/apktool/spotify/decompiled/spotify-8.8.76.667/res/values-zu/strings.xml:
+ 3668      <string name="samsung_link_account_button_text">Lenze lisebenze</string>
+ 3669      <string name="samsung_shortcut_label">Ezenzelwe Wena</string>
+ 3670:     <string name="sas_interruption_title">Ingoma yakho izodlala ngemva kwalo myalezo omfushane</string>
+ 3671      <string name="save_profile_dialog_body_failed">Kukhona okungahambanga kahle. Uyakuzama futhi?</string>
+ 3672      <string name="save_profile_dialog_cancel_button">Khansela</string>
+
+71 matches across 71 files

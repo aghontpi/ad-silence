@@ -11,7 +11,7 @@
     <string name="app_status">Abilita (muta gli annunci)</string>
     <string name="about">informazioni</string>
     <string name="select_apps">seleziona le app</string>
-    <string name="about_window_text">"\"Ad-silence\" silenza la pubblicità di Accuradio, Spotify, Spotify-Lite, Tidal &amp; Pandora. L'app funziona utilizzando le notifiche inviate da queste applicazioni. Solo le notifiche di Accuradio, Spotify, Tidal &amp; Pandora vengono utilizzate per l'identificazione e vengono immediatamente dimenticate. Se non sei convinto a dare il permesso, questa app è OpenSource, quindi puoi controllare il codice sorgente su github.\n
+    <string name="about_window_text">"\"Ad-silence\" silenza la pubblicità di Accuradio, Spotify, Spotify-Lite, Tidal, Pandora &amp; Soundcloud . L'app funziona utilizzando le notifiche inviate da queste applicazioni. Solo le notifiche di Accuradio, Spotify, Tidal, Pandora &amp; Soundcloud vengono utilizzate per l'identificazione e vengono immediatamente dimenticate. Se non sei convinto a dare il permesso, questa app è OpenSource, quindi puoi controllare il codice sorgente su github.\n
         <![CDATA[<br/><br/>]]>
 
         <![CDATA[<b>
@@ -28,4 +28,9 @@
     <string name="not_installed">(non installato)</string>
     <string name="Experimental">Sperimentale</string>
     <string name="notifications_optional">Notifiche (opzionale)</string>
+    <string name="disable_hibernation_text_view">Disattiva l\'ibernazione, in modo che l\'app possa essere eseguita in background senza essere influenzata dal sistema. <![CDATA[  <a href="https://github.com/aghontpi/ad-silence/wiki/Disable-hibernation/">Visualizza aiuto</a>]]></string>
+    <string name="disable_hibernation">Disabilita l\'ibernazione</string>
+    <string name="disable_hibernation_granted">Ibernazione disabilitata</string>
+    <string name="cant_grant_permission_see_help_here">Non puoi concedere l\'autorizzazione? Android ha introdotto restrizioni su Android 13 e versioni successive. <![CDATA[  <a href="https://github.com/aghontpi/ad-silence/wiki/Restricted-Setting-or-Unable-to-grant-notification-permission">Visualizza la wiki qui!</a>]]></string>
+    <string name="help">(help)</string>
 </resources>

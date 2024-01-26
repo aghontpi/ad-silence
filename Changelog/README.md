@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+## [v0.6.1] - (Jan 26, 2024)
+
+**_Stable - requires android 5 or higher_**
+
+## Added
+
+* add soundcloud Support thanks to @Xt3ns1s and several others,  https://github.com/aghontpi/ad-silence/pull/107, https://github.com/aghontpi/ad-silence/pull/108
+* Update spotify detections, add spotify detection for "Catalan" lang and others , thanks to @bluegeekgh https://github.com/aghontpi/ad-silence/pull/106
+* Add info on restricted settings, thanks to @barbe6 https://github.com/aghontpi/ad-silence/pull/117
+* Handle Hibernation in https://github.com/aghontpi/ad-silence/pull/92
+
+## Fixes
+
+* Fix Accuradio not working on high dpi devices https://github.com/aghontpi/ad-silence/pull/102
+
+**You can get it on google playstore & fdroid**
+
+<p align="left">
+<a href='https://play.google.com/store/apps/details?id=bluepie.ad_silence&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' height="72px" src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
+<a href='https://f-droid.org/packages/bluepie.ad_silence/'><img alt='Get it on Fdroid' height="72px" src='https://fdroid.gitlab.io/artwork/badge/get-it-on.png'/></a>
+</p>
+
+
+
+
 ## [v0.6.0] - (Apr 2, 2023)
 
 **_Stable - requires android 5 or higher_**

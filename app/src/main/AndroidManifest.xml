@@ -11,6 +11,7 @@
         <package android:name="com.spotify.lite"/>
         <package android:name="com.pandora.android"/>
         <package android:name="com.slacker.radio"/>
+        <package android:name="com.soundcloud.android"/>
     </queries>
     <application
         android:allowBackup="true"
