@@ -31,5 +31,6 @@
     <string name="disable_hibernation_text_view">Disattiva l\'ibernazione, in modo che l\'app possa essere eseguita in background senza essere influenzata dal sistema. <![CDATA[  <a href="https://github.com/aghontpi/ad-silence/wiki/Disable-hibernation/">Visualizza aiuto</a>]]></string>
     <string name="disable_hibernation">Disabilita l\'ibernazione</string>
     <string name="disable_hibernation_granted">Ibernazione disabilitata</string>
+    <string name="cant_grant_permission_see_help_here">Non puoi concedere l\'autorizzazione? Android ha introdotto restrizioni su Android 13 e versioni successive. <![CDATA[  <a href="https://github.com/aghontpi/ad-silence/wiki/Restricted-Setting-or-Unable-to-grant-notification-permission">Visualizza la wiki qui!</a>]]></string>
     <string name="help">(help)</string>
 </resources>
