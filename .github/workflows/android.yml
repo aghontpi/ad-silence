@@ -8,36 +8,50 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: set up JDK 11
-      uses: actions/setup-java@v3
-      with:
-        java-version: '11'
-        distribution: 'temurin'
-        cache: gradle
-        
-    - name: Decode keystore
-      env:
-        DEBUG_KEYSTORE: ${{ secrets.DEBUG_KEYSTORE }}
-      run: |
-        echo "$DEBUG_KEYSTORE" | base64 --decode > debug.keystore
+      - uses: actions/checkout@v3
 
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-    - name: Build with Gradle
-      env:
-        KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-        KEY_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
-        KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-        
-      run: ./gradlew assembleDebug -Pandroid.injected.signing.store.file=$(pwd)/debug.keystore -Pandroid.injected.signing.store.password=$KEYSTORE_PASSWORD -Pandroid.injected.signing.key.alias=$KEY_ALIAS -Pandroid.injected.signing.key.password=$KEY_PASSWORD
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
 
-    - name: Upload debug build
-      uses: actions/upload-artifact@v3
-      with: 
-        name: ad-silence-debug-build.apk (build artifact)
-        path: app/build/outputs/apk/debug/app-debug.apk
+      - name: Decode keystore
+        env:
+          DEBUG_KEYSTORE: ${{ secrets.DEBUG_KEYSTORE }}
+        run: |
+          echo "$DEBUG_KEYSTORE" | base64 --decode > debug.keystore
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build with Gradle
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          ./gradlew assembleDebug \
+            -Pandroid.injected.signing.store.file=$(pwd)/debug.keystore \
+            -Pandroid.injected.signing.store.password=$KEYSTORE_PASSWORD \
+            -Pandroid.injected.signing.key.alias=$KEY_ALIAS \
+            -Pandroid.injected.signing.key.password=$KEY_PASSWORD
+
+      - name: Upload Debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: ad-silence-debug-build-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Comment Debug APK on PR
+        if: github.event_name == 'pull_request'
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            A debug APK build is available for this pull request.
+            You can download it from [this workflow run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) under the **Artifacts** section.
