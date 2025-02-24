@@ -3,6 +3,11 @@ package bluepie.ad_silence
 import android.app.Notification
 import android.content.Context
 import android.util.Log
+import android.view.View
+import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.RemoteViews
+import android.widget.TextView
 import bluepie.ad_silence.triggers.spotifyTrigger
 import java.util.*
 
@@ -79,63 +84,100 @@ class NotificationParser(override var appNotification: AppNotification) :
         return notificationInfo
     }
 
+
+    private fun extractTextFromRemoteViews(remoteViews: RemoteViews): String {
+        return try {
+            // Inflate the RemoteViews into a temporary container.
+            val parent = FrameLayout(appNotification.context)
+            val view = remoteViews.apply(appNotification.context, parent)
+            // Traverse the inflated view tree to extract all text.
+            extractTextFromView(view)
+        } catch (e: Exception) {
+            Log.e(TAG, "RemoteViews inflation failed", e)
+            ""
+        }
+    }
+
+    private fun extractTextFromView(view: View): String {
+        val sb = StringBuilder()
+        if (view is TextView) {
+            sb.append(view.text)
+        }
+        if (view is ViewGroup) {
+            for (i in 0 until view.childCount) {
+                sb.append(" ").append(extractTextFromView(view.getChildAt(i)))
+            }
+        }
+        return sb.toString().trim()
+    }
+
+    private fun extractTextViaReflection(remoteViews: RemoteViews): String {
+        var fields: ArrayList<*>? = null
+        remoteViews.javaClass.declaredFields.forEach { field ->
+            if (field.name == "mActions") {
+                field.isAccessible = true
+                fields = field.get(remoteViews) as? ArrayList<*>
+            }
+        }
+        val info = LinkedList<String>()
+        fields?.forEach { action ->
+            action?.javaClass?.declaredFields
+                ?.firstOrNull { it.name == "value" }
+                ?.apply { isAccessible = true }
+                ?.let { field ->
+                    when (val v = field.get(action)) {
+                        is String -> info.push(v)
+                    }
+                }
+        }
+        return info.joinToString(" ")
+    }
+
+
     private fun parseAccuradioNotification(): Boolean {
         Log.v(
             TAG,
-            "detected ${appNotification.context.getString(R.string.accuradio)} -> ${
-                appNotification.context.getString(R.string.accuradio_pkg_name)
-            }"
+            "detected ${appNotification.context.getString(R.string.accuradio)} -> " +
+                    appNotification.context.getString(R.string.accuradio_pkg_name)
         )
         val notification = appNotification.notification
         try {
-            var fields: ArrayList<*>? = null
+            var notificationText = ""
+            // remote views
+            val remoteViews = notification.contentView
+                ?: notification.bigContentView
+                ?: notification.headsUpContentView
 
-            var contentView = notification.contentView;
-
-            if (contentView == null) {
-                contentView = notification.bigContentView;
-            }
-            if (contentView == null) {
-                contentView = notification.headsUpContentView;
-            }
-
-
-            for (field in contentView.javaClass.declaredFields) {
-                if (field.name == "mActions") {
-                    field.isAccessible = true
-                    fields = field.get(contentView) as ArrayList<*>
-                }
-
-            }
-            val info = LinkedList<String>()
-            fields?.toArray()?.forEach { it ->
-                if (it != null) {
-                    val fieldFilter = it.javaClass.declaredFields.filter { it.name == "value" }
-                    if (fieldFilter.size == 1) {
-                        val field = fieldFilter.get(0)
-                        field.isAccessible = true
-
-                        // necessary fields
-                        when (val v = field.get(it)) {
-                            is String -> info.push(v)
-                        }
-                    }
+            // Trying to inflate the RemoteViews
+            if (remoteViews != null) {
+                try {
+                    notificationText = extractTextFromRemoteViews(remoteViews)
+                } catch (e: Exception) {
+                    Log.e(TAG, "RemoteViews inflation failed", e)
+                    notificationText = ""
                 }
             }
 
-            notificationInfo = info
+            // fallback to reflection.
+            if (notificationText.isBlank() && remoteViews != null) {
+                notificationText = extractTextViaReflection(remoteViews)
+            }
+
+            notificationInfo = LinkedList<String>().apply { push(notificationText) }
+
+            // Check for ad strings.
             var isAd = false
             for (adString in appNotification.adString()) {
-                if (info.any { it.contains(adString) }) {
+                if (notificationText.contains(adString)) {
                     Log.v(TAG, "detection in Accuradio: $adString")
                     isAd = true
                     break
                 }
             }
             return isAd
-        } catch (nullPointerException: NullPointerException) {
-            Log.v(TAG, "Ad-silence exception in parsing accuradio")
-            return false;
+        } catch (e: Exception) {
+            Log.v(TAG, "Ad-silence exception in parsing accuradio", e)
+            return false
         }
     }
 
