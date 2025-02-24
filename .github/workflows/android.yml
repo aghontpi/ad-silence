@@ -42,7 +42,7 @@ jobs:
             -Pandroid.injected.signing.key.password=$KEY_PASSWORD
 
       - name: Upload Debug APK
-        uses: actions/upload-artifact@v3.1.2
+        uses: actions/upload-artifact@v4
         with:
           name: ad-silence-debug-build-apk
           path: app/build/outputs/apk/debug/app-debug.apk
@@ -54,5 +54,4 @@ jobs:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
             A debug APK build is available for this pull request.
-            
-            You can download the artifact from [this workflow run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) under the **Artifacts** section.
+            You can download it from [this workflow run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) under the **Artifacts** section.
