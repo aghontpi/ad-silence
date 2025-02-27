@@ -4,14 +4,14 @@ plugins {
 }
 
 android {
-    compileSdk 33
+    compileSdk 35
 
     defaultConfig {
         applicationId "bluepie.ad_silence"
         minSdk 21
-        targetSdk 33
+        targetSdk 35
         versionCode 49
-        versionName "0.6.1-prod"
+        versionName "0.6.2-dev"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -32,18 +32,18 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = '1.8'
-    }
-    
-    lintOptions {
-        checkDependencies true
+        jvmTarget = '17'
     }
 
+
     namespace 'bluepie.ad_silence'
+    lint {
+        checkDependencies true
+    }
 }
 
 dependencies {
