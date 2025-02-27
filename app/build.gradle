@@ -39,8 +39,8 @@ android {
         jvmTarget = '17'
     }
 
-
     namespace 'bluepie.ad_silence'
+    
     lint {
         checkDependencies true
     }
