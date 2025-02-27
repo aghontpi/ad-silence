@@ -3,6 +3,9 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <!--android 13 and above-->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <!-- New permission for specialUse foreground service -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE"/>
+
     <queries>
         <!--android 11 and above-->
         <package android:name="com.slipstream.accuradio"/>
@@ -13,6 +16,7 @@
         <package android:name="com.slacker.radio"/>
         <package android:name="com.soundcloud.android"/>
     </queries>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -20,6 +24,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Silence">
+
         <activity
             android:name=".AdSilenceActivity"
             android:excludeFromRecents="true"
@@ -31,13 +36,15 @@
         </activity>
         <service android:name=".NotificationListener"
             android:label="@string/notification_listener_name"
+            android:foregroundServiceType="specialUse"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
             android:exported="false">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="mute_audio_ads_monitor" />
             <intent-filter>
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
     </application>
-
-
 </manifest>
