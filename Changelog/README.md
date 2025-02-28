@@ -5,6 +5,38 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.6.2] - (Feb 28, 2025)
+
+**_Stable - requires android 5 or higher_**
+
+## Added
+
+- Add certificate comparison for faster checks ([159ba1c](https://github.com/aghontpi/ad-silence/commit/159ba1c))
+- Add fastlane configuration ([159ba1c](https://github.com/aghontpi/ad-silence/commit/159ba1c))
+- Support for Android 14 (SDK 34) ([d72783f](https://github.com/aghontpi/ad-silence/commit/d72783f))
+- Support for Android 15 (SDK 35) ([f399fb3](https://github.com/aghontpi/ad-silence/commit/f399fb3))
+
+## Fixes
+
+- Fix Accuradio detection not working ([4c5a6c4](https://github.com/aghontpi/ad-silence/commit/4c5a6c4))
+
+## Updates
+
+- Update Gradle to 8.12 ([f5943a8](https://github.com/aghontpi/ad-silence/commit/f5943a8))
+- Update Android build tools to 8.8.2 ([4486918](https://github.com/aghontpi/ad-silence/commit/4486918))
+- Minor CI & CD improvements ([53b659d](https://github.com/aghontpi/ad-silence/commit/53b659d))
+
+**You can get it on Google Playstore & F-Droid**
+
+<p align="left">
+<a href='https://play.google.com/store/apps/details?id=bluepie.ad_silence&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'>
+    <img alt='Get it on Google Play' height="72px" src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/>
+</a>
+<a href='https://f-droid.org/packages/bluepie.ad_silence/'>
+    <img alt='Get it on F-Droid' height="72px" src='https://fdroid.gitlab.io/artwork/badge/get-it-on.png'/>
+</a>
+</p>
+
 
 ## [v0.6.1] - (Jan 26, 2024)
 
