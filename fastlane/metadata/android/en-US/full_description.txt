@@ -1,7 +1,7 @@
 <b>Features:</b>
 
 - Remove ads in Accuradio, Spotify, Spotify lite, Tidal, Soundcloud, Pandora & LiveOne.
-- Lightweight (~ 150KB)
+- Lightweight (~ 120KB)
 - Minimal UI
 - Configure which apps to remove ads
 - No bloat/external dependencies
