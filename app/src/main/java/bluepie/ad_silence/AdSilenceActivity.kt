@@ -82,7 +82,13 @@ class AdSilenceActivity : Activity() {
                     this.isEnabled = true
                     this.setOnClickListener {
                         Log.v(TAG, "Opening Notification Settings")
-                        startActivity(Intent(getString(R.string.notification_listener_settings_intent)))
+                        val intent = Intent(getString(R.string.notification_listener_settings_intent))
+                        if (intent.resolveActivity(applicationContext.packageManager) != null) {
+                            startActivity(intent)
+                        } else {
+                            Log.w(TAG, "Notification settings activity not found!")
+                            Toast.makeText(applicationContext, "Unable to open notification settings", Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
             }
