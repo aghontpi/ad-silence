@@ -63,4 +63,6 @@
     <string name="disable_hibernation_granted">Hibernation disabled</string>
     <string name="help">(help)</string>
     <string name="cant_grant_permission_see_help_here">Cant grant permission? android introduced restrictions on android 13 and above. <![CDATA[  <a href="https://github.com/aghontpi/ad-silence/wiki/Restricted-Setting-or-Unable-to-grant-notification-permission">View wiki here!</a>]]></string>
+    <string name="car_play_status_not_connected">Android Auto: Not Connected</string>
+    <string name="car_play_status_connected">Android Auto: Connected</string>
 </resources>

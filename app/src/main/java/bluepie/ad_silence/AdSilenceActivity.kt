@@ -4,8 +4,10 @@ import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.media.AudioManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -18,11 +20,15 @@ import android.view.View
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
+import bluepie.ad_silence.detections.isInCarMode
 
 class AdSilenceActivity : Activity() {
 
     private val TAG = "MainActivity"
     private val NOTIFICATION_PERMISSION_REQUEST_CODE = 6969
+    private var isMuted = false
+    val audioManager = applicationContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +38,19 @@ class AdSilenceActivity : Activity() {
         configureAdditionalViews()
         handleHibernation()
         configureViewsWithLinks()
+
+        val testMuteButton = findViewById<Button>(R.id.test_mute_button)
+        testMuteButton.setOnClickListener {
+            if (isMuted) {
+                unmuteMediaStream(this)
+                testMuteButton.text = "Mute Audio"
+                isMuted = false
+            } else {
+                muteMediaStream(this)
+                testMuteButton.text = "Unmute Audio"
+                isMuted = true
+            }
+        }
     }
 
     override fun onResume() {
