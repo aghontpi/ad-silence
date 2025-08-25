@@ -1,4 +1,0 @@
-merge google playstore fix to upstream
-  - appIcon change with support for pandora
-
-https://github.com/aghontpi/ad-silence/issues/19

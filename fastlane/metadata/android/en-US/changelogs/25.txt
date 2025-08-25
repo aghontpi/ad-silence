@@ -1,2 +1,0 @@
-- add LiveOne support (unstable)
-- ui changes
