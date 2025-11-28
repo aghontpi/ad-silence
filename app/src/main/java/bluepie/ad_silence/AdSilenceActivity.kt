@@ -257,6 +257,10 @@ class AdSilenceActivity : Activity() {
             }
         }
 
+        findViewById<Button>(R.id.add_custom_app_btn)?.setOnClickListener {
+            showAddCustomAppDialog()
+        }
+
 
         findViewById<Button>(R.id.select_apps_btn)?.setOnClickListener {
             val appSelectionView = layoutInflater.inflate(R.layout.app_selection, null)
@@ -382,6 +386,10 @@ class AdSilenceActivity : Activity() {
                         !preference.isAppConfigured(SupportedApps.Soundcloud)
                     )
                 }
+            }
+
+            appSelectionView.findViewById<Button>(R.id.btn_add_custom_app)?.setOnClickListener {
+                showAddCustomAppDialog()
             }
 
             val dialog = AlertDialog.Builder(this)
@@ -524,6 +532,24 @@ class AdSilenceActivity : Activity() {
             setTextFromHtml(it, getString(R.string.cant_grant_permission_see_help_here))
             it.movementMethod = LinkMovementMethod.getInstance();
         }
+    }
+
+    private fun showAddCustomAppDialog() {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_add_custom_app, null)
+        val dialog = AlertDialog.Builder(this)
+            .setView(dialogView)
+            .create()
+
+        dialogView.findViewById<Button>(R.id.btn_cancel)?.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialogView.findViewById<Button>(R.id.btn_save)?.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.show()
     }
 
 }

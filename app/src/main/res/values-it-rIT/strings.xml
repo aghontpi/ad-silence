@@ -34,4 +34,15 @@
     <string name="cant_grant_permission_see_help_here">Non puoi concedere l\'autorizzazione? Android ha introdotto restrizioni su Android 13 e versioni successive. <![CDATA[  <a href="https://github.com/aghontpi/ad-silence/wiki/Restricted-Setting-or-Unable-to-grant-notification-permission">Visualizza la wiki qui!</a>]]></string>
     <string name="help">(help)</string>
     <string name="close">Chiudi</string>
+    <!-- Custom App Dialog Strings -->
+    <string name="add_custom_app">Aggiungi app personalizzata</string>
+    <string name="app_name_label">Nome dell\'app</string>
+    <string name="app_name_hint">Inserisci il titolo dell\'applicazione.</string>
+    <string name="package_name_label">Nome pacchetto</string>
+    <string name="package_name_hint">es. com.example.app.</string>
+    <string name="keywords_label">Parole chiave</string>
+    <string name="keywords_description">Separa più parole chiave con virgole.</string>
+    <string name="keywords_hint">Parole chiave di rilevamento (separate da virgola)</string>
+    <string name="cancel">ANNULLA</string>
+    <string name="save">SALVA</string>
 </resources>

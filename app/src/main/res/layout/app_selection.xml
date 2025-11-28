@@ -12,7 +12,7 @@
         android:layout_marginBottom="16dp"
         android:gravity="center"
         android:text="@string/select_apps"
-        android:textColor="@color/text_primary"
+        android:textColor="?android:attr/textColorPrimary"
         android:textSize="20sp"
         android:textStyle="bold" />
 
@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:minHeight="48dp"
                 android:text="@string/accuradio"
-                android:textColor="@color/selector_text_primary" />
+                android:textColor="?android:attr/textColorPrimary" />
 
             <Switch
                 android:id="@+id/spotify_selection_switch"
@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:minHeight="48dp"
                 android:text="@string/spotify"
-                android:textColor="@color/selector_text_primary" />
+                android:textColor="?android:attr/textColorPrimary" />
 
             <Switch
                 android:id="@+id/spotify_lite_selection_switch"
@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:minHeight="48dp"
                 android:text="@string/spotify_lite"
-                android:textColor="@color/selector_text_primary" />
+                android:textColor="?android:attr/textColorPrimary" />
 
             <Switch
                 android:id="@+id/soundcloud_selection_switch"
@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:minHeight="48dp"
                 android:text="@string/soundcloud"
-                android:textColor="@color/selector_text_primary" />
+                android:textColor="?android:attr/textColorPrimary" />
 
             <Switch
                 android:id="@+id/tidal_selection_switch"
@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:minHeight="48dp"
                 android:text="@string/tidal"
-                android:textColor="@color/selector_text_primary" />
+                android:textColor="?android:attr/textColorPrimary" />
 
             <Switch
                 android:id="@+id/pandora_selection_switch"
@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:minHeight="48dp"
                 android:text="@string/pandora"
-                android:textColor="@color/selector_text_primary" />
+                android:textColor="?android:attr/textColorPrimary" />
 
             <Switch
                 android:id="@+id/liveone_selection_switch"
@@ -81,10 +81,19 @@
                 android:layout_height="wrap_content"
                 android:minHeight="48dp"
                 android:text="@string/liveone"
-                android:textColor="@color/selector_text_primary" />
+                android:textColor="?android:attr/textColorPrimary" />
 
         </LinearLayout>
     </ScrollView>
+
+    <Button
+        android:id="@+id/btn_add_custom_app"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/bg_button_rounded"
+        android:text="@string/add_custom_app"
+        android:textColor="?android:attr/textColorPrimary" />
 
     <Button
         android:id="@+id/close_btn"
@@ -92,6 +101,6 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bg_button_rounded"
         android:text="@string/close"
-        android:textColor="@color/text_primary" />
+        android:textColor="?android:attr/textColorPrimary" />
 
 </LinearLayout>

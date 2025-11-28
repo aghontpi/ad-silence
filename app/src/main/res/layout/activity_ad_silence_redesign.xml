@@ -13,7 +13,7 @@
         android:layout_marginBottom="24dp"
         android:gravity="center"
         android:text="AdSilence"
-        android:textColor="@color/text_primary"
+        android:textColor="?android:attr/textColorPrimary"
         android:textSize="20sp"
         android:textStyle="bold" />
 
@@ -40,7 +40,7 @@
                 android:layout_height="32dp"
                 android:layout_marginBottom="12dp"
                 android:src="@android:drawable/ic_popup_reminder"
-                android:tint="@color/text_primary" />
+                android:tint="?android:attr/textColorPrimary" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -48,7 +48,7 @@
                 android:layout_marginBottom="12dp"
                 android:gravity="center"
                 android:text="Notification\nAccess"
-                android:textColor="@color/text_primary"
+                android:textColor="?android:attr/textColorPrimary"
                 android:textSize="14sp" />
 
             <Button
@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_button_rounded"
                 android:text="@string/grant_permission_button"
-                android:textColor="@color/text_primary"
+                android:textColor="?android:attr/textColorPrimary"
                 android:textSize="10sp" />
         </LinearLayout>
 
@@ -77,7 +77,7 @@
                 android:layout_height="32dp"
                 android:layout_marginBottom="12dp"
                 android:src="@android:drawable/ic_lock_idle_low_battery"
-                android:tint="@color/text_primary" />
+                android:tint="?android:attr/textColorPrimary" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -85,7 +85,7 @@
                 android:layout_marginBottom="12dp"
                 android:gravity="center"
                 android:text="Hibernation"
-                android:textColor="@color/text_primary"
+                android:textColor="?android:attr/textColorPrimary"
                 android:textSize="14sp" />
 
             <Button
@@ -94,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_button_rounded"
                 android:text="@string/disable_hibernation"
-                android:textColor="@color/text_primary"
+                android:textColor="?android:attr/textColorPrimary"
                 android:textSize="10sp" />
         </LinearLayout>
     </LinearLayout>
@@ -124,7 +124,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Ad-Muting Status"
-                    android:textColor="@color/text_primary"
+                    android:textColor="?android:attr/textColorPrimary"
                     android:textSize="16sp" />
 
                 <TextView
@@ -132,7 +132,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Enable Ad-Silence"
-                    android:textColor="@color/text_secondary"
+                    android:textColor="?android:attr/textColorSecondary"
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -140,7 +140,7 @@
                 android:id="@+id/status_toggle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:thumbTint="@color/toggle_active" />
+                android:thumbTint="?android:attr/colorAccent" />
         </LinearLayout>
 
         <Button
@@ -150,7 +150,7 @@
             android:layout_marginTop="12dp"
             android:background="@drawable/bg_button_rounded"
             android:text="@string/select_apps"
-            android:textColor="@color/text_primary" />
+            android:textColor="?android:attr/textColorPrimary" />
     </LinearLayout>
 
     <!-- Custom Detection Card -->
@@ -167,7 +167,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:text="Custom Detection"
-            android:textColor="@color/text_primary"
+            android:textColor="?android:attr/textColorPrimary"
             android:textSize="16sp" />
 
         <Button
@@ -176,11 +176,11 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bg_button_rounded"
             android:text="Add Custom App"
-            android:textColor="@color/text_primary" />
+            android:textColor="?android:attr/textColorPrimary" />
 
     </LinearLayout>
     
-    <!-- Hidden views to prevent logic breakage if they are referenced -->
+    <!-- Hidden views to prevent logic breakage if they are referenced, from old design -->
     <TextView
         android:id="@+id/permission_text_view"
         android:layout_width="0dp"

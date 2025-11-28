@@ -64,4 +64,16 @@
     <string name="help">(help)</string>
     <string name="cant_grant_permission_see_help_here">Cant grant permission? android introduced restrictions on android 13 and above. <![CDATA[  <a href="https://github.com/aghontpi/ad-silence/wiki/Restricted-Setting-or-Unable-to-grant-notification-permission">View wiki here!</a>]]></string>
     <string name="close">Close</string>
+
+    <!-- Custom App Dialog Strings -->
+    <string name="add_custom_app">Add Custom App</string>
+    <string name="app_name_label">App Name</string>
+    <string name="app_name_hint">Enter the application title.</string>
+    <string name="package_name_label">Package Name</string>
+    <string name="package_name_hint">e.g., com.example.app.</string>
+    <string name="keywords_label">Keywords</string>
+    <string name="keywords_description">Separate multiple keywords with commas.</string>
+    <string name="keywords_hint">Detection Keywords (comma separated)</string>
+    <string name="cancel">CANCEL</string>
+    <string name="save">SAVE</string>
 </resources>
