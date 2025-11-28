@@ -30,7 +30,7 @@ class AdSilenceActivity : Activity() {
         configurePermission()
         configureToggle()
         configureAdditionalViews()
-        handleHibernation()
+        // handleHibernation()
         configureViewsWithLinks()
     }
 
@@ -41,7 +41,7 @@ class AdSilenceActivity : Activity() {
         configurePermission()
         configureToggle()
         configureAdditionalViews()
-        handleHibernation()
+        // handleHibernation()
         configureViewsWithLinks()
     }
 

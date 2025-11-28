@@ -17,86 +17,58 @@
         android:textSize="20sp"
         android:textStyle="bold" />
 
+    <!-- Notification Access Card -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:baselineAligned="false"
-        android:orientation="horizontal"
-        android:spacing="12dp">
+        android:background="@drawable/bg_card_rounded"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="24dp">
 
-        <!-- Notification Access Card -->
-        <LinearLayout
-            android:layout_width="0dp"
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginBottom="16dp"
+            android:src="@android:drawable/ic_popup_reminder"
+            android:tint="?android:attr/textColorPrimary" />
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_weight="1"
-            android:background="@drawable/bg_card_rounded"
+            android:layout_marginBottom="8dp"
             android:gravity="center"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:text="Notification Access"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="18sp" />
 
-            <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginBottom="12dp"
-                android:src="@android:drawable/ic_popup_reminder"
-                android:tint="?android:attr/textColorPrimary" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:gravity="center"
-                android:text="Notification\nAccess"
-                android:textColor="?android:attr/textColorPrimary"
-                android:textSize="14sp" />
-
-            <Button
-                android:id="@+id/grant_permission"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_button_rounded"
-                android:text="@string/grant_permission_button"
-                android:textColor="?android:attr/textColorPrimary"
-                android:textSize="10sp" />
-        </LinearLayout>
-
-        <!-- Hibernation Card -->
-        <LinearLayout
-            android:layout_width="0dp"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_weight="1"
-            android:background="@drawable/bg_card_rounded"
+            android:layout_marginBottom="16dp"
             android:gravity="center"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:text="@string/grant_permission_text_view"
+            android:textColor="?android:attr/textColorSecondary"
+            android:textSize="14sp" />
 
-            <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginBottom="12dp"
-                android:src="@android:drawable/ic_lock_idle_low_battery"
-                android:tint="?android:attr/textColorPrimary" />
+        <TextView
+            android:id="@+id/permission_issue_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:gravity="center"
+            android:text="@string/cant_grant_permission_see_help_here"
+            android:textColor="?android:attr/textColorSecondary"
+            android:textSize="12sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:gravity="center"
-                android:text="Hibernation"
-                android:textColor="?android:attr/textColorPrimary"
-                android:textSize="14sp" />
-
-            <Button
-                android:id="@+id/disable_hibernation_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_button_rounded"
-                android:text="@string/disable_hibernation"
-                android:textColor="?android:attr/textColorPrimary"
-                android:textSize="10sp" />
-        </LinearLayout>
+        <Button
+            android:id="@+id/grant_permission"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_button_rounded"
+            android:text="@string/grant_permission_button"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="14sp" />
     </LinearLayout>
 
     <!-- Ad-Muting Status Card -->
