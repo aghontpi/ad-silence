@@ -384,7 +384,16 @@ class AdSilenceActivity : Activity() {
                 }
             }
 
-            AlertDialog.Builder(this).setView(appSelectionView).show()
+            val dialog = AlertDialog.Builder(this)
+                .setView(appSelectionView)
+                .create()
+
+            appSelectionView.findViewById<Button>(R.id.close_btn)?.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+            dialog.show()
         }
     }
 
