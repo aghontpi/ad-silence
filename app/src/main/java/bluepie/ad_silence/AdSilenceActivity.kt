@@ -26,7 +26,7 @@ class AdSilenceActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.ad_silence_activity)
+        setContentView(R.layout.activity_ad_silence_redesign)
         configurePermission()
         configureToggle()
         configureAdditionalViews()
@@ -77,7 +77,7 @@ class AdSilenceActivity : Activity() {
                 }
 
                 false -> {
-                    findViewById<Switch>(R.id.status_toggle)?.text =
+                    findViewById<TextView>(R.id.status_subtitle)?.text =
                         getString(R.string.app_status_permission_not_granted)
                     this.isEnabled = true
                     this.setOnClickListener {
@@ -188,15 +188,18 @@ class AdSilenceActivity : Activity() {
         val appNotificationHelper = AppNotificationHelper(applicationContext)
         val utils = Utils()
 
+        val statusSubtitle = findViewById<TextView>(R.id.status_subtitle)
+        statusToggle.text = "" // Ensure switch has no text
+
         if (!checkNotificationListenerPermission(applicationContext)) {
             // even if appNotification is disabled, while granting permission
             //   force it to be enabled, otherwise it wont be listed in permission window
             appNotificationHelper.enable()
             utils.disableSwitch(statusToggle)
-            statusToggle.text = getString(R.string.app_status_permission_not_granted)
+            statusSubtitle?.text = getString(R.string.app_status_permission_not_granted)
             return
         } else {
-            statusToggle.text = getString(R.string.app_status)
+            statusSubtitle?.text = getString(R.string.app_status)
             utils.enableSwitch(statusToggle)
         }
 
