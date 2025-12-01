@@ -67,6 +67,8 @@ class NotificationParser(override var appNotification: AppNotification) :
     private val TAG = "NotificationParser"
     private var notificationInfo: LinkedList<String> = LinkedList()
 
+    private var matchedText: String = "";
+
     override fun isAd(): Boolean {
         return when (appNotification.getApp()) {
             SupportedApps.ACCURADIO -> parseAccuradioNotification()
@@ -163,17 +165,27 @@ class NotificationParser(override var appNotification: AppNotification) :
                 notificationText = extractTextViaReflection(remoteViews)
             }
 
-            notificationInfo = LinkedList<String>().apply { push(notificationText) }
+            var notificationInfo: LinkedList<String> = LinkedList()
 
-            // Check for ad strings.
+            notificationInfo.push(notificationText);
+
+            listOf("android.title", "android.text", "android.subText").forEach { key ->
+                appNotification.notification.extras?.get(key)?.toString()
+                    ?.takeIf { it.isNotEmpty() }
+                    ?.let { notificationInfo.push(it) }
+            }
+
             var isAd = false
             for (adString in appNotification.adString()) {
-                if (notificationText.contains(adString)) {
+                Log.v(TAG, "trying match against \"$notificationInfo\" with $adString")
+                if (notificationInfo.any { it.contains(adString, ignoreCase = true) }) {
                     Log.v(TAG, "detection in Accuradio: $adString")
+                    matchedText = adString;
                     isAd = true
                     break
                 }
             }
+
             return isAd
         } catch (e: Exception) {
             Log.v(TAG, "Ad-silence exception in parsing accuradio", e)
@@ -199,6 +211,7 @@ class NotificationParser(override var appNotification: AppNotification) :
             )
             for (adString in appNotification.adString()) {
                 if (this == adString) {
+                    matchedText = adString;
                     Log.v(TAG, "detection in Spotify: $adString")
                     isAd = true
                     break
@@ -223,6 +236,7 @@ class NotificationParser(override var appNotification: AppNotification) :
             this.appNotification.notification.extras?.get("android.subText").toString().run {
                 if (this.contains(spotifyAdText) || this == spotifyAdText) {
                     Log.v(TAG, "[new detection][spotify] detected subTxt: '${this}'")
+                    matchedText = this;
                     isAd = true
                 }
             }
@@ -233,6 +247,7 @@ class NotificationParser(override var appNotification: AppNotification) :
             this.appNotification.notification.extras?.get("android.text").toString().run {
                 if (this.contains(spotifyAdText) || this == spotifyAdText) {
                     Log.v(TAG, "[spotify][new detection] detected txt: '${this}'")
+                    matchedText = this;
                     isAd = true
                 }
             }
@@ -258,6 +273,7 @@ class NotificationParser(override var appNotification: AppNotification) :
                                 isMatchFound.joinToString(separator = ",")
                             }\" against \"$songString\""
                         )
+                        matchedText = songString;
                         isAd = true
                     }
                 }
