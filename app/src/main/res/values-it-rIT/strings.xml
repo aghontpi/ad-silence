@@ -45,4 +45,11 @@
     <string name="keywords_hint">Parole chiave di rilevamento (separate da virgola)</string>
     <string name="cancel">ANNULLA</string>
     <string name="save">SALVA</string>
+    <string name="notification_access">Accesso alle notifiche</string>
+    <string name="ad_muting_status">Stato silenziamento annunci</string>
+    <string name="enable_ad_silence">Abilita Ad-Silence</string>
+    <string name="debug_log">Log di debug</string>
+    <string name="custom_detection">Rilevamento personalizzato</string>
+    <string name="mock">Mock</string>
+    <string name="clear">Pulisci</string>
 </resources>

@@ -76,4 +76,11 @@
     <string name="keywords_hint">Detection Keywords (comma separated)</string>
     <string name="cancel">CANCEL</string>
     <string name="save">SAVE</string>
+    <string name="notification_access">Notification Access</string>
+    <string name="ad_muting_status">Ad-Muting Status</string>
+    <string name="enable_ad_silence">Enable Ad-Silence</string>
+    <string name="debug_log">Debug Log</string>
+    <string name="custom_detection">Custom Detection</string>
+    <string name="mock">Mock</string>
+    <string name="clear">Clear</string>
 </resources>

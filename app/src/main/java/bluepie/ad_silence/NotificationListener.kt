@@ -49,7 +49,13 @@ class NotificationListener : NotificationListenerService() {
                         val currentPackage = this@with.getApp()
                         Log.v(TAG, "new notification posted: $currentPackage")
                         Utils().run {
-                            when (NotificationParser(this@with).isAd() ) {
+                            val parser = NotificationParser(this@with)
+                            val isAd = parser.isAd()
+                            if (preference.isDebugLogEnabled()) {
+                                parser.lastLogEntry?.let { LogManager.addLog(it) }
+                            }
+                            
+                            when (isAd) {
                                 true -> {
                                     val isMusicStreamMuted = this.isMusicMuted(audioManager!!)
                                     if (!isMuted || !isMusicStreamMuted) {

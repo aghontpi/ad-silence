@@ -46,6 +46,9 @@ class Preference(private val context: Context) {
     private val HAS_DISABLED_HIBERNATION = "HasDisabledHibernation"
     private val HAS_DISABLED_HIBERNATION_DEFAULT = false
 
+    private val DEBUG_LOG_ENABLED = "DebugLogEnabled"
+    private val DEBUG_LOG_ENABLED_DEFAULT = false
+
 
     fun isEnabled(): Boolean {
         return preference.getBoolean(APP_ENABLED, APP_ENABLED_DEFAULT)
@@ -132,6 +135,17 @@ class Preference(private val context: Context) {
         Log.v(TAG, "[configHibernationEnabled] ${isHibernationDisabled()} -> $status")
         preference.edit{
             putBoolean(HAS_DISABLED_HIBERNATION, status).commit()
+        }
+    }
+
+    fun isDebugLogEnabled(): Boolean {
+        return preference.getBoolean(DEBUG_LOG_ENABLED, DEBUG_LOG_ENABLED_DEFAULT)
+    }
+
+    fun setDebugLogEnabled(status: Boolean) {
+        Log.v(TAG, "[configDebugLogEnabled] ${isDebugLogEnabled()} -> $status")
+        preference.edit {
+            putBoolean(DEBUG_LOG_ENABLED, status).commit()
         }
     }
 }

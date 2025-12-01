@@ -23,6 +23,7 @@ class AdSilenceActivity : Activity() {
 
     private val TAG = "MainActivity"
     private val NOTIFICATION_PERMISSION_REQUEST_CODE = 6969
+    private val SHOW_MOCK_DATA = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -259,6 +260,10 @@ class AdSilenceActivity : Activity() {
 
         findViewById<Button>(R.id.add_custom_app_btn)?.setOnClickListener {
             showAddCustomAppDialog()
+        }
+
+        findViewById<Button>(R.id.debug_log_btn)?.setOnClickListener {
+            showDebugLogDialog()
         }
 
 
@@ -546,6 +551,60 @@ class AdSilenceActivity : Activity() {
 
         dialogView.findViewById<Button>(R.id.btn_save)?.setOnClickListener {
             dialog.dismiss()
+        }
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.show()
+    }
+
+    private fun showDebugLogDialog() {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_debug_log, null)
+        val dialog = AlertDialog.Builder(this)
+            .setView(dialogView)
+            .create()
+
+        val listView = dialogView.findViewById<ListView>(R.id.log_list_view)
+        val adapter = LogAdapter(LogManager.getLogs())
+        listView.adapter = adapter
+
+        listView.setOnItemClickListener { _, _, position, _ ->
+            val log = adapter.getItem(position)
+            log.isExpanded = !log.isExpanded
+            adapter.notifyDataSetChanged()
+        }
+
+        val logListener = {
+            runOnUiThread {
+                adapter.updateLogs(LogManager.getLogs())
+            }
+        }
+        LogManager.addListener(logListener)
+
+        val preference = Preference(applicationContext)
+        dialogView.findViewById<Switch>(R.id.debug_log_toggle)?.run {
+            this.isChecked = preference.isDebugLogEnabled()
+            this.setOnCheckedChangeListener { _, isChecked ->
+                preference.setDebugLogEnabled(isChecked)
+            }
+        }
+
+        dialogView.findViewById<Button>(R.id.mock_log_btn)?.run {
+            if (SHOW_MOCK_DATA) {
+                this.visibility = View.VISIBLE
+                this.setOnClickListener {
+                    LogManager.addMockData()
+                }
+            } else {
+                this.visibility = View.GONE
+            }
+        }
+
+        dialogView.findViewById<Button>(R.id.clear_log_btn)?.setOnClickListener {
+            LogManager.clearLogs()
+        }
+
+        dialog.setOnDismissListener {
+            LogManager.removeListener(logListener)
         }
 
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)

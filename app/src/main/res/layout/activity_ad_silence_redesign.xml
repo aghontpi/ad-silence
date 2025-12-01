@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
         android:gravity="center"
-        android:text="AdSilence"
+        android:text="@string/app_name"
         android:textColor="?android:attr/textColorPrimary"
         android:textSize="20sp"
         android:textStyle="bold" />
@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:gravity="center"
-            android:text="Notification Access"
+            android:text="@string/notification_access"
             android:textColor="?android:attr/textColorPrimary"
             android:textSize="18sp" />
 
@@ -95,7 +95,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ad-Muting Status"
+                    android:text="@string/ad_muting_status"
                     android:textColor="?android:attr/textColorPrimary"
                     android:textSize="16sp" />
 
@@ -103,7 +103,7 @@
                     android:id="@+id/status_subtitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Enable Ad-Silence"
+                    android:text="@string/enable_ad_silence"
                     android:textColor="?android:attr/textColorSecondary"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -123,6 +123,15 @@
             android:background="@drawable/bg_button_rounded"
             android:text="@string/select_apps"
             android:textColor="?android:attr/textColorPrimary" />
+
+        <Button
+            android:id="@+id/debug_log_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_button_rounded"
+            android:text="@string/debug_log"
+            android:textColor="?android:attr/textColorPrimary" />
     </LinearLayout>
 
     <!-- Custom Detection Card -->
@@ -138,7 +147,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            android:text="Custom Detection"
+            android:text="@string/custom_detection"
             android:textColor="?android:attr/textColorPrimary"
             android:textSize="16sp" />
 
@@ -147,19 +156,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_button_rounded"
-            android:text="Add Custom App"
+            android:text="@string/add_custom_app"
             android:textColor="?android:attr/textColorPrimary" />
 
     </LinearLayout>
     
-    <!-- Hidden views to prevent logic breakage if they are referenced, from old design -->
+    <!-- Hidden views to prevent logic breakage if they are referenced, from old design, remove it
+     after couple of releases -->
     <TextView
         android:id="@+id/permission_text_view"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:visibility="gone" />
-    <TextView
-        android:id="@+id/permission_issue_info"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:visibility="gone" />

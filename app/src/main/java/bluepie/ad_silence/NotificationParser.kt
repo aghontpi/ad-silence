@@ -59,18 +59,18 @@ fun AppNotification.adString(): List<String> {
 interface NotificationParserInterface {
     var appNotification: AppNotification
     fun isAd(): Boolean
-    fun info(): LinkedList<String>
 }
 
 class NotificationParser(override var appNotification: AppNotification) :
     NotificationParserInterface {
     private val TAG = "NotificationParser"
-    private var notificationInfo: LinkedList<String> = LinkedList()
+
+    var lastLogEntry: LogEntry? = null
 
     private var matchedText: String = "";
 
     override fun isAd(): Boolean {
-        return when (appNotification.getApp()) {
+        val isAd = when (appNotification.getApp()) {
             SupportedApps.ACCURADIO -> parseAccuradioNotification()
             SupportedApps.SPOTIFY, SupportedApps.SPOTIFY_LITE -> parseSpotifyNotification()
             SupportedApps.TIDAL -> parseTidalNotification()
@@ -79,11 +79,22 @@ class NotificationParser(override var appNotification: AppNotification) :
             SupportedApps.Soundcloud -> parseSoundCloudNotification()
             else -> false
         }
-    }
-
-
-    override fun info(): LinkedList<String> {
-        return notificationInfo
+        
+        val title = appNotification.notification.extras?.get("android.title")?.toString() ?: ""
+        val text = appNotification.notification.extras?.get("android.text")?.toString() ?: ""
+        val subText = appNotification.notification.extras?.get("android.subText")?.toString() ?: ""
+        
+        lastLogEntry = LogEntry(
+            appName = appNotification.packageName,
+            timestamp = System.currentTimeMillis(),
+            isAd = isAd,
+            title = title,
+            text = text,
+            subText = subText,
+            matchedText = matchedText
+        )
+        
+        return isAd
     }
 
 
