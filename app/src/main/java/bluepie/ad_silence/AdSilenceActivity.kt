@@ -24,10 +24,11 @@ class AdSilenceActivity : Activity() {
     private val TAG = "MainActivity"
     private val NOTIFICATION_PERMISSION_REQUEST_CODE = 6969
     private val SHOW_MOCK_DATA = false
+    private var debugLogDialog: AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_ad_silence_redesign)
+        setContentView(R.layout.activity_ad_silence)
         configurePermission()
         configureToggle()
         configureAdditionalViews()
@@ -44,6 +45,14 @@ class AdSilenceActivity : Activity() {
         configureAdditionalViews()
         // handleHibernation()
         configureViewsWithLinks()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (debugLogDialog != null && debugLogDialog!!.isShowing) {
+            Log.v(TAG, "Dismissing debug log dialog")
+            debugLogDialog!!.dismiss()
+        }
     }
 
     private fun configurePermission() {
@@ -232,6 +241,7 @@ class AdSilenceActivity : Activity() {
         val isSoundcloudInstalled = utils.isSoundcloudInstalled(applicationContext)
         val versionCode = BuildConfig.VERSION_CODE
         val versionName = BuildConfig.VERSION_NAME
+        findViewById<TextView>(R.id.app_version)?.text = "$versionName"
 
         findViewById<Button>(R.id.about_btn)?.setOnClickListener {
             layoutInflater.inflate(R.layout.about, null)?.run {
@@ -559,9 +569,10 @@ class AdSilenceActivity : Activity() {
 
     private fun showDebugLogDialog() {
         val dialogView = layoutInflater.inflate(R.layout.dialog_debug_log, null)
-        val dialog = AlertDialog.Builder(this)
+        debugLogDialog = AlertDialog.Builder(this)
             .setView(dialogView)
             .create()
+        val dialog = debugLogDialog!!
 
         val listView = dialogView.findViewById<ListView>(R.id.log_list_view)
         val adapter = LogAdapter(LogManager.getLogs())
@@ -608,7 +619,9 @@ class AdSilenceActivity : Activity() {
         }
 
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        dialog.show()
+        if (!isFinishing) {
+            dialog.show()
+        }
     }
 
 }

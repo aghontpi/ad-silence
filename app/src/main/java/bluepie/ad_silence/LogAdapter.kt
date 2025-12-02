@@ -42,8 +42,10 @@ class LogAdapter(private var logs: List<LogEntry>) : BaseAdapter() {
 
         if (log.isAd) {
             holder.statusText.text = "Has Contained Text"
+            holder.statusText.setTextColor(androidx.core.content.ContextCompat.getColor(context, android.R.color.holo_green_light))
         } else {
             holder.statusText.text = "Clean"
+            holder.statusText.setTextColor(holder.defaultStatusTextColor)
         }
 
         holder.logTitle.text = "Title: ${log.title}"
@@ -83,6 +85,7 @@ class LogAdapter(private var logs: List<LogEntry>) : BaseAdapter() {
         val appNameTimestamp: TextView = view.findViewById(R.id.app_name_timestamp)
 
         val statusText: TextView = view.findViewById(R.id.status_text)
+        val defaultStatusTextColor: Int = statusText.currentTextColor
         val expandIcon: ImageView = view.findViewById(R.id.expand_icon)
         val detailsContainer: LinearLayout = view.findViewById(R.id.details_container)
         val logTitle: TextView = view.findViewById(R.id.log_title)
