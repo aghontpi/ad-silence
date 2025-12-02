@@ -22,6 +22,16 @@ class NotificationListener : NotificationListenerService() {
         audioManager = applicationContext.getSystemService(AUDIO_SERVICE) as AudioManager
         appNotificationHelper = AppNotificationHelper(applicationContext)
         Log.v(TAG, "listener created")
+        LogManager.addLifecycleLog(
+            LogEntry(
+                appName = "AdSilence",
+                timestamp = System.currentTimeMillis(),
+                isAd = false,
+                title = "Service Created",
+                text = "Notification Listener Service Created",
+                subText = "Lifecycle Event"
+            )
+        )
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -37,6 +47,31 @@ class NotificationListener : NotificationListenerService() {
             startForeground(NOTIFICATION_ID, this) // persistent notification
         }
         Log.v(TAG, "notification listener connected")
+        LogManager.addLifecycleLog(
+            LogEntry(
+                appName = "AdSilence",
+                timestamp = System.currentTimeMillis(),
+                isAd = false,
+                title = "Listener Connected",
+                text = "Notification Listener Connected",
+                subText = "Lifecycle Event"
+            )
+        )
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.v(TAG, "listener destroyed")
+        LogManager.addLifecycleLog(
+            LogEntry(
+                appName = "AdSilence",
+                timestamp = System.currentTimeMillis(),
+                isAd = false,
+                title = "Service Destroyed",
+                text = "Notification Listener Service Destroyed",
+                subText = "Lifecycle Event"
+            )
+        )
     }
 
     override fun onNotificationPosted(sbn: StatusBarNotification?) {

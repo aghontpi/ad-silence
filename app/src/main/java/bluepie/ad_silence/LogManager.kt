@@ -15,6 +15,7 @@ data class LogEntry(
 
 object LogManager {
     private val logs = LinkedList<LogEntry>()
+    private val lifecycleLogs = LinkedList<LogEntry>()
     private val listeners = mutableListOf<() -> Unit>()
 
     fun addLog(entry: LogEntry) {
@@ -28,16 +29,37 @@ object LogManager {
         notifyListeners()
     }
 
-    fun getLogs(): List<LogEntry> {
-        synchronized(logs) {
-            return ArrayList(logs)
+    fun addLifecycleLog(entry: LogEntry) {
+        synchronized(lifecycleLogs) {
+            lifecycleLogs.addFirst(entry)
+            // Keep only last 100 lifecycle logs
+            if (lifecycleLogs.size > 100) {
+                lifecycleLogs.removeLast()
+            }
         }
+        notifyListeners()
+    }
+
+    fun getLogs(): List<LogEntry> {
+        val allLogs = ArrayList<LogEntry>()
+        synchronized(logs) {
+            allLogs.addAll(logs)
+        }
+        synchronized(lifecycleLogs) {
+            allLogs.addAll(lifecycleLogs)
+        }
+        // show newest first
+        allLogs.sortByDescending { it.timestamp }
+        return allLogs
     }
 
     fun clearLogs() {
         synchronized(logs) {
             logs.clear()
         }
+        //, it we clear lifecycle logs, it will be bard to debug,
+        //   so not clearing it.
+        // lifecycleLogs.clear()
         notifyListeners()
     }
 
