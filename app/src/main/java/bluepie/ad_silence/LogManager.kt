@@ -57,9 +57,9 @@ object LogManager {
         synchronized(logs) {
             logs.clear()
         }
-        //, it we clear lifecycle logs, it will be bard to debug,
-        //   so not clearing it.
-        // lifecycleLogs.clear()
+        synchronized(lifecycleLogs) {
+           lifecycleLogs.clear()
+        }
         notifyListeners()
     }
 

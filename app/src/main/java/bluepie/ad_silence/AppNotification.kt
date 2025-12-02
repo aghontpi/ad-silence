@@ -87,39 +87,6 @@ private fun AppNotificationHelper.createChannel() {
 
 
 // manually stop and start the service
-fun AppNotificationHelper.start() {
-    val packageManager = context.packageManager
-    val componentName = ComponentName(context, NotificationListener::class.java)
-    packageManager.setComponentEnabledSetting(
-        componentName,
-        PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-        PackageManager.DONT_KILL_APP
-    )
-    packageManager.setComponentEnabledSetting(
-        componentName,
-        PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-        PackageManager.DONT_KILL_APP
-    )
-}
-
-fun AppNotificationHelper.disable() {
-    val packageManager = context.packageManager
-    val componentName = ComponentName(context, NotificationListener::class.java)
-    if (Build.VERSION.SDK_INT >= 30) {
-        packageManager.setComponentEnabledSetting(
-            componentName,
-            PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-            PackageManager.SYNCHRONOUS
-        )
-    } else {
-        packageManager.setComponentEnabledSetting(
-            componentName,
-            PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-            0
-        )
-    }
-}
-
 fun AppNotificationHelper.enable() {
     val packageManager = context.packageManager
     val componentName = ComponentName(context, NotificationListener::class.java)

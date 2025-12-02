@@ -216,13 +216,55 @@ class AdSilenceActivity : Activity() {
         statusToggle.setOnClickListener {
             val toChange: Boolean = !preference.isEnabled()
             preference.setEnabled(toChange)
-            if (toChange) appNotificationHelper.enable() else appNotificationHelper.disable()
-
+            
+            if (toChange) {
+                // Turning ON
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    Log.v(TAG, "Toggling ON: Requesting Rebind (API >= 24)")
+                    LogManager.addLifecycleLog(LogEntry(
+                        appName = "AdSilence",
+                        timestamp = System.currentTimeMillis(),
+                        isAd = false,
+                        title = "Service Rebind",
+                        text = "Toggling ON: Requesting Rebind (API >= 24)",
+                        subText = "Lifecycle Event"
+                    ))
+                    android.service.notification.NotificationListenerService.requestRebind(
+                        android.content.ComponentName(this, NotificationListener::class.java)
+                    )
+                } else {
+                    Log.v(TAG, "Toggling ON: Sending START_SERVICE intent (API < 24)")
+                    LogManager.addLifecycleLog(LogEntry(
+                        appName = "AdSilence",
+                        timestamp = System.currentTimeMillis(),
+                        isAd = false,
+                        title = "Service Start",
+                        text = "Toggling ON: Sending START_SERVICE intent (API < 24)",
+                        subText = "Lifecycle Event"
+                    ))
+                    val intent = Intent(this, NotificationListener::class.java)
+                    intent.action = "START_SERVICE"
+                    startService(intent)
+                }
+            } else {
+                // Turning OFF
+                Log.v(TAG, "Toggling OFF: Sending STOP_SERVICE intent")
+                LogManager.addLifecycleLog(LogEntry(
+                    appName = "AdSilence",
+                    timestamp = System.currentTimeMillis(),
+                    isAd = false,
+                    title = "Service Stop",
+                    text = "Toggling OFF: Sending STOP_SERVICE intent",
+                    subText = "Lifecycle Event"
+                ))
+                val intent = Intent(this, NotificationListener::class.java)
+                intent.action = "STOP_SERVICE"
+                startService(intent)
+            }
         }
 
         if (preference.isEnabled()) {
             statusToggle.isChecked = true
-            appNotificationHelper.start()
         } else {
             statusToggle.isChecked = false
         }

@@ -35,8 +35,49 @@ class NotificationListener : NotificationListenerService() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        appNotificationHelper?.getNotificationBuilder("adSilence, service started")?.run {
-            startForeground(NOTIFICATION_ID, this.build())
+        if (intent?.action == "STOP_SERVICE") {
+            Log.v(TAG, "Service received STOP_SERVICE. Stopping foreground.")
+            LogManager.addLifecycleLog(LogEntry(
+                appName = "AdSilence",
+                timestamp = System.currentTimeMillis(),
+                isAd = false,
+                title = "Service Stop",
+                text = "Service received STOP_SERVICE. Stopping foreground.",
+                subText = "Lifecycle Event"
+            ))
+            stopForeground(true)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                Log.v(TAG, "API >= 24: Requesting Unbind.")
+                LogManager.addLifecycleLog(LogEntry(
+                    appName = "AdSilence",
+                    timestamp = System.currentTimeMillis(),
+                    isAd = false,
+                    title = "Service Unbind",
+                    text = "API >= 24: Requesting Unbind.",
+                    subText = "Lifecycle Event"
+                ))
+                requestUnbind()
+            }
+            stopSelf() // Force the service to stop, then destroy
+            return Service.START_NOT_STICKY
+        } else if (intent?.action == "START_SERVICE") {
+            Log.v(TAG, "Service received START_SERVICE. Starting foreground.")
+            LogManager.addLifecycleLog(LogEntry(
+                appName = "AdSilence",
+                timestamp = System.currentTimeMillis(),
+                isAd = false,
+                title = "Service Start",
+                text = "Service received START_SERVICE. Starting foreground.",
+                subText = "Lifecycle Event"
+            ))
+            appNotificationHelper?.getNotificationBuilder("adSilence, service started")?.run {
+                startForeground(NOTIFICATION_ID, this.build())
+            }
+        } else {
+            // Default behavior for system start
+            appNotificationHelper?.getNotificationBuilder("adSilence, service started")?.run {
+                startForeground(NOTIFICATION_ID, this.build())
+            }
         }
         return Service.START_STICKY
     }
@@ -54,6 +95,21 @@ class NotificationListener : NotificationListenerService() {
                 isAd = false,
                 title = "Listener Connected",
                 text = "Notification Listener Connected",
+                subText = "Lifecycle Event"
+            )
+        )
+    }
+
+    override fun onListenerDisconnected() {
+        super.onListenerDisconnected()
+        Log.v(TAG, "notification listener disconnected")
+        LogManager.addLifecycleLog(
+            LogEntry(
+                appName = "AdSilence",
+                timestamp = System.currentTimeMillis(),
+                isAd = false,
+                title = "Listener Disconnected",
+                text = "Notification Listener Disconnected",
                 subText = "Lifecycle Event"
             )
         )
@@ -77,6 +133,11 @@ class NotificationListener : NotificationListenerService() {
     override fun onNotificationPosted(sbn: StatusBarNotification?) {
         super.onNotificationPosted(sbn)
         val preference = Preference(applicationContext)
+        
+        if (!preference.isEnabled()) {
+            return
+        }
+
         sbn?.let {
             with(AppNotification(applicationContext, it.notification, sbn.packageName)) {
                 preference.isAppConfigured(this.getApp()).takeIf { b -> b }
