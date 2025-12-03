@@ -445,6 +445,27 @@ class AdSilenceActivity : Activity() {
                 }
             }
 
+            val container = appSelectionView.findViewById<LinearLayout>(R.id.app_selection_container)
+            val customApps = preference.getCustomApps()
+            customApps.forEach { customApp ->
+                val switch = Switch(this)
+                switch.text = customApp.name + " (custom)"
+                switch.isChecked = customApp.isEnabled
+                switch.minHeight = (48 * resources.displayMetrics.density).toInt()
+                val params = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                )
+                switch.layoutParams = params
+                
+                Log.v(TAG, "Adding custom app switch: ${customApp.name}")
+                
+                switch.setOnCheckedChangeListener { _, isChecked ->
+                    preference.setCustomAppEnabled(customApp.packageName, isChecked)
+                }
+                container.addView(switch)
+            }
+
             appSelectionView.findViewById<Button>(R.id.btn_add_custom_app)?.setOnClickListener {
                 showAddCustomAppDialog()
             }
@@ -602,6 +623,27 @@ class AdSilenceActivity : Activity() {
         }
 
         dialogView.findViewById<Button>(R.id.btn_save)?.setOnClickListener {
+            val appName = dialogView.findViewById<EditText>(R.id.et_app_name).text.toString()
+            val packageName = dialogView.findViewById<EditText>(R.id.et_package_name).text.toString()
+            val keywordsText = dialogView.findViewById<EditText>(R.id.et_keywords).text.toString()
+
+            if (appName.isBlank() || packageName.isBlank() || keywordsText.isBlank()) {
+                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val preference = Preference(applicationContext)
+            val customApps = preference.getCustomApps()
+            if (customApps.any { it.packageName == packageName || it.name == appName }) {
+                Toast.makeText(this, "App with this name or package already exists", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val keywords = keywordsText.split(",").map { it.trim() }.filter { it.isNotEmpty() }
+            val customApp = CustomApp(appName, packageName, keywords)
+            preference.addCustomApp(customApp)
+
+            Toast.makeText(this, "Custom app added", Toast.LENGTH_SHORT).show()
             dialog.dismiss()
         }
 

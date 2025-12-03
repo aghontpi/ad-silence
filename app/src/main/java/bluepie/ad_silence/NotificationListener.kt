@@ -140,7 +140,7 @@ class NotificationListener : NotificationListenerService() {
 
         sbn?.let {
             with(AppNotification(applicationContext, it.notification, sbn.packageName)) {
-                preference.isAppConfigured(this.getApp()).takeIf { b -> b }
+                preference.isAppConfigured(this.getApp(), this.packageName).takeIf { b -> b }
                     ?.run {
                         val currentPackage = this@with.getApp()
                         Log.v(TAG, "new notification posted: $currentPackage")

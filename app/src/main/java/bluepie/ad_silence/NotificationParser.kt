@@ -18,6 +18,12 @@ data class AppNotification(
 )
 
 fun AppNotification.getApp(): SupportedApps {
+    val preference = Preference(context)
+    val customApps = preference.getCustomApps()
+    if (customApps.any { it.packageName == packageName && it.isEnabled }) {
+        return SupportedApps.CUSTOM
+    }
+
     return when (packageName) {
         context.getString(R.string.accuradio_pkg_name) -> SupportedApps.ACCURADIO
         context.getString(R.string.spotify_package_name) -> SupportedApps.SPOTIFY
@@ -31,6 +37,11 @@ fun AppNotification.getApp(): SupportedApps {
 }
 
 fun AppNotification.adString(): List<String> {
+    if (getApp() == SupportedApps.CUSTOM) {
+        val preference = Preference(context)
+        return preference.getCustomApps().find { it.packageName == packageName }?.keywords ?: emptyList()
+    }
+
     return when (getApp()) {
         SupportedApps.ACCURADIO -> listOf(context.getString(R.string.accuradio_ad_text))
         SupportedApps.SPOTIFY, SupportedApps.SPOTIFY_LITE -> listOf(
@@ -77,6 +88,7 @@ class NotificationParser(override var appNotification: AppNotification) :
             SupportedApps.PANDORA -> parsePandoraNotification()
             SupportedApps.LiveOne -> parseLiveOneNotification()
             SupportedApps.Soundcloud -> parseSoundCloudNotification()
+            SupportedApps.CUSTOM -> parseCustomAppNotification()
             else -> false
         }
         
@@ -359,6 +371,29 @@ class NotificationParser(override var appNotification: AppNotification) :
             }
         } catch (e: Exception) {
             Log.v(TAG, "[parseSoundcloud][ex] " + e.message)
+        }
+        return isAd
+    }
+
+    private fun parseCustomAppNotification(): Boolean {
+        var isAd = false
+        val adStrings = appNotification.adString()
+        
+        val title = appNotification.notification.extras?.get("android.title")?.toString() ?: ""
+        val text = appNotification.notification.extras?.get("android.text")?.toString() ?: ""
+        val subText = appNotification.notification.extras?.get("android.subText")?.toString() ?: ""
+
+        Log.v(TAG, "trying match against \"$title\", \"$text\", \"$subText\" with $adStrings")
+        
+        for (adString in adStrings) {
+             if (title.contains(adString, ignoreCase = true) || 
+                 text.contains(adString, ignoreCase = true) || 
+                 subText.contains(adString, ignoreCase = true)) {
+                 Log.v(TAG, "detection in Custom App (${appNotification.packageName}): $adString")
+                 matchedText = adString
+                 isAd = true
+                 break
+             }
         }
         return isAd
     }
