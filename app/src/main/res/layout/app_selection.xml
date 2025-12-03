@@ -84,6 +84,12 @@
                 android:text="@string/liveone"
                 android:textColor="?android:attr/textColorPrimary" />
 
+            <LinearLayout
+                android:id="@+id/custom_apps_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
         </LinearLayout>
     </ScrollView>
 

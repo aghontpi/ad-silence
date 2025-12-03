@@ -445,29 +445,13 @@ class AdSilenceActivity : Activity() {
                 }
             }
 
-            val container = appSelectionView.findViewById<LinearLayout>(R.id.app_selection_container)
-            val customApps = preference.getCustomApps()
-            customApps.forEach { customApp ->
-                val switch = Switch(this)
-                switch.text = customApp.name + " (custom)"
-                switch.isChecked = customApp.isEnabled
-                switch.minHeight = (48 * resources.displayMetrics.density).toInt()
-                val params = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-                )
-                switch.layoutParams = params
-                
-                Log.v(TAG, "Adding custom app switch: ${customApp.name}")
-                
-                switch.setOnCheckedChangeListener { _, isChecked ->
-                    preference.setCustomAppEnabled(customApp.packageName, isChecked)
-                }
-                container.addView(switch)
-            }
+            val container = appSelectionView.findViewById<LinearLayout>(R.id.custom_apps_container)
+            populateCustomApps(container, preference)
 
             appSelectionView.findViewById<Button>(R.id.btn_add_custom_app)?.setOnClickListener {
-                showAddCustomAppDialog()
+                showAddCustomAppDialog {
+                    populateCustomApps(container, preference)
+                }
             }
 
             val dialog = AlertDialog.Builder(this)
@@ -612,11 +596,97 @@ class AdSilenceActivity : Activity() {
         }
     }
 
-    private fun showAddCustomAppDialog() {
+    private fun populateCustomApps(container: LinearLayout, preference: Preference) {
+        Log.v(TAG, "Populating custom apps")
+        container.removeAllViews()
+        val customApps = preference.getCustomApps()
+        Log.v(TAG, "Found ${customApps.size} custom apps")
+        
+        customApps.forEach { customApp ->
+            val row = LinearLayout(this)
+            row.orientation = LinearLayout.HORIZONTAL
+            row.gravity = android.view.Gravity.CENTER_VERTICAL
+            row.layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+
+            val appNameView = TextView(this)
+            appNameView.text = customApp.name + " (custom)"
+            
+            val textParams = LinearLayout.LayoutParams(
+                0,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                1f
+            )
+            appNameView.layoutParams = textParams
+
+            val switch = Switch(this)
+            switch.isChecked = customApp.isEnabled
+            switch.minHeight = (48 * resources.displayMetrics.density).toInt()
+            val switchParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+            switch.layoutParams = switchParams
+            switch.setOnCheckedChangeListener { _, isChecked ->
+                preference.setCustomAppEnabled(customApp.packageName, isChecked)
+            }
+
+            val editIcon = ImageView(this)
+            editIcon.setImageResource(R.drawable.ic_edit)
+            val iconParams = LinearLayout.LayoutParams(
+                (48 * resources.displayMetrics.density).toInt(),
+                (48 * resources.displayMetrics.density).toInt()
+            )
+            editIcon.layoutParams = iconParams
+            editIcon.setPadding(16, 16, 16, 16)
+            editIcon.setOnClickListener {
+                showAddCustomAppDialog(customApp) {
+                    populateCustomApps(container, preference)
+                }
+            }
+
+            val deleteIcon = ImageView(this)
+            deleteIcon.setImageResource(R.drawable.ic_delete)
+            deleteIcon.layoutParams = iconParams
+            deleteIcon.setPadding(16, 16, 16, 16)
+            deleteIcon.setOnClickListener {
+                AlertDialog.Builder(this)
+                    .setTitle("Delete Custom App")
+                    .setMessage("Do you want to delete ${customApp.name}? It's not recoverable.")
+                    .setPositiveButton("Yes, delete") { _, _ ->
+                        preference.removeCustomApp(customApp.packageName)
+                        populateCustomApps(container, preference)
+                    }
+                    .setNegativeButton("Cancel", null)
+                    .show()
+            }
+
+            // Order: Label -> Edit -> Delete -> Switch
+            row.addView(appNameView)
+            row.addView(editIcon)
+            row.addView(deleteIcon)
+            row.addView(switch)
+            container.addView(row)
+        }
+    }
+
+    private fun showAddCustomAppDialog(appToEdit: CustomApp? = null, onSuccess: () -> Unit = {}) {
         val dialogView = layoutInflater.inflate(R.layout.dialog_add_custom_app, null)
         val dialog = AlertDialog.Builder(this)
             .setView(dialogView)
             .create()
+
+        val titleView = dialogView.findViewById<TextView>(R.id.tv_dialog_title)
+        if (appToEdit != null) {
+            titleView.text = "Edit Custom App"
+            dialogView.findViewById<EditText>(R.id.et_app_name).setText(appToEdit.name)
+            dialogView.findViewById<EditText>(R.id.et_package_name).setText(appToEdit.packageName)
+            dialogView.findViewById<EditText>(R.id.et_keywords).setText(appToEdit.keywords.joinToString(", "))
+        } else {
+            titleView.text = getString(R.string.add_custom_app)
+        }
 
         dialogView.findViewById<Button>(R.id.btn_cancel)?.setOnClickListener {
             dialog.dismiss()
@@ -634,16 +704,29 @@ class AdSilenceActivity : Activity() {
 
             val preference = Preference(applicationContext)
             val customApps = preference.getCustomApps()
-            if (customApps.any { it.packageName == packageName || it.name == appName }) {
-                Toast.makeText(this, "App with this name or package already exists", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
+
+            // Check for duplicates only if we are adding new or changing package name/name to something that exists (excluding self)
+            val isRename = appToEdit != null && (appToEdit.packageName != packageName || appToEdit.name != appName)
+            val isNew = appToEdit == null
+
+            if (isNew || isRename) {
+                if (customApps.any { (it.packageName == packageName || it.name == appName) && (appToEdit == null || it.packageName != appToEdit.packageName) }) {
+                    Toast.makeText(this, "App with this name or package already exists", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
             }
 
             val keywords = keywordsText.split(",").map { it.trim() }.filter { it.isNotEmpty() }
-            val customApp = CustomApp(appName, packageName, keywords)
+            val customApp = CustomApp(appName, packageName, keywords, appToEdit?.isEnabled ?: true)
+
+            if (appToEdit != null && appToEdit.packageName != packageName) {
+                preference.removeCustomApp(appToEdit.packageName)
+            }
+
             preference.addCustomApp(customApp)
 
-            Toast.makeText(this, "Custom app added", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, if (appToEdit != null) "Custom app updated" else "Custom app added", Toast.LENGTH_SHORT).show()
+            onSuccess()
             dialog.dismiss()
         }
 
