@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ "master", "development" ]
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -41,11 +45,47 @@ jobs:
             -Pandroid.injected.signing.key.alias=$KEY_ALIAS \
             -Pandroid.injected.signing.key.password=$KEY_PASSWORD
 
+      - name: Extract Version Name
+        id: extract_version
+        run: |
+          VERSION_NAME=$(grep "versionName" app/build.gradle | awk '{print $2}' | tr -d '"' | tr -d "'")
+          echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
+
+      - name: Rename APK
+        if: github.event_name == 'pull_request'
+        run: |
+          mv app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/ad-silence-debug-build-${{ env.VERSION_NAME }}-${{ github.event.pull_request.number }}.apk
+
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
         with:
-          name: ad-silence-debug-build-apk
-          path: app/build/outputs/apk/debug/app-debug.apk
+          name: ad-silence-debug-build
+          path: app/build/outputs/apk/debug/*.apk
+
+      - name: Deploy to builds branch
+        if: github.event_name == 'pull_request'
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          
+          # Stash the APK
+          mkdir -p /tmp/apk_stash
+          cp app/build/outputs/apk/debug/*.apk /tmp/apk_stash/
+          APK_NAME=$(basename /tmp/apk_stash/*.apk)
+          echo "APK_NAME=$APK_NAME" >> $GITHUB_ENV
+          
+          # Clone builds branch to temp dir
+          rm -rf /tmp/builds_repo
+          git clone --quiet --branch builds https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} /tmp/builds_repo || \
+          (mkdir /tmp/builds_repo && cd /tmp/builds_repo && git init && git checkout -b builds && git remote add origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }})
+          
+          cd /tmp/builds_repo
+          mkdir -p pr-${{ github.event.pull_request.number }}
+          cp /tmp/apk_stash/$APK_NAME pr-${{ github.event.pull_request.number }}/
+          
+          git add .
+          git commit -m "Update build for PR #${{ github.event.pull_request.number }}"
+          git push origin builds
 
       - name: Comment Debug APK on PR
         if: github.event_name == 'pull_request'
@@ -54,4 +94,5 @@ jobs:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
             A debug APK build is available for this pull request.
-            You can download it from [this workflow run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) under the **Artifacts** section.
+            
+            [Download ad-silence-${{ env.VERSION_NAME }}-debug APK](https://github.com/${{ github.repository }}/raw/builds/pr-${{ github.event.pull_request.number }}/${{ env.APK_NAME }})
