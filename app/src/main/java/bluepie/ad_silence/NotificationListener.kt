@@ -8,6 +8,8 @@ import android.os.Build
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
 import android.util.Log
+import android.os.Handler
+import android.os.Looper
 
 @SuppressLint("LongLogTag")
 class NotificationListener : NotificationListenerService() {
@@ -16,6 +18,8 @@ class NotificationListener : NotificationListenerService() {
     private var appNotificationHelper: AppNotificationHelper? = null
     private var isMuted: Boolean = false
     private var muteCount: Int = 0
+    private val handler = Handler(Looper.getMainLooper())
+    private var unmuteRunnable: Runnable? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -153,6 +157,13 @@ class NotificationListener : NotificationListenerService() {
                             
                             when (isAd) {
                                 true -> {
+                                    // Cancel any pending unmute if a new ad is detected
+                                    unmuteRunnable?.let {
+                                        handler.removeCallbacks(it)
+                                        unmuteRunnable = null
+                                        Log.v(TAG, "New ad detected, cancelled pending unmute")
+                                    }
+
                                     val isMusicStreamMuted = this.isMusicMuted(audioManager!!)
                                     if (!isMuted || !isMusicStreamMuted) {
                                         Log.v(TAG, "'MusicStream' muted? -> $isMusicStreamMuted")
@@ -169,28 +180,44 @@ class NotificationListener : NotificationListenerService() {
                                 }
                                 false -> {
                                     isMuted.takeIf { b -> b }?.also {
-                                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-                                            Log.v(TAG, "Not an ad, Unmuting, < M")
-                                            // for android 5 & 5.1, unmute has to be done, count x mutedCount
-                                            while (muteCount > 0) {
-                                                this@run.unmute(
-                                                    audioManager,
-                                                    appNotificationHelper,
-                                                    currentPackage,
-                                                    preference
-                                                )
-                                                muteCount--
+                                        // Instead of unmuting immediately, we schedule it to fix race condition, 
+                                        // https://github.com/aghontpi/ad-silence/pull/282#issue-3682929324
+                                        if (unmuteRunnable == null) {
+                                            unmuteRunnable = Runnable {
+                                                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                                                    Log.v(TAG, "Not an ad, Unmuting, < M")
+                                                    // for android 5 & 5.1, unmute has to be done, count x mutedCount
+                                                    while (muteCount > 0) {
+                                                        this@run.unmute(
+                                                            audioManager,
+                                                            appNotificationHelper,
+                                                            currentPackage,
+                                                            preference
+                                                        )
+                                                        muteCount--
+                                                    }
+                                                    isMuted = false
+                                                } else {
+                                                    Log.v(TAG, "Not an ad, Unmuting, > M")
+                                                    this@run.unmute(
+                                                        audioManager,
+                                                        appNotificationHelper,
+                                                        currentPackage,
+                                                        preference
+                                                    )
+                                                    isMuted = false
+                                                }
+                                                unmuteRunnable = null
                                             }
-                                            isMuted = false
-                                        } else {
-                                            Log.v(TAG, "Not an ad, Unmuting, > M")
-                                            this@run.unmute(
-                                                audioManager,
-                                                appNotificationHelper,
-                                                currentPackage,
-                                                preference
-                                            )
-                                            isMuted = false
+
+                                            val delay = this.getUnmuteDelay(currentPackage)
+                                            if (delay > 0) {
+                                                Log.v(TAG, "scheduling unmute for $currentPackage with delay $delay")
+                                                handler.postDelayed(unmuteRunnable!!, delay)
+                                            } else {
+                                                Log.v(TAG, "unmuting immediately for $currentPackage")
+                                                unmuteRunnable!!.run()
+                                            }
                                         }
                                     }
                                 }
