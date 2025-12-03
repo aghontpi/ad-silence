@@ -40,7 +40,10 @@ class LogAdapter(private var logs: List<LogEntry>) : BaseAdapter() {
         val timeString = timeFormat.format(Date(log.timestamp))
         holder.appNameTimestamp.text = "${log.appName} $timeString"
 
-        if (log.isAd) {
+        if (log.appName == "AdSilence") {
+            holder.statusText.text = "Service"
+            holder.statusText.setTextColor(holder.defaultStatusTextColor)
+        } else if (log.isAd) {
             holder.statusText.text = "Has Contained Text"
             holder.statusText.setTextColor(androidx.core.content.ContextCompat.getColor(context, android.R.color.holo_green_light))
         } else {

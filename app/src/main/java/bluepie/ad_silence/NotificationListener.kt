@@ -147,7 +147,7 @@ class NotificationListener : NotificationListenerService() {
                 preference.isAppConfigured(this.getApp(), this.packageName).takeIf { b -> b }
                     ?.run {
                         val currentPackage = this@with.getApp()
-                        Log.v(TAG, "new notification posted: $currentPackage")
+                        Log.v(TAG, "new notification posted: $currentPackage ($packageName)")
                         Utils().run {
                             val parser = NotificationParser(this@with)
                             val isAd = parser.isAd()
@@ -162,6 +162,14 @@ class NotificationListener : NotificationListenerService() {
                                         handler.removeCallbacks(it)
                                         unmuteRunnable = null
                                         Log.v(TAG, "New ad detected, cancelled pending unmute")
+                                        LogManager.addLifecycleLog(LogEntry(
+                                            appName = "AdSilence",
+                                            timestamp = System.currentTimeMillis(),
+                                            isAd = true,
+                                            title = "Unmute Cancelled",
+                                            text = "Cancelled pending unmute for $currentPackage ($packageName)",
+                                            subText = "Action"
+                                        ))
                                     }
 
                                     val isMusicStreamMuted = this.isMusicMuted(audioManager!!)
@@ -169,6 +177,14 @@ class NotificationListener : NotificationListenerService() {
                                         Log.v(TAG, "'MusicStream' muted? -> $isMusicStreamMuted")
                                         Log.v(TAG, "Ad detected muting, state-> $isMuted to ${!isMuted}, currentPackage: $currentPackage")
                                         this.mute(audioManager, appNotificationHelper, preference)
+                                        LogManager.addLifecycleLog(LogEntry(
+                                            appName = "AdSilence",
+                                            timestamp = System.currentTimeMillis(),
+                                            isAd = true,
+                                            title = "Muted",
+                                            text = "Muted audio for $currentPackage ($packageName)",
+                                            subText = "Action"
+                                        ))
                                         isMuted = true
                                         if (isMusicStreamMuted) muteCount = 0 else muteCount++
                                     } else {
@@ -207,15 +223,31 @@ class NotificationListener : NotificationListenerService() {
                                                     )
                                                     isMuted = false
                                                 }
+                                                LogManager.addLifecycleLog(LogEntry(
+                                                    appName = "AdSilence",
+                                                    timestamp = System.currentTimeMillis(),
+                                                    isAd = false,
+                                                    title = "Unmuted",
+                                                    text = "Unmuted audio for $currentPackage ($packageName)",
+                                                    subText = "Action"
+                                                ))
                                                 unmuteRunnable = null
                                             }
 
                                             val delay = this.getUnmuteDelay(currentPackage)
                                             if (delay > 0) {
-                                                Log.v(TAG, "scheduling unmute for $currentPackage with delay $delay")
+                                                Log.v(TAG, "scheduling unmute for $currentPackage ($packageName) with delay $delay")
+                                                LogManager.addLifecycleLog(LogEntry(
+                                                    appName = "AdSilence",
+                                                    timestamp = System.currentTimeMillis(),
+                                                    isAd = false,
+                                                    title = "Unmute Scheduled",
+                                                    text = "Unmute Scheduled after ${delay}ms",
+                                                    subText = "Action"
+                                                ))
                                                 handler.postDelayed(unmuteRunnable!!, delay)
                                             } else {
-                                                Log.v(TAG, "unmuting immediately for $currentPackage")
+                                                Log.v(TAG, "unmuting immediately for $currentPackage ($packageName)")
                                                 unmuteRunnable!!.run()
                                             }
                                         }
