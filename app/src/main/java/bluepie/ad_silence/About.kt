@@ -14,7 +14,6 @@ class About {
         with(AlertDialog.Builder(context).setView(view)) {
             val dialog = this.create()
             dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-            dialog.show()
             return dialog
         }
     }

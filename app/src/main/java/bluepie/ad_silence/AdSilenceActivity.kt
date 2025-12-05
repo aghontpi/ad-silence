@@ -27,6 +27,7 @@ class AdSilenceActivity : Activity() {
     private val SHOW_MOCK_DATA = false
     private var debugLogDialog: AlertDialog? = null
     private var aboutDialog: AlertDialog? = null
+    private var batteryOptimizationDialog: AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +61,10 @@ class AdSilenceActivity : Activity() {
         if (aboutDialog != null && aboutDialog!!.isShowing) {
             Log.v(TAG, "Dismissing about dialog")
             aboutDialog!!.dismiss()
+        }
+        if (batteryOptimizationDialog != null && batteryOptimizationDialog!!.isShowing) {
+            Log.v(TAG, "Dismissing battery optimization dialog")
+            batteryOptimizationDialog!!.dismiss()
         }
     }
 
@@ -317,6 +322,10 @@ class AdSilenceActivity : Activity() {
                 this.findViewById<TextView>(R.id.tv_app_version)?.text = "$versionName ($versionCode)"
 
                 aboutDialog = About().aboutBuilder(context, this, versionName, versionCode)
+                aboutDialog?.setOnDismissListener {
+                    aboutDialog = null
+                }
+                aboutDialog?.show()
             }
         }
 
@@ -637,7 +646,11 @@ class AdSilenceActivity : Activity() {
                 }
                 
                 dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-                dialog.show()
+                batteryOptimizationDialog = dialog
+                batteryOptimizationDialog?.setOnDismissListener {
+                    batteryOptimizationDialog = null
+                }
+                batteryOptimizationDialog?.show()
             }
             
             batteryOptimizationSwitch?.setOnClickListener(clickListener)

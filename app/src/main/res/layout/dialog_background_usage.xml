@@ -53,6 +53,7 @@
             android:layout_weight="1"
             android:background="@drawable/bg_button_rounded"
             android:backgroundTint="?android:attr/colorAccent"
+            android:text="@string/open_settings"
             android:textColor="?android:attr/textColorPrimaryInverse" />
     </LinearLayout>
 
