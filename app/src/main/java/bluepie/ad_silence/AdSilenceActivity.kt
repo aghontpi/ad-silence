@@ -9,6 +9,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.PowerManager
 import android.provider.Settings
 import android.text.Html
 import android.text.Html.fromHtml
@@ -34,6 +35,7 @@ class AdSilenceActivity : Activity() {
         configureAdditionalViews()
         // handleHibernation()
         configureViewsWithLinks()
+        configureBatteryOptimization()
     }
 
     override fun onResume() {
@@ -45,6 +47,7 @@ class AdSilenceActivity : Activity() {
         configureAdditionalViews()
         // handleHibernation()
         configureViewsWithLinks()
+        configureBatteryOptimization()
     }
 
     override fun onDestroy() {
@@ -593,6 +596,48 @@ class AdSilenceActivity : Activity() {
         unableToGrantPermissionHelp?.also {
             setTextFromHtml(it, getString(R.string.cant_grant_permission_see_help_here))
             it.movementMethod = LinkMovementMethod.getInstance();
+        }
+    }
+
+    private fun configureBatteryOptimization() {
+        val batteryOptimizationContainer = findViewById<View>(R.id.battery_optimization_container)
+        val batteryOptimizationSwitch = findViewById<Switch>(R.id.disable_battery_optimization_switch)
+        
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            batteryOptimizationContainer?.visibility = View.VISIBLE
+            val powerManager = getSystemService(POWER_SERVICE) as PowerManager
+            val packageName = packageName
+            
+            val isIgnoring = powerManager.isIgnoringBatteryOptimizations(packageName)
+            batteryOptimizationSwitch?.isChecked = isIgnoring
+            
+            val clickListener = View.OnClickListener {
+                val dialogView = layoutInflater.inflate(R.layout.dialog_background_usage, null)
+                val dialog = AlertDialog.Builder(this)
+                    .setView(dialogView)
+                    .create()
+
+                dialogView.findViewById<Button>(R.id.btn_open_settings).setOnClickListener {
+                    val intent = Intent()
+                    intent.action = Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS
+                    startActivity(intent)
+                    dialog.dismiss()
+                }
+
+                dialogView.findViewById<Button>(R.id.btn_cancel).setOnClickListener {
+                    dialog.dismiss()
+                    batteryOptimizationSwitch?.isChecked = isIgnoring
+                }
+                
+                dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+                dialog.show()
+            }
+            
+            batteryOptimizationSwitch?.setOnClickListener(clickListener)
+            batteryOptimizationContainer?.setOnClickListener(clickListener)
+            
+        } else {
+            batteryOptimizationContainer?.visibility = View.GONE
         }
     }
 

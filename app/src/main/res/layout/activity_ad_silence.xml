@@ -78,6 +78,32 @@
             android:textColor="?android:attr/textColorSecondary"
             android:textSize="12sp" />
 
+        <LinearLayout
+            android:id="@+id/battery_optimization_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <TextView
+                android:id="@+id/disable_battery_optimization_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/disable_battery_optimization"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="14sp" />
+
+            <Switch
+                android:id="@+id/disable_battery_optimization_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
         <Button
             android:id="@+id/grant_permission"
             android:layout_width="match_parent"
