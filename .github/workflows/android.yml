@@ -61,38 +61,10 @@ jobs:
       - name: Extract APK SHA-256 Fingerprint
         if: github.event_name == 'pull_request'
         run: |
-          KEYTOOL_PATH="keytool"
-          
-          if ! command -v keytool &> /dev/null; then
-            echo "keytool not found in PATH. Checking JAVA_HOME..."
-            if [ -n "$JAVA_HOME" ] && [ -x "$JAVA_HOME/bin/keytool" ]; then
-              KEYTOOL_PATH="$JAVA_HOME/bin/keytool"
-              echo "Found keytool at $KEYTOOL_PATH"
-            else
-              echo "keytool not found. Attempting to install..."
-              sudo apt-get update > /dev/null
-              sudo apt-get install -y openjdk-17-jre-headless > /dev/null
-              
-              if command -v keytool &> /dev/null; then
-                 KEYTOOL_PATH="keytool"
-              elif [ -x "/usr/lib/jvm/java-17-openjdk-amd64/bin/keytool" ]; then
-                 KEYTOOL_PATH="/usr/lib/jvm/java-17-openjdk-amd64/bin/keytool"
-              else
-                 echo "::warning::Failed to find or install keytool. SHA-256 extraction skipped."
-                 echo "APK_SHA256=UNAVAILABLE" >> $GITHUB_ENV
-                 exit 0
-              fi
-            fi
-          fi
-
-          echo "Using keytool at: $KEYTOOL_PATH"
           echo "Extracting SHA-256 for: ${{ env.APK_PATH }}"
           
-          # Debug output
-          "$KEYTOOL_PATH" -printcert -jarfile "${{ env.APK_PATH }}" || true
-          
-          # Extract
-          APK_SHA256=$("$KEYTOOL_PATH" -printcert -jarfile "${{ env.APK_PATH }}" | grep "SHA-256:" | head -n 1 | sed 's/.*SHA-256: //')
+          # Extract SHA-256 (matches both "SHA256:" and "SHA-256:")
+          APK_SHA256=$(keytool -printcert -jarfile "${{ env.APK_PATH }}" | grep -E "SHA-?256:" | head -n 1 | sed -E 's/.*SHA-?256: //')
           
           if [ -z "$APK_SHA256" ]; then
             echo "::warning::Failed to extract SHA-256 fingerprint."
@@ -130,11 +102,19 @@ jobs:
           cp /tmp/apk_stash/$APK_NAME pr-${{ github.event.pull_request.number }}/
           
           git add .
-          git commit -m "Update build for PR #${{ github.event.pull_request.number }}"
-          git push origin builds
+          
+          # Check for changes
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "No changes to commit. APK is identical."
+            echo "APK_CHANGED=false" >> $GITHUB_ENV
+          else
+            git commit -m "Update build for PR #${{ github.event.pull_request.number }}"
+            git push origin builds
+            echo "APK_CHANGED=true" >> $GITHUB_ENV
+          fi
 
       - name: Comment Debug APK on PR
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && env.APK_CHANGED == 'true'
         uses: peter-evans/create-or-update-comment@v3
         with:
           issue-number: ${{ github.event.pull_request.number }}
