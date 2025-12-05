@@ -26,6 +26,7 @@ class AdSilenceActivity : Activity() {
     private val NOTIFICATION_PERMISSION_REQUEST_CODE = 6969
     private val SHOW_MOCK_DATA = false
     private var debugLogDialog: AlertDialog? = null
+    private var aboutDialog: AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +56,10 @@ class AdSilenceActivity : Activity() {
         if (debugLogDialog != null && debugLogDialog!!.isShowing) {
             Log.v(TAG, "Dismissing debug log dialog")
             debugLogDialog!!.dismiss()
+        }
+        if (aboutDialog != null && aboutDialog!!.isShowing) {
+            Log.v(TAG, "Dismissing about dialog")
+            aboutDialog!!.dismiss()
         }
     }
 
@@ -309,7 +314,9 @@ class AdSilenceActivity : Activity() {
                     it.text = fromHtml(getString(R.string.about_window_text))
                 }
 
-                About().aboutBuilder(context, this, versionName, versionCode)
+                this.findViewById<TextView>(R.id.tv_app_version)?.text = "$versionName ($versionCode)"
+
+                aboutDialog = About().aboutBuilder(context, this, versionName, versionCode)
             }
         }
 
