@@ -56,6 +56,12 @@ jobs:
         run: |
           mv app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/ad-silence-debug-build-${{ env.VERSION_NAME }}-${{ github.event.pull_request.number }}.apk
 
+      - name: Extract APK SHA-256 Fingerprint
+        if: github.event_name == 'pull_request'
+        run: |
+          APK_SHA256=$(keytool -printcert -jarfile app/build/outputs/apk/debug/*.apk | grep "SHA-256:" | head -n 1 | sed 's/.*SHA-256: //')
+          echo "APK_SHA256=$APK_SHA256" >> $GITHUB_ENV
+
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
         with:
@@ -96,3 +102,38 @@ jobs:
             A debug APK build is available for this pull request.
             
             [Download ad-silence-${{ env.VERSION_NAME }}-debug APK](https://github.com/${{ github.repository }}/raw/builds/pr-${{ github.event.pull_request.number }}/${{ env.APK_NAME }})
+            
+            **Certificate SHA-256:** `${{ env.APK_SHA256 }}` (Extracted from build artifact)
+            
+            ---
+            
+            ### ️Google Play Protect Notice
+            
+            Google Play Protect might block the installation of this app because it requests notification permissions. This is a known issue due to recent verification changes, and an appeal has already been raised with Google.
+            
+            **If you encounter this, you may need to temporarily pause Google Play Protect to install the app.**
+            
+            ### Security Verification
+            The app is built via GitHub Actions. You can trust debug/release builds downloaded directly from:
+            *   This GitHub repository
+            *   F-Droid
+            *   Google Play Store
+            
+            *Please do not trust builds from other sources.*
+            
+            #### Certificate Fingerprint
+            **Signer #1 Certificate SHA-256:** `ce85a4f2d43f04b6bdcf1d855fb9266fc49bf254bf14c565f5aca16ded2e9c4c`
+            
+            **Verification Commands:**
+            
+            **On PC (Java/Android SDK):**
+            ```bash
+            # Option 1: Using apksigner (Android SDK)
+            apksigner verify --print-certs <apk-file>
+            
+            # Option 2: Using keytool (Java)
+            keytool -printcert -jarfile <apk-file>
+            ```
+            
+            **On Android:**
+            You can use open-source apps like [LibChecker](https://github.com/LibChecker/LibChecker) to view the certificate signature of the installed app.
