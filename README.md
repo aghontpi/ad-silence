@@ -1,6 +1,6 @@
 # Ad-silence
 
-> Remove ads in Accuradio, Spotify, Tidal & Pandora.
+> Remove ads in Accuradio, Spotify, Tidal, Pandora or Any App.
 
 <p align="left">
   <br/>
@@ -18,7 +18,7 @@
 
 ## Features
 
-- Block ads on `Accuradio`, `Spotify` (full & lite versions), `Tidal` & `Pandora` or **`Any app`**
+- Block ads on `Accuradio`, `Spotify` (full & lite versions), `Tidal` & `Pandora` or **`Any app` with custom App Option**
 - Minimal UI
 - Debug log directly integrated in the app to help with easier debugging
 - App size **less than 150KB**
@@ -30,7 +30,7 @@
 
 - **Custom Apps Support**: Ability to add, edit, and delete custom apps to be silenced.
 
-> With the release of v7.0.0, Ad-silence now supports custom apps with ability to add, edit and provide keywords to trigger  the muting of the app.
+> With the release of v7 and above, Ad-silence now supports custom apps with ability to add, edit and provide keywords specific to the app. 
 
 |     app      | support |
 |:------------:| :-----: |
@@ -40,7 +40,7 @@
 |  Soundcloud  |   yes   |
 |    Tidal     |   yes   |
 |   Pandora    |   yes   |
-| **Any** app  | yes |
+| **Any app**  | yes |
 
 ## Custom Apps
 
@@ -72,13 +72,12 @@ You can now add any app to Ad-silence to mute its notifications.
 
 You have to enable the debug log in the app to see the logs.
 
-- See the lifecycle events of the app (service) in the app (incase if its not working, its easier to identify the issue).
-- See all the logs of the service (notification listener) in the app.
-- See all the actions like mute, unmute, in the app.
-- See all the notifications accessed by the service.
-- Each debug logs are timestamped, gives out the parsing decision like what it matched against and whether there is a match or not.
+- See the lifecycle events of the app in the app (incase if its not working, its easier to identify the issue).
+- See all the logs of the service (notification listener) in the app .
+- See all the notifications parsed by the service.
+- Each debug logs is timestamped, gives out the parsing decision it made (like what it matched against and whether it matched or not).
 
-You can keep the debug log enabled always, it will not affect the performance of the app, only recent 100 logs are stored temporarily.
+You can keep the debug log enabled always, it will not affect the performance of the app, only the recent 100 logs are stored in memory.
 
 ## Motivation
 
@@ -87,9 +86,11 @@ You can keep the debug log enabled always, it will not affect the performance of
 - wanted a minimal ui
   - below is the Total UI of the app.
   <p>
-    <img src="./sample/one.png" alt="enable" height="400px" width="auto"/> 
-    <img src="./sample/two.png" alt="configure apps" height="400px" width="auto"/> 
-    <img src="./sample/three.png" alt="about" height="400px" width="auto"/> 
+    <img src="./sample/1.png" alt="enable" height="400px" width="auto"/> 
+    <img src="./sample/2.png" alt="configure apps" height="400px" width="auto"/> 
+    <img src="./sample/3.png" alt="about" height="400px" width="auto"/> 
+    <img src="./sample/4.png" alt="custom apps" height="400px" width="auto"/> 
+    <img src="./sample/5.png" alt="edit custom apps" height="400px" width="auto"/> 
   </p>
 
 ## How this works
