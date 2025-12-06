@@ -130,12 +130,10 @@ class Preference(private val context: Context) {
     }
 
 
-    // current implementation is only enabled for android 13 and above
     fun isNotificationsEnabled(): Boolean {
         return preference.getBoolean(EnableNotifications, EnableNotificationsDefault)
     }
 
-    // current implementation is only enabled for android 13 and above
     fun setNotificationEnabled(status: Boolean) {
         Log.v(TAG, "[configNotificationChange] ${isNotificationsEnabled()} -> $status")
         preference.edit {

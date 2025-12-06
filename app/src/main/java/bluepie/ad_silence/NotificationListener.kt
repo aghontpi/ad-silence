@@ -39,6 +39,8 @@ class NotificationListener : NotificationListenerService() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        val preference = Preference(applicationContext)
+
         if (intent?.action == "STOP_SERVICE") {
             Log.v(TAG, "Service received STOP_SERVICE. Stopping foreground.")
             LogManager.addLifecycleLog(LogEntry(
@@ -64,6 +66,9 @@ class NotificationListener : NotificationListenerService() {
             }
             stopSelf() // Force the service to stop, then destroy
             return Service.START_NOT_STICKY
+        } else if (intent?.action == "STOP_FOREGROUND") {
+            Log.v(TAG, "Service received STOP_FOREGROUND.")
+            stopForeground(true)
         } else if (intent?.action == "START_SERVICE") {
             Log.v(TAG, "Service received START_SERVICE. Starting foreground.")
             LogManager.addLifecycleLog(LogEntry(
@@ -74,13 +79,25 @@ class NotificationListener : NotificationListenerService() {
                 text = "Service received START_SERVICE. Starting foreground.",
                 subText = "Lifecycle Event"
             ))
-            appNotificationHelper?.getNotificationBuilder("adSilence, service started")?.run {
-                startForeground(NOTIFICATION_ID, this.build())
+            if (preference.isNotificationsEnabled()) {
+                appNotificationHelper?.getNotificationBuilder("adSilence, service started")?.run {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                        startForeground(NOTIFICATION_ID, this.build(), android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE)
+                    } else {
+                        startForeground(NOTIFICATION_ID, this.build())
+                    }
+                }
             }
         } else {
             // Default behavior for system start
-            appNotificationHelper?.getNotificationBuilder("adSilence, service started")?.run {
-                startForeground(NOTIFICATION_ID, this.build())
+            if (preference.isNotificationsEnabled()) {
+                appNotificationHelper?.getNotificationBuilder("adSilence, service started")?.run {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                        startForeground(NOTIFICATION_ID, this.build(), android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE)
+                    } else {
+                        startForeground(NOTIFICATION_ID, this.build())
+                    }
+                }
             }
         }
         return Service.START_STICKY
@@ -88,8 +105,15 @@ class NotificationListener : NotificationListenerService() {
 
     override fun onListenerConnected() {
         super.onListenerConnected()
-        appNotificationHelper?.updateNotification("AdSilence, listening for ads")?.run {
-            startForeground(NOTIFICATION_ID, this) // persistent notification
+        val preference = Preference(applicationContext)
+        if (preference.isNotificationsEnabled()) {
+            appNotificationHelper?.updateNotification("AdSilence, listening for ads")?.run {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                    startForeground(NOTIFICATION_ID, this, android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE)
+                } else {
+                    startForeground(NOTIFICATION_ID, this) // persistent notification
+                }
+            }
         }
         Log.v(TAG, "notification listener connected")
         LogManager.addLifecycleLog(

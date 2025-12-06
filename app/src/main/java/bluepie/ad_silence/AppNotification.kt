@@ -13,8 +13,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 
-const val NOTIFICATION_CHANNEL_ID = "AD-SILENCE-CHANNEL"
-const val NOTIFICATION_CHANNEL_DESCRIPTION = "Ad Silence Notification channel"
+const val NOTIFICATION_CHANNEL_ID = "ad_silence_service"
 const val NOTIFICATION_ID = 69
 
 
@@ -73,10 +72,10 @@ private fun AppNotificationHelper.createNotification(status: String): Notificati
 private fun AppNotificationHelper.createChannel() {
     val channel = NotificationChannel(
         NOTIFICATION_CHANNEL_ID,
-        NOTIFICATION_CHANNEL_ID,
+        context.getString(R.string.channel_name),
         NotificationManager.IMPORTANCE_LOW
     )
-        .apply { description = NOTIFICATION_CHANNEL_DESCRIPTION }.run {
+        .apply { description = context.getString(R.string.channel_description) }.run {
             setSound(null, null)
             this
         }

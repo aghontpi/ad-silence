@@ -111,13 +111,7 @@ class Utils {
     }
 
     private fun updateNotification(msg: String, preference: Preference, addNotificationHelper: AppNotificationHelper?) {
-
-        val showNotificaiton : Boolean = if (Build.VERSION.SDK_INT == Build.VERSION_CODES.TIRAMISU) {
-            preference.isNotificationsEnabled()
-        } else {
-            true
-        }
-        if (showNotificaiton) {
+        if (preference.isNotificationsEnabled()) {
             addNotificationHelper?.updateNotification(msg)
         }
     }

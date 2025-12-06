@@ -43,13 +43,6 @@
         android:orientation="vertical"
         android:padding="24dp">
 
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginBottom="16dp"
-            android:src="@android:drawable/ic_popup_reminder"
-            android:tint="?android:attr/textColorPrimary" />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -99,6 +92,30 @@
 
             <Switch
                 android:id="@+id/disable_battery_optimization_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/notification_updates_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/notification_updates_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/notifications_optional"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="14sp" />
+
+            <Switch
+                android:id="@+id/enable_notifications_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -225,11 +242,6 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:visibility="gone" />
-    <Switch
-        android:id="@+id/enable_notifications_switch"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:visibility="gone" />
     <TextView
         android:id="@+id/notification_posting_permission_text_view"
         android:layout_width="0dp"
@@ -240,5 +252,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:visibility="gone" />
+
+
 
 </LinearLayout>
