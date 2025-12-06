@@ -43,6 +43,7 @@ class AdSilenceActivity : Activity() {
 
     override fun onResume() {
         super.onResume()
+        LogManager.isLoggingEnabled = Preference(applicationContext).isDebugLogEnabled()
         Log.v(TAG, "onResume")
         // when resuming after permission is granted
         configurePermission()
@@ -798,6 +799,25 @@ class AdSilenceActivity : Activity() {
         val dialog = debugLogDialog!!
 
         val listView = dialogView.findViewById<ListView>(R.id.log_list_view)
+    
+        try {
+            val uptimeTextView = dialogView.findViewById<TextView>(R.id.dialog_uptime_text_view)
+            val startTime = NotificationListener.startTime
+            if (startTime > 0) {
+                val uptimeMillis = System.currentTimeMillis() - startTime
+                val hours = uptimeMillis / (1000 * 60 * 60)
+                val minutes = (uptimeMillis / (1000 * 60)) % 60
+                val seconds = (uptimeMillis / 1000) % 60
+                uptimeTextView?.text = String.format("Service running for: %dh %dm %ds", hours, minutes, seconds)
+                uptimeTextView?.visibility = View.VISIBLE
+            } else {
+                uptimeTextView?.visibility = View.GONE
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error setting uptime text", e)
+            uptimeTextView?.visibility = View.GONE
+        }
+    
         val adapter = LogAdapter(LogManager.getLogs())
         listView.adapter = adapter
 
@@ -819,6 +839,7 @@ class AdSilenceActivity : Activity() {
             this.isChecked = preference.isDebugLogEnabled()
             this.setOnCheckedChangeListener { _, isChecked ->
                 preference.setDebugLogEnabled(isChecked)
+                LogManager.isLoggingEnabled = isChecked
             }
         }
 

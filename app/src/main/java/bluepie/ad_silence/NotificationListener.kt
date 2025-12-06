@@ -23,8 +23,10 @@ class NotificationListener : NotificationListenerService() {
 
     override fun onCreate() {
         super.onCreate()
+        startTime = System.currentTimeMillis()
         audioManager = applicationContext.getSystemService(AUDIO_SERVICE) as AudioManager
         appNotificationHelper = AppNotificationHelper(applicationContext)
+        LogManager.isLoggingEnabled = Preference(applicationContext).isDebugLogEnabled()
         Log.v(TAG, "listener created")
         LogManager.addLifecycleLog(
             LogEntry(
@@ -282,5 +284,8 @@ class NotificationListener : NotificationListenerService() {
                     }
             }
         }
+    }
+    companion object {
+        @Volatile var startTime: Long = 0
     }
 }

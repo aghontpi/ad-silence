@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingBottom="16dp">
+        android:paddingBottom="8dp">
 
         <TextView
             android:layout_width="0dp"
@@ -51,6 +51,17 @@
             android:textSize="12sp" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/dialog_uptime_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="12sp"
+        android:textColor="?android:attr/textColorSecondary"
+        android:layout_marginBottom="16dp"
+        android:visibility="gone"
+        tools:text="Active for: 2h 30m" />
 
     <ListView
         android:id="@+id/log_list_view"
