@@ -18,10 +18,7 @@ object LogManager {
     private val logs = LinkedList<LogEntry>()
     private val lifecycleLogs = LinkedList<LogEntry>()
     private val listeners = CopyOnWriteArrayList<() -> Unit>()
-    @Volatile var isLoggingEnabled: Boolean = false
-
     fun addLog(entry: LogEntry) {
-        if (!isLoggingEnabled) return
         synchronized(logs) {
             logs.addFirst(entry)
             // Keep only last 100 logs to avoid memory issues
@@ -33,7 +30,6 @@ object LogManager {
     }
 
     fun addLifecycleLog(entry: LogEntry) {
-        if (!isLoggingEnabled) return
         synchronized(lifecycleLogs) {
             lifecycleLogs.addFirst(entry)
             // Keep only last 100 lifecycle logs

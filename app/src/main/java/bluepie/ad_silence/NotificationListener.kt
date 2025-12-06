@@ -26,18 +26,20 @@ class NotificationListener : NotificationListenerService() {
         startTime = System.currentTimeMillis()
         audioManager = applicationContext.getSystemService(AUDIO_SERVICE) as AudioManager
         appNotificationHelper = AppNotificationHelper(applicationContext)
-        LogManager.isLoggingEnabled = Preference(applicationContext).isDebugLogEnabled()
+
         Log.v(TAG, "listener created")
-        LogManager.addLifecycleLog(
-            LogEntry(
-                appName = "AdSilence",
-                timestamp = System.currentTimeMillis(),
-                isAd = false,
-                title = "Service Created",
-                text = "Notification Listener Service Created",
-                subText = "Lifecycle Event"
+        if (Preference(applicationContext).isDebugLogEnabled()) {
+            LogManager.addLifecycleLog(
+                LogEntry(
+                    appName = "AdSilence",
+                    timestamp = System.currentTimeMillis(),
+                    isAd = false,
+                    title = "Service Created",
+                    text = "Notification Listener Service Created",
+                    subText = "Lifecycle Event"
+                )
             )
-        )
+        }
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -45,50 +47,58 @@ class NotificationListener : NotificationListenerService() {
 
         if (intent?.action == "STOP_SERVICE") {
             Log.v(TAG, "Service received STOP_SERVICE. Stopping foreground.")
-            LogManager.addLifecycleLog(LogEntry(
-                appName = "AdSilence",
-                timestamp = System.currentTimeMillis(),
-                isAd = false,
-                title = "Service Stop",
-                text = "Service received STOP_SERVICE. Stopping foreground.",
-                subText = "Lifecycle Event"
-            ))
-            stopForeground(true)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                Log.v(TAG, "API >= 24: Requesting Unbind.")
+            if (preference.isDebugLogEnabled()) {
                 LogManager.addLifecycleLog(LogEntry(
                     appName = "AdSilence",
                     timestamp = System.currentTimeMillis(),
                     isAd = false,
-                    title = "Service Unbind",
-                    text = "API >= 24: Requesting Unbind.",
+                    title = "Service Stop",
+                    text = "Service received STOP_SERVICE. Stopping foreground.",
                     subText = "Lifecycle Event"
                 ))
+            }
+            stopForeground(true)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                Log.v(TAG, "API >= 24: Requesting Unbind.")
+                if (preference.isDebugLogEnabled()) {
+                    LogManager.addLifecycleLog(LogEntry(
+                        appName = "AdSilence",
+                        timestamp = System.currentTimeMillis(),
+                        isAd = false,
+                        title = "Service Unbind",
+                        text = "API >= 24: Requesting Unbind.",
+                        subText = "Lifecycle Event"
+                    ))
+                }
                 requestUnbind()
             }
             stopSelf() // Force the service to stop, then destroy
             return Service.START_NOT_STICKY
         } else if (intent?.action == "STOP_FOREGROUND") {
             Log.v(TAG, "Service received STOP_FOREGROUND.")
-            LogManager.addLifecycleLog(LogEntry(
-                appName = "AdSilence",
-                timestamp = System.currentTimeMillis(),
-                isAd = false,
-                title = "Service Stop Foreground",
-                text = "Service received STOP_FOREGROUND.",
-                subText = "Lifecycle Event"
-            ))
+            if (preference.isDebugLogEnabled()) {
+                LogManager.addLifecycleLog(LogEntry(
+                    appName = "AdSilence",
+                    timestamp = System.currentTimeMillis(),
+                    isAd = false,
+                    title = "Service Stop Foreground",
+                    text = "Service received STOP_FOREGROUND.",
+                    subText = "Lifecycle Event"
+                ))
+            }
             stopForeground(true)
         } else if (intent?.action == "START_SERVICE") {
             Log.v(TAG, "Service received START_SERVICE. Starting foreground.")
-            LogManager.addLifecycleLog(LogEntry(
-                appName = "AdSilence",
-                timestamp = System.currentTimeMillis(),
-                isAd = false,
-                title = "Service Start",
-                text = "Service received START_SERVICE. Starting foreground.",
-                subText = "Lifecycle Event"
-            ))
+            if (preference.isDebugLogEnabled()) {
+                LogManager.addLifecycleLog(LogEntry(
+                    appName = "AdSilence",
+                    timestamp = System.currentTimeMillis(),
+                    isAd = false,
+                    title = "Service Start",
+                    text = "Service received START_SERVICE. Starting foreground.",
+                    subText = "Lifecycle Event"
+                ))
+            }
             if (preference.isNotificationsEnabled()) {
                 appNotificationHelper?.getNotificationBuilder("adSilence, service started")?.run {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
@@ -101,14 +111,16 @@ class NotificationListener : NotificationListenerService() {
         } else {
             // Default behavior for system start
             Log.v(TAG, "Service restored by system (START_STICKY).")
-            LogManager.addLifecycleLog(LogEntry(
-                appName = "AdSilence",
-                timestamp = System.currentTimeMillis(),
-                isAd = false,
-                title = "Service Restored",
-                text = "Service restored by system (START_STICKY).",
-                subText = "Lifecycle Event"
-            ))
+            if (preference.isDebugLogEnabled()) {
+                LogManager.addLifecycleLog(LogEntry(
+                    appName = "AdSilence",
+                    timestamp = System.currentTimeMillis(),
+                    isAd = false,
+                    title = "Service Restored",
+                    text = "Service restored by system (START_STICKY).",
+                    subText = "Lifecycle Event"
+                ))
+            }
 
             if (preference.isNotificationsEnabled()) {
                 appNotificationHelper?.getNotificationBuilder("adSilence, service started")?.run {
@@ -136,46 +148,52 @@ class NotificationListener : NotificationListenerService() {
             }
         }
         Log.v(TAG, "notification listener connected")
-        LogManager.addLifecycleLog(
-            LogEntry(
-                appName = "AdSilence",
-                timestamp = System.currentTimeMillis(),
-                isAd = false,
-                title = "Listener Connected",
-                text = "Notification Listener Connected",
-                subText = "Lifecycle Event"
+        if (preference.isDebugLogEnabled()) {
+            LogManager.addLifecycleLog(
+                LogEntry(
+                    appName = "AdSilence",
+                    timestamp = System.currentTimeMillis(),
+                    isAd = false,
+                    title = "Listener Connected",
+                    text = "Notification Listener Connected",
+                    subText = "Lifecycle Event"
+                )
             )
-        )
+        }
     }
 
     override fun onListenerDisconnected() {
         super.onListenerDisconnected()
         Log.v(TAG, "notification listener disconnected")
-        LogManager.addLifecycleLog(
-            LogEntry(
-                appName = "AdSilence",
-                timestamp = System.currentTimeMillis(),
-                isAd = false,
-                title = "Listener Disconnected",
-                text = "Notification Listener Disconnected",
-                subText = "Lifecycle Event"
+        if (Preference(applicationContext).isDebugLogEnabled()) {
+            LogManager.addLifecycleLog(
+                LogEntry(
+                    appName = "AdSilence",
+                    timestamp = System.currentTimeMillis(),
+                    isAd = false,
+                    title = "Listener Disconnected",
+                    text = "Notification Listener Disconnected",
+                    subText = "Lifecycle Event"
+                )
             )
-        )
+        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
         Log.v(TAG, "listener destroyed")
-        LogManager.addLifecycleLog(
-            LogEntry(
-                appName = "AdSilence",
-                timestamp = System.currentTimeMillis(),
-                isAd = false,
-                title = "Service Destroyed",
-                text = "Notification Listener Service Destroyed",
-                subText = "Lifecycle Event"
+        if (Preference(applicationContext).isDebugLogEnabled()) {
+            LogManager.addLifecycleLog(
+                LogEntry(
+                    appName = "AdSilence",
+                    timestamp = System.currentTimeMillis(),
+                    isAd = false,
+                    title = "Service Destroyed",
+                    text = "Notification Listener Service Destroyed",
+                    subText = "Lifecycle Event"
+                )
             )
-        )
+        }
     }
 
     override fun onNotificationPosted(sbn: StatusBarNotification?) {
@@ -195,7 +213,9 @@ class NotificationListener : NotificationListenerService() {
                         Utils().run {
                             val parser = NotificationParser(this@with)
                             val isAd = parser.isAd()
-                            if (preference.isDebugLogEnabled()) {
+                            
+                            val isDebugEnabled = preference.isDebugLogEnabled()
+                            if (isDebugEnabled) {
                                 parser.lastLogEntry?.let { LogManager.addLog(it) }
                             }
                             
@@ -206,14 +226,16 @@ class NotificationListener : NotificationListenerService() {
                                         handler.removeCallbacks(it)
                                         unmuteRunnable = null
                                         Log.v(TAG, "New ad detected, cancelled pending unmute")
-                                        LogManager.addLifecycleLog(LogEntry(
-                                            appName = "AdSilence",
-                                            timestamp = System.currentTimeMillis(),
-                                            isAd = true,
-                                            title = "Unmute Cancelled",
-                                            text = "Cancelled pending unmute for $currentPackage ($packageName)",
-                                            subText = "Action"
-                                        ))
+                                        if (isDebugEnabled) {
+                                            LogManager.addLifecycleLog(LogEntry(
+                                                appName = "AdSilence",
+                                                timestamp = System.currentTimeMillis(),
+                                                isAd = true,
+                                                title = "Unmute Cancelled",
+                                                text = "Cancelled pending unmute for $currentPackage ($packageName)",
+                                                subText = "Action"
+                                            ))
+                                        }
                                     }
 
                                     val isMusicStreamMuted = this.isMusicMuted(audioManager!!)
@@ -221,14 +243,16 @@ class NotificationListener : NotificationListenerService() {
                                         Log.v(TAG, "'MusicStream' muted? -> $isMusicStreamMuted")
                                         Log.v(TAG, "Ad detected muting, state-> $isMuted to ${!isMuted}, currentPackage: $currentPackage")
                                         this.mute(audioManager, appNotificationHelper, preference)
-                                        LogManager.addLifecycleLog(LogEntry(
-                                            appName = "AdSilence",
-                                            timestamp = System.currentTimeMillis(),
-                                            isAd = true,
-                                            title = "Muted",
-                                            text = "Muted audio for $currentPackage ($packageName)",
-                                            subText = "Action"
-                                        ))
+                                        if (isDebugEnabled) {
+                                            LogManager.addLifecycleLog(LogEntry(
+                                                appName = "AdSilence",
+                                                timestamp = System.currentTimeMillis(),
+                                                isAd = true,
+                                                title = "Muted",
+                                                text = "Muted audio for $currentPackage ($packageName)",
+                                                subText = "Action"
+                                            ))
+                                        }
                                         isMuted = true
                                         if (isMusicStreamMuted) muteCount = 0 else muteCount++
                                     } else {
@@ -267,28 +291,32 @@ class NotificationListener : NotificationListenerService() {
                                                     )
                                                     isMuted = false
                                                 }
-                                                LogManager.addLifecycleLog(LogEntry(
-                                                    appName = "AdSilence",
-                                                    timestamp = System.currentTimeMillis(),
-                                                    isAd = false,
-                                                    title = "Unmuted",
-                                                    text = "Unmuted audio for $currentPackage ($packageName)",
-                                                    subText = "Action"
-                                                ))
+                                                if (isDebugEnabled) {
+                                                    LogManager.addLifecycleLog(LogEntry(
+                                                        appName = "AdSilence",
+                                                        timestamp = System.currentTimeMillis(),
+                                                        isAd = false,
+                                                        title = "Unmuted",
+                                                        text = "Unmuted audio for $currentPackage ($packageName)",
+                                                        subText = "Action"
+                                                    ))
+                                                }
                                                 unmuteRunnable = null
                                             }
 
                                             val delay = this.getUnmuteDelay(currentPackage)
                                             if (delay > 0) {
                                                 Log.v(TAG, "scheduling unmute for $currentPackage ($packageName) with delay $delay")
-                                                LogManager.addLifecycleLog(LogEntry(
-                                                    appName = "AdSilence",
-                                                    timestamp = System.currentTimeMillis(),
-                                                    isAd = false,
-                                                    title = "Unmute Scheduled",
-                                                    text = "Unmute Scheduled after ${delay}ms",
-                                                    subText = "Action"
-                                                ))
+                                                if (isDebugEnabled) {
+                                                    LogManager.addLifecycleLog(LogEntry(
+                                                        appName = "AdSilence",
+                                                        timestamp = System.currentTimeMillis(),
+                                                        isAd = false,
+                                                        title = "Unmute Scheduled",
+                                                        text = "Unmute Scheduled after ${delay}ms",
+                                                        subText = "Action"
+                                                    ))
+                                                }
                                                 handler.postDelayed(unmuteRunnable!!, delay)
                                             } else {
                                                 Log.v(TAG, "unmuting immediately for $currentPackage ($packageName)")

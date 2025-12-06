@@ -43,7 +43,7 @@ class AdSilenceActivity : Activity() {
 
     override fun onResume() {
         super.onResume()
-        LogManager.isLoggingEnabled = Preference(applicationContext).isDebugLogEnabled()
+
         Log.v(TAG, "onResume")
         // when resuming after permission is granted
         configurePermission()
@@ -226,27 +226,31 @@ class AdSilenceActivity : Activity() {
                 // Turning ON
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     Log.v(TAG, "Toggling ON: Requesting Rebind (API >= 24)")
-                    LogManager.addLifecycleLog(LogEntry(
-                        appName = "AdSilence",
-                        timestamp = System.currentTimeMillis(),
-                        isAd = false,
-                        title = "Service Rebind",
-                        text = "Toggling ON: Requesting Rebind (API >= 24)",
-                        subText = "Lifecycle Event"
-                    ))
+                    if (preference.isDebugLogEnabled()) {
+                        LogManager.addLifecycleLog(LogEntry(
+                            appName = "AdSilence",
+                            timestamp = System.currentTimeMillis(),
+                            isAd = false,
+                            title = "Service Rebind",
+                            text = "Toggling ON: Requesting Rebind (API >= 24)",
+                            subText = "Lifecycle Event"
+                        ))
+                    }
                     android.service.notification.NotificationListenerService.requestRebind(
                         android.content.ComponentName(this, NotificationListener::class.java)
                     )
                 } else {
                     Log.v(TAG, "Toggling ON: Sending START_SERVICE intent (API < 24)")
-                    LogManager.addLifecycleLog(LogEntry(
-                        appName = "AdSilence",
-                        timestamp = System.currentTimeMillis(),
-                        isAd = false,
-                        title = "Service Start",
-                        text = "Toggling ON: Sending START_SERVICE intent (API < 24)",
-                        subText = "Lifecycle Event"
-                    ))
+                    if (preference.isDebugLogEnabled()) {
+                        LogManager.addLifecycleLog(LogEntry(
+                            appName = "AdSilence",
+                            timestamp = System.currentTimeMillis(),
+                            isAd = false,
+                            title = "Service Start",
+                            text = "Toggling ON: Sending START_SERVICE intent (API < 24)",
+                            subText = "Lifecycle Event"
+                        ))
+                    }
                     val intent = Intent(this, NotificationListener::class.java)
                     intent.action = "START_SERVICE"
                     startService(intent)
@@ -254,14 +258,16 @@ class AdSilenceActivity : Activity() {
             } else {
                 // Turning OFF
                 Log.v(TAG, "Toggling OFF: Sending STOP_SERVICE intent")
-                LogManager.addLifecycleLog(LogEntry(
-                    appName = "AdSilence",
-                    timestamp = System.currentTimeMillis(),
-                    isAd = false,
-                    title = "Service Stop",
-                    text = "Toggling OFF: Sending STOP_SERVICE intent",
-                    subText = "Lifecycle Event"
-                ))
+                if (preference.isDebugLogEnabled()) {
+                    LogManager.addLifecycleLog(LogEntry(
+                        appName = "AdSilence",
+                        timestamp = System.currentTimeMillis(),
+                        isAd = false,
+                        title = "Service Stop",
+                        text = "Toggling OFF: Sending STOP_SERVICE intent",
+                        subText = "Lifecycle Event"
+                    ))
+                }
                 val intent = Intent(this, NotificationListener::class.java)
                 intent.action = "STOP_SERVICE"
                 startService(intent)
@@ -838,7 +844,6 @@ class AdSilenceActivity : Activity() {
             this.isChecked = preference.isDebugLogEnabled()
             this.setOnCheckedChangeListener { _, isChecked ->
                 preference.setDebugLogEnabled(isChecked)
-                LogManager.isLoggingEnabled = isChecked
             }
         }
 
@@ -846,7 +851,9 @@ class AdSilenceActivity : Activity() {
             if (SHOW_MOCK_DATA) {
                 this.visibility = View.VISIBLE
                 this.setOnClickListener {
-                    LogManager.addMockData()
+                    if (preference.isDebugLogEnabled()) {
+                        LogManager.addMockData()
+                    }
                 }
             } else {
                 this.visibility = View.GONE
