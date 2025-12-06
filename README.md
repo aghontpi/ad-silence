@@ -18,14 +18,19 @@
 
 ## Features
 
-- Block ads on `Accuradio`, `Spotify` (full & lite versions), `Tidal` & `Pandora`.
+- Block ads on `Accuradio`, `Spotify` (full & lite versions), `Tidal` & `Pandora` or **`Any app`**
 - Minimal UI
+- Debug log directly integrated in the app to help with easier debugging
 - App size **less than 150KB**
 - Configure which apps to remove ads in
 - Open source
 - No inapp purchases or ads
 
 ## Supported apps?
+
+- **Custom Apps Support**: Ability to add, edit, and delete custom apps to be silenced.
+
+> With the release of v7.0.0, Ad-silence now supports custom apps with ability to add, edit and provide keywords to trigger  the muting of the app.
 
 |     app      | support |
 |:------------:| :-----: |
@@ -35,15 +40,45 @@
 |  Soundcloud  |   yes   |
 |    Tidal     |   yes   |
 |   Pandora    |   yes   |
+| **Any** app  | yes |
 
-- If you want this to work on a different app/audio streaming service, [open an new issue](https://github.com/aghontpi/ad-silence/issues/new) mentioning its name.
-- Since this is built with `Accuradio` in mind, ~~no other apps are supported for now, but Implementing other apps should be quite easy.~~
-- `Spotify` is now supported.
-- `Tidal` is now supported.
-- `Spotify Lite` is now supported.
-- `Pandora` is now supported.
-- `Soundcloud` is now supported.
-- Easily extensible to other apps.
+## Custom Apps
+
+You can now add any app to Ad-silence to mute its notifications.
+
+1. Open Ad-silence.
+2. Scroll down to "Custom Apps" section.
+3. Click on "Add" button.
+4. Enter the name, **Package Name** of the app (e.g., `com.example.radio`).
+5. Enter **Keywords** to trigger muting only on specific notifications.
+6. Click on "Save" button.
+
+> **Note:**
+> - The app will be muted only if the notification contains the keywords.
+> - Will unmutate the app if the notification does not contain the keywords.
+
+> **Editing:**
+> - click on "select apps" to view custom apps
+> - click on the edit icon to edit it.
+> - Enter the new name, **Package Name** of the app (e.g., `com.example.radio`).
+> - Enter **Keywords** to trigger muting only on specific notifications.
+> - Click on "Save" button.
+
+> **Deleting:**
+> - click on "select apps" to view custom apps
+> - click on the delete icon to delete it.
+
+## Debug Log
+
+You have to enable the debug log in the app to see the logs.
+
+- See the lifecycle events of the app (service) in the app (incase if its not working, its easier to identify the issue).
+- See all the logs of the service (notification listener) in the app.
+- See all the actions like mute, unmute, in the app.
+- See all the notifications accessed by the service.
+- Each debug logs are timestamped, gives out the parsing decision like what it matched against and whether there is a match or not.
+
+You can keep the debug log enabled always, it will not affect the performance of the app, only recent 100 logs are stored temporarily.
 
 ## Motivation
 
