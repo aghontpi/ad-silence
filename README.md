@@ -82,7 +82,8 @@ You can keep the debug log enabled always, it will not affect the performance of
 ## Motivation
 
 - Ad blocker for `Accuradio android` is not available.
-- wanted a **lightweight** & **non bloat** app with size lessthan **_1mb_**
+- wanted a **lightweight** & **non bloat** app with size lessthan **_200KB_**
+- Runs forever in the background with absolute minimal resources
 - wanted a minimal ui
   - below is the Total UI of the app.
   <p>
