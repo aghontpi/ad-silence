@@ -815,7 +815,6 @@ class AdSilenceActivity : Activity() {
             }
         } catch (e: Exception) {
             Log.e(TAG, "Error setting uptime text", e)
-            uptimeTextView?.visibility = View.GONE
         }
     
         val adapter = LogAdapter(LogManager.getLogs())
