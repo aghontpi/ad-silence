@@ -23,12 +23,15 @@ import androidx.core.app.ActivityCompat
 
 class AdSilenceActivity : Activity() {
 
-    private val TAG = "MainActivity"
-    private val NOTIFICATION_PERMISSION_REQUEST_CODE = 6969
+    private val TAG = "AdSilence.Activity"
+    private val NOTIFICATION_PERMISSION_REQUEST_CODE = 1001
     private val SHOW_MOCK_DATA = false
-    private var debugLogDialog: AlertDialog? = null
     private var aboutDialog: AlertDialog? = null
     private var batteryOptimizationDialog: AlertDialog? = null
+    private var debugLogDialog: AlertDialog? = null
+    private var appSelectionDialog: AlertDialog? = null
+    private var addCustomAppDialog: AlertDialog? = null
+    private var deleteCustomAppDialog: AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,6 +70,18 @@ class AdSilenceActivity : Activity() {
         if (batteryOptimizationDialog != null && batteryOptimizationDialog!!.isShowing) {
             Log.v(TAG, "Dismissing battery optimization dialog")
             batteryOptimizationDialog!!.dismiss()
+        }
+        if (appSelectionDialog != null && appSelectionDialog!!.isShowing) {
+            Log.v(TAG, "Dismissing app selection dialog")
+            appSelectionDialog!!.dismiss()
+        }
+        if (addCustomAppDialog != null && addCustomAppDialog!!.isShowing) {
+            Log.v(TAG, "Dismissing add custom app dialog")
+            addCustomAppDialog!!.dismiss()
+        }
+        if (deleteCustomAppDialog != null && deleteCustomAppDialog!!.isShowing) {
+            Log.v(TAG, "Dismissing delete custom app dialog")
+            deleteCustomAppDialog!!.dismiss()
         }
     }
 
@@ -480,7 +495,12 @@ class AdSilenceActivity : Activity() {
             }
 
             dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-            dialog.show()
+            
+            appSelectionDialog = dialog
+            appSelectionDialog?.setOnDismissListener {
+                appSelectionDialog = null
+            }
+            appSelectionDialog?.show()
         }
     }
 
@@ -715,7 +735,7 @@ class AdSilenceActivity : Activity() {
             deleteIcon.layoutParams = iconParams
             deleteIcon.setPadding(16, 16, 16, 16)
             deleteIcon.setOnClickListener {
-                AlertDialog.Builder(this)
+                deleteCustomAppDialog = AlertDialog.Builder(this)
                     .setTitle("Delete Custom App")
                     .setMessage("Do you want to delete ${customApp.name}? It's not recoverable.")
                     .setPositiveButton("Yes, delete") { _, _ ->
@@ -723,7 +743,12 @@ class AdSilenceActivity : Activity() {
                         populateCustomApps(container, preference)
                     }
                     .setNegativeButton("Cancel", null)
-                    .show()
+                    .create()
+                
+                deleteCustomAppDialog?.setOnDismissListener {
+                    deleteCustomAppDialog = null
+                }
+                deleteCustomAppDialog?.show()
             }
 
             // Order: Label -> Edit -> Delete -> Switch
@@ -793,8 +818,15 @@ class AdSilenceActivity : Activity() {
             dialog.dismiss()
         }
 
+
+
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        dialog.show()
+        
+        addCustomAppDialog = dialog
+        addCustomAppDialog?.setOnDismissListener {
+            addCustomAppDialog = null
+        }
+        addCustomAppDialog?.show()
     }
 
     private fun showDebugLogDialog() {
