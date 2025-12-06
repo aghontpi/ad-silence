@@ -1,6 +1,7 @@
 package bluepie.ad_silence
 
 import java.util.LinkedList
+import java.util.concurrent.CopyOnWriteArrayList
 
 data class LogEntry(
     val appName: String,
@@ -16,8 +17,7 @@ data class LogEntry(
 object LogManager {
     private val logs = LinkedList<LogEntry>()
     private val lifecycleLogs = LinkedList<LogEntry>()
-    private val listeners = mutableListOf<() -> Unit>()
-
+    private val listeners = CopyOnWriteArrayList<() -> Unit>()
     fun addLog(entry: LogEntry) {
         synchronized(logs) {
             logs.addFirst(entry)

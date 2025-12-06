@@ -11,7 +11,7 @@
     <string name="app_status">Abilita (muta gli annunci)</string>
     <string name="about">informazioni</string>
     <string name="select_apps">seleziona le app</string>
-    <string name="about_window_text">\"Ad-silence\" silenzia la pubblicità su Accuradio, Spotify, Spotify-Lite, Tidal, Pandora, Soundcloud e qualsiasi app configurata dall\'utente. Funziona utilizzando le notifiche inviate da queste app. Vengono utilizzate solo le notifiche di queste app per l\'identificazione, le quali vengono immediatamente scartate. Questa app è OpenSource; puoi controllare il codice sorgente su GitHub.
+    <string name="about_window_text">\"Ad-silence\" silenzia la pubblicità su Accuradio, Spotify, Spotify-Lite, Tidal, Pandora, Soundcloud e qualsiasi app configurata dall\'utente. Funziona utilizzando le notifiche inviate da queste app. Vengono utilizzate solo le notifiche di queste app per l\'identificazione, le quali vengono immediatamente scartate. Questa app è OpenSource; puoi controllare il codice sorgente su GitHub: <![CDATA[<a href="https://github.com/aghontpi/ad-silence/">https://github.com/aghontpi/ad-silence/</a>]]>
         <![CDATA[<br/><br/>]]>
 
         <![CDATA[<b>
@@ -30,6 +30,7 @@
         <![CDATA[<br/><br/>]]>
         Realizzato da <![CDATA[ <a href="https://github.com/aghontpi">aghontpi&lt;bluepie&gt;</a>]]> per OpenSource.
     </string>
+    <string name="github">Codice sorgente (GitHub)</string>
     <string name="report_issue">segnala un problema</string>
     <string name="not_installed">(non installato)</string>
     <string name="Experimental">Sperimentale</string>
@@ -40,8 +41,17 @@
     <string name="cant_grant_permission_see_help_here">Non puoi concedere l\'autorizzazione? Android ha introdotto restrizioni su Android 13 e versioni successive. <![CDATA[  <a href="https://github.com/aghontpi/ad-silence/wiki/Restricted-Setting-or-Unable-to-grant-notification-permission">Visualizza la wiki qui!</a>]]></string>
     <string name="help">(help)</string>
     <string name="close">Chiudi</string>
+    <string name="disable_battery_optimization">Uso in background</string>
+    <string name="status_enabled">Limitato</string>
+    <string name="status_disabled">Illimitato</string>
+    <string name="background_usage_dialog_title">Consenti l\'uso in background</string>
+    <string name="background_usage_dialog_message">Per garantire che AdSilence funzioni in modo affidabile in background, seleziona \'Illimitato\' o \'Non ottimizzare\' nella seguente schermata delle impostazioni della batteria.</string>
+    <string name="open_settings">Apri impostazioni</string>
     <!-- Custom App Dialog Strings -->
     <string name="add_custom_app">Aggiungi app personalizzata</string>
+    <string name="custom_app_help_text">Non sei sicuro di cosa mettere? <![CDATA[<a href="https://github.com/aghontpi/ad-silence/wiki/Custom_App_Wiki">Guarda la guida qui!</a>]]></string>
+    <string name="custom_app_overlay_hint">Suggerimento: usa il nome del pacchetto di un\'app preconfigurata (come Spotify) per aggiungere parole chiave extra per il blocco degli annunci.</string>
+    <string name="custom_app_list_hint">Annunci persi? Per le app preconfigurate esistenti, puoi anche utilizzare \'Aggiungi app personalizzata\' qui sotto per definire nuove parole chiave di rilevamento.</string>
     <string name="app_name_label">Nome dell\'app</string>
     <string name="app_name_hint">Inserisci il titolo dell\'applicazione.</string>
     <string name="package_name_label">Nome pacchetto</string>
@@ -51,6 +61,9 @@
     <string name="keywords_hint">Parole chiave di rilevamento (separate da virgola)</string>
     <string name="cancel">ANNULLA</string>
     <string name="save">SALVA</string>
+    <string name="delete">ELIMINA</string>
+    <string name="delete_custom_app_title">Elimina app personalizzata</string>
+    <string name="delete_custom_app_message_format">Vuoi eliminare %1$s? Non è recuperabile.</string>
     <string name="notification_access">Accesso alle notifiche</string>
     <string name="ad_muting_status">Stato silenziamento annunci</string>
     <string name="enable_ad_silence">Abilita Ad-Silence</string>
@@ -58,4 +71,6 @@
     <string name="custom_detection">Rilevamento personalizzato</string>
     <string name="mock">Mock</string>
     <string name="clear">Pulisci</string>
+    <string name="channel_name">Stato del servizio</string>
+    <string name="channel_description">Notifica persistente che mostra che AdSilence è attivo</string>
 </resources>

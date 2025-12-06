@@ -91,12 +91,26 @@
             android:text="@string/package_name_hint"
             android:textColor="?android:attr/textColorSecondary"
             android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/custom_app_overlay_hint"
+            android:textColor="?android:attr/textColorSecondary"
+            android:textStyle="italic"
+            android:textSize="11sp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="16dp"
         android:orientation="vertical">
 
         <TextView
@@ -133,6 +147,16 @@
             android:textColorHint="?android:attr/textColorHint"
             android:textSize="16sp" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_help_link"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:gravity="center"
+        android:text="@string/custom_app_help_text"
+        android:textColor="?android:attr/textColorSecondary"
+        android:textSize="12sp" />
 
     <LinearLayout
         android:layout_width="match_parent"

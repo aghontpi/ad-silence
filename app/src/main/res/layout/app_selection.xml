@@ -93,6 +93,16 @@
         </LinearLayout>
     </ScrollView>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:gravity="center"
+        android:text="@string/custom_app_list_hint"
+        android:textColor="?android:attr/textColorSecondary"
+        android:textStyle="italic"
+        android:textSize="11sp" />
+
     <Button
         android:id="@+id/btn_add_custom_app"
         android:layout_width="match_parent"

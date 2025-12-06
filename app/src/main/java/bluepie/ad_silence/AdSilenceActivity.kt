@@ -23,12 +23,15 @@ import androidx.core.app.ActivityCompat
 
 class AdSilenceActivity : Activity() {
 
-    private val TAG = "MainActivity"
-    private val NOTIFICATION_PERMISSION_REQUEST_CODE = 6969
+    private val TAG = "AdSilence.Activity"
+    private val NOTIFICATION_PERMISSION_REQUEST_CODE = 1001
     private val SHOW_MOCK_DATA = false
-    private var debugLogDialog: AlertDialog? = null
     private var aboutDialog: AlertDialog? = null
     private var batteryOptimizationDialog: AlertDialog? = null
+    private var debugLogDialog: AlertDialog? = null
+    private var appSelectionDialog: AlertDialog? = null
+    private var addCustomAppDialog: AlertDialog? = null
+    private var deleteCustomAppDialog: AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +46,7 @@ class AdSilenceActivity : Activity() {
 
     override fun onResume() {
         super.onResume()
+
         Log.v(TAG, "onResume")
         // when resuming after permission is granted
         configurePermission()
@@ -66,6 +70,18 @@ class AdSilenceActivity : Activity() {
         if (batteryOptimizationDialog != null && batteryOptimizationDialog!!.isShowing) {
             Log.v(TAG, "Dismissing battery optimization dialog")
             batteryOptimizationDialog!!.dismiss()
+        }
+        if (appSelectionDialog != null && appSelectionDialog!!.isShowing) {
+            Log.v(TAG, "Dismissing app selection dialog")
+            appSelectionDialog!!.dismiss()
+        }
+        if (addCustomAppDialog != null && addCustomAppDialog!!.isShowing) {
+            Log.v(TAG, "Dismissing add custom app dialog")
+            addCustomAppDialog!!.dismiss()
+        }
+        if (deleteCustomAppDialog != null && deleteCustomAppDialog!!.isShowing) {
+            Log.v(TAG, "Dismissing delete custom app dialog")
+            deleteCustomAppDialog!!.dismiss()
         }
     }
 
@@ -225,27 +241,31 @@ class AdSilenceActivity : Activity() {
                 // Turning ON
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     Log.v(TAG, "Toggling ON: Requesting Rebind (API >= 24)")
-                    LogManager.addLifecycleLog(LogEntry(
-                        appName = "AdSilence",
-                        timestamp = System.currentTimeMillis(),
-                        isAd = false,
-                        title = "Service Rebind",
-                        text = "Toggling ON: Requesting Rebind (API >= 24)",
-                        subText = "Lifecycle Event"
-                    ))
+                    if (preference.isDebugLogEnabled()) {
+                        LogManager.addLifecycleLog(LogEntry(
+                            appName = "AdSilence",
+                            timestamp = System.currentTimeMillis(),
+                            isAd = false,
+                            title = "Service Rebind",
+                            text = "Toggling ON: Requesting Rebind (API >= 24)",
+                            subText = "Lifecycle Event"
+                        ))
+                    }
                     android.service.notification.NotificationListenerService.requestRebind(
                         android.content.ComponentName(this, NotificationListener::class.java)
                     )
                 } else {
                     Log.v(TAG, "Toggling ON: Sending START_SERVICE intent (API < 24)")
-                    LogManager.addLifecycleLog(LogEntry(
-                        appName = "AdSilence",
-                        timestamp = System.currentTimeMillis(),
-                        isAd = false,
-                        title = "Service Start",
-                        text = "Toggling ON: Sending START_SERVICE intent (API < 24)",
-                        subText = "Lifecycle Event"
-                    ))
+                    if (preference.isDebugLogEnabled()) {
+                        LogManager.addLifecycleLog(LogEntry(
+                            appName = "AdSilence",
+                            timestamp = System.currentTimeMillis(),
+                            isAd = false,
+                            title = "Service Start",
+                            text = "Toggling ON: Sending START_SERVICE intent (API < 24)",
+                            subText = "Lifecycle Event"
+                        ))
+                    }
                     val intent = Intent(this, NotificationListener::class.java)
                     intent.action = "START_SERVICE"
                     startService(intent)
@@ -253,14 +273,16 @@ class AdSilenceActivity : Activity() {
             } else {
                 // Turning OFF
                 Log.v(TAG, "Toggling OFF: Sending STOP_SERVICE intent")
-                LogManager.addLifecycleLog(LogEntry(
-                    appName = "AdSilence",
-                    timestamp = System.currentTimeMillis(),
-                    isAd = false,
-                    title = "Service Stop",
-                    text = "Toggling OFF: Sending STOP_SERVICE intent",
-                    subText = "Lifecycle Event"
-                ))
+                if (preference.isDebugLogEnabled()) {
+                    LogManager.addLifecycleLog(LogEntry(
+                        appName = "AdSilence",
+                        timestamp = System.currentTimeMillis(),
+                        isAd = false,
+                        title = "Service Stop",
+                        text = "Toggling OFF: Sending STOP_SERVICE intent",
+                        subText = "Lifecycle Event"
+                    ))
+                }
                 val intent = Intent(this, NotificationListener::class.java)
                 intent.action = "STOP_SERVICE"
                 startService(intent)
@@ -473,7 +495,12 @@ class AdSilenceActivity : Activity() {
             }
 
             dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-            dialog.show()
+            
+            appSelectionDialog = dialog
+            appSelectionDialog?.setOnDismissListener {
+                appSelectionDialog = null
+            }
+            appSelectionDialog?.show()
         }
     }
 
@@ -708,15 +735,31 @@ class AdSilenceActivity : Activity() {
             deleteIcon.layoutParams = iconParams
             deleteIcon.setPadding(16, 16, 16, 16)
             deleteIcon.setOnClickListener {
-                AlertDialog.Builder(this)
-                    .setTitle("Delete Custom App")
-                    .setMessage("Do you want to delete ${customApp.name}? It's not recoverable.")
-                    .setPositiveButton("Yes, delete") { _, _ ->
-                        preference.removeCustomApp(customApp.packageName)
-                        populateCustomApps(container, preference)
-                    }
-                    .setNegativeButton("Cancel", null)
-                    .show()
+                val dialogView = layoutInflater.inflate(R.layout.dialog_delete_custom_app, null)
+                deleteCustomAppDialog = AlertDialog.Builder(this)
+                    .setView(dialogView)
+                    .create()
+                val dialog = deleteCustomAppDialog!!
+
+                dialogView.findViewById<TextView>(R.id.tv_dialog_message).text = 
+                    getString(R.string.delete_custom_app_message_format, customApp.name)
+
+                dialogView.findViewById<Button>(R.id.btn_cancel).setOnClickListener {
+                    dialog.dismiss()
+                }
+
+                dialogView.findViewById<Button>(R.id.btn_delete).setOnClickListener {
+                    preference.removeCustomApp(customApp.packageName)
+                    populateCustomApps(container, preference)
+                    dialog.dismiss()
+                }
+
+                dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+                
+                dialog.setOnDismissListener {
+                    deleteCustomAppDialog = null
+                }
+                dialog.show()
             }
 
             // Order: Label -> Edit -> Delete -> Switch
@@ -742,6 +785,11 @@ class AdSilenceActivity : Activity() {
             dialogView.findViewById<EditText>(R.id.et_keywords).setText(appToEdit.keywords.joinToString(", "))
         } else {
             titleView.text = getString(R.string.add_custom_app)
+        }
+
+        dialogView.findViewById<TextView>(R.id.tv_help_link)?.run {
+            setTextFromHtml(this, getString(R.string.custom_app_help_text))
+            this.movementMethod = LinkMovementMethod.getInstance()
         }
 
         dialogView.findViewById<Button>(R.id.btn_cancel)?.setOnClickListener {
@@ -786,8 +834,15 @@ class AdSilenceActivity : Activity() {
             dialog.dismiss()
         }
 
+
+
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        dialog.show()
+        
+        addCustomAppDialog = dialog
+        addCustomAppDialog?.setOnDismissListener {
+            addCustomAppDialog = null
+        }
+        addCustomAppDialog?.show()
     }
 
     private fun showDebugLogDialog() {
@@ -798,6 +853,24 @@ class AdSilenceActivity : Activity() {
         val dialog = debugLogDialog!!
 
         val listView = dialogView.findViewById<ListView>(R.id.log_list_view)
+    
+        try {
+            val uptimeTextView = dialogView.findViewById<TextView>(R.id.dialog_uptime_text_view)
+            val startTime = NotificationListener.startTime
+            if (startTime > 0) {
+                val uptimeMillis = System.currentTimeMillis() - startTime
+                val hours = uptimeMillis / (1000 * 60 * 60)
+                val minutes = (uptimeMillis / (1000 * 60)) % 60
+                val seconds = (uptimeMillis / 1000) % 60
+                uptimeTextView?.text = String.format("Service running for: %dh %dm %ds", hours, minutes, seconds)
+                uptimeTextView?.visibility = View.VISIBLE
+            } else {
+                uptimeTextView?.visibility = View.GONE
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error setting uptime text", e)
+        }
+    
         val adapter = LogAdapter(LogManager.getLogs())
         listView.adapter = adapter
 
@@ -826,7 +899,9 @@ class AdSilenceActivity : Activity() {
             if (SHOW_MOCK_DATA) {
                 this.visibility = View.VISIBLE
                 this.setOnClickListener {
-                    LogManager.addMockData()
+                    if (preference.isDebugLogEnabled()) {
+                        LogManager.addMockData()
+                    }
                 }
             } else {
                 this.visibility = View.GONE

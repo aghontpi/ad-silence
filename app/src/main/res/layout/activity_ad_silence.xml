@@ -214,6 +214,7 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/bg_card_rounded"
         android:orientation="vertical"
+        android:gravity="center"
         android:padding="16dp">
 
         <TextView
