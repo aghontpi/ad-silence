@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ "master", "development" ]
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -41,17 +45,115 @@ jobs:
             -Pandroid.injected.signing.key.alias=$KEY_ALIAS \
             -Pandroid.injected.signing.key.password=$KEY_PASSWORD
 
+      - name: Extract Version Name
+        id: extract_version
+        run: |
+          VERSION_NAME=$(grep "versionName" app/build.gradle | awk '{print $2}' | tr -d '"' | tr -d "'")
+          echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
+
+      - name: Rename APK
+        if: github.event_name == 'pull_request'
+        run: |
+          APK_PATH="app/build/outputs/apk/debug/ad-silence-debug-build-${{ env.VERSION_NAME }}-${{ github.event.pull_request.number }}.apk"
+          mv app/build/outputs/apk/debug/app-debug.apk $APK_PATH
+          echo "APK_PATH=$APK_PATH" >> $GITHUB_ENV
+
+      - name: Extract APK SHA-256 Fingerprint
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "Extracting SHA-256 for: ${{ env.APK_PATH }}"
+          
+          # Extract SHA-256 (matches both "SHA256:" and "SHA-256:")
+          APK_SHA256=$(keytool -printcert -jarfile "${{ env.APK_PATH }}" | grep -E "SHA-?256:" | head -n 1 | sed -E 's/.*SHA-?256: //')
+          
+          if [ -z "$APK_SHA256" ]; then
+            echo "::warning::Failed to extract SHA-256 fingerprint."
+            echo "APK_SHA256=EXTRACTION_FAILED" >> $GITHUB_ENV
+          else
+            echo "Extracted SHA-256: $APK_SHA256"
+            echo "APK_SHA256=$APK_SHA256" >> $GITHUB_ENV
+          fi
+
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
         with:
-          name: ad-silence-debug-build-apk
-          path: app/build/outputs/apk/debug/app-debug.apk
+          name: ad-silence-debug-build
+          path: app/build/outputs/apk/debug/*.apk
+
+      - name: Deploy to builds branch
+        if: github.event_name == 'pull_request'
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          
+          # Stash the APK
+          mkdir -p /tmp/apk_stash
+          cp app/build/outputs/apk/debug/*.apk /tmp/apk_stash/
+          APK_NAME=$(basename /tmp/apk_stash/*.apk)
+          echo "APK_NAME=$APK_NAME" >> $GITHUB_ENV
+          
+          # Clone builds branch to temp dir
+          rm -rf /tmp/builds_repo
+          git clone --quiet --branch builds https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} /tmp/builds_repo || \
+          (mkdir /tmp/builds_repo && cd /tmp/builds_repo && git init && git checkout -b builds && git remote add origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }})
+          
+          cd /tmp/builds_repo
+          mkdir -p pr-${{ github.event.pull_request.number }}
+          cp /tmp/apk_stash/$APK_NAME pr-${{ github.event.pull_request.number }}/
+          
+          git add .
+          
+          # Check for changes
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "No changes to commit. APK is identical."
+            echo "APK_CHANGED=false" >> $GITHUB_ENV
+          else
+            git commit -m "Update build for PR #${{ github.event.pull_request.number }}"
+            git push origin builds
+            echo "APK_CHANGED=true" >> $GITHUB_ENV
+          fi
 
       - name: Comment Debug APK on PR
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && env.APK_CHANGED == 'true'
         uses: peter-evans/create-or-update-comment@v3
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
             A debug APK build is available for this pull request.
-            You can download it from [this workflow run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) under the **Artifacts** section.
+            
+            [Download ad-silence-${{ env.VERSION_NAME }}-debug APK](https://github.com/${{ github.repository }}/raw/builds/pr-${{ github.event.pull_request.number }}/${{ env.APK_NAME }})
+            
+            **Certificate SHA-256:** `${{ env.APK_SHA256 }}` (Extracted from build artifact)
+            
+            ---
+            
+            ### ️Google Play Protect Notice
+            
+            Google Play Protect might block the installation of this app because it requests notification permissions. This is a known issue due to recent verification changes, and an appeal has already been raised with Google.
+            
+            **If you encounter this, you may need to temporarily pause Google Play Protect to install the app.**
+            
+            ### Security Verification
+            The app is built via GitHub Actions. You can trust debug/release builds downloaded directly from:
+            *   This GitHub repository
+            *   F-Droid
+            *   Google Play Store
+            
+            *Please do not trust builds from other sources.*
+            
+            #### Certificate Fingerprint
+            **Signer #1 Certificate SHA-256:** `ce85a4f2d43f04b6bdcf1d855fb9266fc49bf254bf14c565f5aca16ded2e9c4c`
+            
+            **Verification Commands:**
+            
+            **On PC (Java/Android SDK):**
+            ```bash
+            # Option 1: Using apksigner (Android SDK)
+            apksigner verify --print-certs <apk-file>
+            
+            # Option 2: Using keytool (Java)
+            keytool -printcert -jarfile <apk-file>
+            ```
+            
+            **On Android:**
+            You can use open-source apps like [LibChecker](https://github.com/LibChecker/LibChecker) to view the certificate signature of the installed app.

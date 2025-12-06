@@ -13,8 +13,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 
-const val NOTIFICATION_CHANNEL_ID = "AD-SILENCE-CHANNEL"
-const val NOTIFICATION_CHANNEL_DESCRIPTION = "Ad Silence Notification channel"
+const val NOTIFICATION_CHANNEL_ID = "ad_silence_service"
 const val NOTIFICATION_ID = 69
 
 
@@ -73,10 +72,10 @@ private fun AppNotificationHelper.createNotification(status: String): Notificati
 private fun AppNotificationHelper.createChannel() {
     val channel = NotificationChannel(
         NOTIFICATION_CHANNEL_ID,
-        NOTIFICATION_CHANNEL_ID,
+        context.getString(R.string.channel_name),
         NotificationManager.IMPORTANCE_LOW
     )
-        .apply { description = NOTIFICATION_CHANNEL_DESCRIPTION }.run {
+        .apply { description = context.getString(R.string.channel_description) }.run {
             setSound(null, null)
             this
         }
@@ -87,39 +86,6 @@ private fun AppNotificationHelper.createChannel() {
 
 
 // manually stop and start the service
-fun AppNotificationHelper.start() {
-    val packageManager = context.packageManager
-    val componentName = ComponentName(context, NotificationListener::class.java)
-    packageManager.setComponentEnabledSetting(
-        componentName,
-        PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-        PackageManager.DONT_KILL_APP
-    )
-    packageManager.setComponentEnabledSetting(
-        componentName,
-        PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-        PackageManager.DONT_KILL_APP
-    )
-}
-
-fun AppNotificationHelper.disable() {
-    val packageManager = context.packageManager
-    val componentName = ComponentName(context, NotificationListener::class.java)
-    if (Build.VERSION.SDK_INT >= 30) {
-        packageManager.setComponentEnabledSetting(
-            componentName,
-            PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-            PackageManager.SYNCHRONOUS
-        )
-    } else {
-        packageManager.setComponentEnabledSetting(
-            componentName,
-            PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-            0
-        )
-    }
-}
-
 fun AppNotificationHelper.enable() {
     val packageManager = context.packageManager
     val componentName = ComponentName(context, NotificationListener::class.java)

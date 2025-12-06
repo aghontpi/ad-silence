@@ -84,51 +84,34 @@ class Utils {
         this.updateNotification("AdSilence, ad-detected", preference, addNotificationHelper)
     }
 
+    fun getUnmuteDelay(app: SupportedApps): Long {
+        return when (app) {
+            SupportedApps.SPOTIFY_LITE -> 540
+            SupportedApps.SPOTIFY -> 480
+            else -> 0
+        }
+    }
+
     fun unmute(
         audioManager: AudioManager?,
         addNotificationHelper: AppNotificationHelper?,
         app: SupportedApps,
         preference: Preference
     ) {
-        val process = {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                audioManager?.adjustVolume(
-                    AudioManager.ADJUST_UNMUTE,
-                    AudioManager.FLAG_PLAY_SOUND
-                )
-            } else {
-                audioManager?.setStreamMute(AudioManager.STREAM_MUSIC, false)
-            }
-
-            this.updateNotification("AdSilence, listening for ads", preference, addNotificationHelper)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            audioManager?.adjustVolume(
+                AudioManager.ADJUST_UNMUTE,
+                AudioManager.FLAG_PLAY_SOUND
+            )
+        } else {
+            audioManager?.setStreamMute(AudioManager.STREAM_MUSIC, false)
         }
 
-        if (app == SupportedApps.SPOTIFY || app == SupportedApps.SPOTIFY_LITE) {
-            Log.v(TAG, "introducing delay for spotify")
-            val delay: Long = app.run {
-                when (this) {
-                    SupportedApps.SPOTIFY_LITE -> 540
-                    SupportedApps.SPOTIFY -> 480
-                    else -> 0
-                }
-            }
-            Handler(Looper.getMainLooper()).postDelayed({
-                Log.v(
-                    TAG,
-                    "running unmute..after delay $delay"
-                ); process()
-            }, delay)
-        } else process()
+        this.updateNotification("AdSilence, listening for ads", preference, addNotificationHelper)
     }
 
     private fun updateNotification(msg: String, preference: Preference, addNotificationHelper: AppNotificationHelper?) {
-
-        val showNotificaiton : Boolean = if (Build.VERSION.SDK_INT == Build.VERSION_CODES.TIRAMISU) {
-            preference.isNotificationsEnabled()
-        } else {
-            true
-        }
-        if (showNotificaiton) {
+        if (preference.isNotificationsEnabled()) {
             addNotificationHelper?.updateNotification(msg)
         }
     }

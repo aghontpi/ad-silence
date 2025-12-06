@@ -46,6 +46,9 @@ class Preference(private val context: Context) {
     private val HAS_DISABLED_HIBERNATION = "HasDisabledHibernation"
     private val HAS_DISABLED_HIBERNATION_DEFAULT = false
 
+    private val DEBUG_LOG_ENABLED = "DebugLogEnabled"
+    private val DEBUG_LOG_ENABLED_DEFAULT = false
+
 
     fun isEnabled(): Boolean {
         return preference.getBoolean(APP_ENABLED, APP_ENABLED_DEFAULT)
@@ -66,11 +69,12 @@ class Preference(private val context: Context) {
             SupportedApps.PANDORA-> preference.edit { putBoolean(PANDORA, status).commit() }
             SupportedApps.LiveOne-> preference.edit { putBoolean(LIVEONE, status).commit() }
             SupportedApps.Soundcloud-> preference.edit { putBoolean(SOUNDCLOUD, status).commit() }
+            SupportedApps.CUSTOM -> {} // Custom apps are handled via setCustomAppEnabled
             else -> {}
         }
     }
 
-    fun isAppConfigured(app: SupportedApps): Boolean {
+    fun isAppConfigured(app: SupportedApps, packageName: String? = null): Boolean {
         val status = when (app) {
             SupportedApps.ACCURADIO -> preference.getBoolean(ACCURADIO, ACCURAIO_DEFAULT)
             SupportedApps.SPOTIFY -> preference.getBoolean(SPOTIFY, SPOTIFY_DEFAULT)
@@ -79,11 +83,26 @@ class Preference(private val context: Context) {
             SupportedApps.PANDORA-> preference.getBoolean(PANDORA, PANDORA_DEFAULT)
             SupportedApps.LiveOne-> preference.getBoolean(LIVEONE, LIVEONE_DEFAULT)
             SupportedApps.Soundcloud-> preference.getBoolean(SOUNDCLOUD, SOUNDCLOUD_DEFAULT)
+            SupportedApps.CUSTOM -> {
+                if (packageName != null) {
+                    getCustomApps().find { it.packageName == packageName }?.isEnabled ?: false
+                } else {
+                    false
+                }
+            }
             else -> false
         }
 
         if(app != SupportedApps.INVALID){
-            Log.v(TAG, "getting appConfiguration: $app -> $status")
+            val extraInfo = if (app == SupportedApps.CUSTOM && packageName != null) {
+                val name = getCustomApps().find { it.packageName == packageName }?.name
+                if (name != null) "($name : $packageName)" else "($packageName)"
+            } else if (packageName != null) {
+                 "($packageName)"
+            } else {
+                ""
+            }
+            Log.v(TAG, "getting appConfiguration: $app $extraInfo -> $status")
         }
         return status
     }
@@ -111,12 +130,10 @@ class Preference(private val context: Context) {
     }
 
 
-    // current implementation is only enabled for android 13 and above
     fun isNotificationsEnabled(): Boolean {
         return preference.getBoolean(EnableNotifications, EnableNotificationsDefault)
     }
 
-    // current implementation is only enabled for android 13 and above
     fun setNotificationEnabled(status: Boolean) {
         Log.v(TAG, "[configNotificationChange] ${isNotificationsEnabled()} -> $status")
         preference.edit {
@@ -133,6 +150,91 @@ class Preference(private val context: Context) {
         preference.edit{
             putBoolean(HAS_DISABLED_HIBERNATION, status).commit()
         }
+    }
+
+    fun isDebugLogEnabled(): Boolean {
+        return preference.getBoolean(DEBUG_LOG_ENABLED, DEBUG_LOG_ENABLED_DEFAULT)
+    }
+
+    fun setDebugLogEnabled(status: Boolean) {
+        Log.v(TAG, "[configDebugLogEnabled] ${isDebugLogEnabled()} -> $status")
+        preference.edit {
+            putBoolean(DEBUG_LOG_ENABLED, status).commit()
+        }
+    }
+    private val CUSTOM_APPS = "CustomApps"
+
+    companion object {
+        private var cachedCustomApps: List<CustomApp>? = null
+    }
+
+    fun getCustomApps(): List<CustomApp> {
+        if (cachedCustomApps != null) {
+            return cachedCustomApps!!
+        }
+
+        val jsonString = preference.getString(CUSTOM_APPS, "[]") ?: "[]"
+        val customApps = mutableListOf<CustomApp>()
+        try {
+            val jsonArray = org.json.JSONArray(jsonString)
+            for (i in 0 until jsonArray.length()) {
+                val jsonObject = jsonArray.getJSONObject(i)
+                val name = jsonObject.getString("name")
+                val packageName = jsonObject.getString("packageName")
+                val keywordsJsonArray = jsonObject.getJSONArray("keywords")
+                val keywords = mutableListOf<String>()
+                for (j in 0 until keywordsJsonArray.length()) {
+                    keywords.add(keywordsJsonArray.getString(j))
+                }
+                val isEnabled = jsonObject.optBoolean("isEnabled", true)
+                customApps.add(CustomApp(name, packageName, keywords, isEnabled))
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error parsing custom apps", e)
+        }
+        cachedCustomApps = customApps
+        return customApps
+    }
+
+    fun addCustomApp(app: CustomApp) {
+        Log.v(TAG, "Adding custom app: ${app.name} (${app.packageName})")
+        val currentApps = getCustomApps().toMutableList()
+        // Remove if exists to update
+        currentApps.removeAll { it.packageName == app.packageName }
+        currentApps.add(app)
+        saveCustomApps(currentApps)
+    }
+
+    fun removeCustomApp(packageName: String) {
+        Log.v(TAG, "Removing custom app: $packageName")
+        val currentApps = getCustomApps().toMutableList()
+        currentApps.removeAll { it.packageName == packageName }
+        saveCustomApps(currentApps)
+    }
+
+    fun setCustomAppEnabled(packageName: String, isEnabled: Boolean) {
+        Log.v(TAG, "Setting custom app enabled: $packageName -> $isEnabled")
+        val currentApps = getCustomApps().toMutableList()
+        currentApps.find { it.packageName == packageName }?.let {
+            it.isEnabled = isEnabled
+            saveCustomApps(currentApps)
+        }
+    }
+
+    private fun saveCustomApps(apps: List<CustomApp>) {
+        cachedCustomApps = apps
+        val jsonArray = org.json.JSONArray()
+        apps.forEach { app ->
+            val jsonObject = org.json.JSONObject()
+            jsonObject.put("name", app.name)
+            jsonObject.put("packageName", app.packageName)
+            val keywordsArray = org.json.JSONArray()
+            app.keywords.forEach { keywordsArray.put(it) }
+            jsonObject.put("keywords", keywordsArray)
+            jsonObject.put("isEnabled", app.isEnabled)
+            jsonArray.put(jsonObject)
+        }
+        preference.edit { putString(CUSTOM_APPS, jsonArray.toString()).commit() }
     }
 }
 
