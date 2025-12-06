@@ -106,8 +106,10 @@ class NotificationParser(override var appNotification: AppNotification) :
                 val preloadedAppType = appNotification.getPreloadedAppType()
                 val preference = Preference(appNotification.context)
                 if (preference.isAppConfigured(preloadedAppType)) {
+                    Log.v(TAG, "custom app keywords not matched, checking preloaded keywords: $preloadedAppType")
                     checkPreloadedAppAd(preloadedAppType)
                 } else {
+                    Log.v(TAG, "custom app keywords not matched, preloaded app not configured: $preloadedAppType")
                     false
                 }
             } else {
