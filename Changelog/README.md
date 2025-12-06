@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.7.0] - (Dec 06, 2025)
+
+**_Stable - requires android 5 or higher_**
+
+## Added
+
+- **Custom Apps Support**: Ability to add, edit, and delete custom apps to be silenced.
+- **Debug Log View**: A new view to inspect internal logs for debugging, you have to enable it first.
+- **Each debug Log**: Each debug logs are timestamped, gives out the parsing decision like what it matched against and whether there is a match or not.
+
+## Updates
+
+- UI redesign
+- Spotify detection triggers 
+
+## Fixes
+
+- Race condition in spotify detection 
+- Loss of granted permission of android 15 and above when turning it off.
+
 ## [v0.6.2] - (Feb 28, 2025)
 
 **_Stable - requires android 5 or higher_**
