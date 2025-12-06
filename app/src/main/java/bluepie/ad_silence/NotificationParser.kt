@@ -17,13 +17,7 @@ data class AppNotification(
     val packageName: String,
 )
 
-fun AppNotification.getApp(): SupportedApps {
-    val preference = Preference(context)
-    val customApps = preference.getCustomApps()
-    if (customApps.any { it.packageName == packageName && it.isEnabled }) {
-        return SupportedApps.CUSTOM
-    }
-
+fun AppNotification.getPreloadedAppType(): SupportedApps {
     return when (packageName) {
         context.getString(R.string.accuradio_pkg_name) -> SupportedApps.ACCURADIO
         context.getString(R.string.spotify_package_name) -> SupportedApps.SPOTIFY
@@ -34,6 +28,17 @@ fun AppNotification.getApp(): SupportedApps {
         context.getString(R.string.soundcloud_package_name) -> SupportedApps.Soundcloud
         else -> SupportedApps.INVALID
     }
+}
+
+
+fun AppNotification.getApp(): SupportedApps {
+    val preference = Preference(context)
+    val customApps = preference.getCustomApps()
+    if (customApps.any { it.packageName == packageName && it.isEnabled }) {
+        return SupportedApps.CUSTOM
+    }
+
+    return getPreloadedAppType()
 }
 
 fun AppNotification.adString(): List<String> {
@@ -80,16 +85,36 @@ class NotificationParser(override var appNotification: AppNotification) :
 
     private var matchedText: String = "";
 
-    override fun isAd(): Boolean {
-        val isAd = when (appNotification.getApp()) {
+    private fun checkPreloadedAppAd(appType: SupportedApps): Boolean {
+        return when (appType) {
             SupportedApps.ACCURADIO -> parseAccuradioNotification()
             SupportedApps.SPOTIFY, SupportedApps.SPOTIFY_LITE -> parseSpotifyNotification()
             SupportedApps.TIDAL -> parseTidalNotification()
             SupportedApps.PANDORA -> parsePandoraNotification()
             SupportedApps.LiveOne -> parseLiveOneNotification()
             SupportedApps.Soundcloud -> parseSoundCloudNotification()
-            SupportedApps.CUSTOM -> parseCustomAppNotification()
             else -> false
+        }
+    }
+
+    override fun isAd(): Boolean {
+        val appType = appNotification.getApp()
+        var isAd = if (appType == SupportedApps.CUSTOM) {
+            val customResult = parseCustomAppNotification()
+            if (!customResult) {
+                // if user keywords are not matched, check preloaded app keywords
+                val preloadedAppType = appNotification.getPreloadedAppType()
+                val preference = Preference(appNotification.context)
+                if (preference.isAppConfigured(preloadedAppType)) {
+                    checkPreloadedAppAd(preloadedAppType)
+                } else {
+                    false
+                }
+            } else {
+                true
+            }
+        } else {
+            checkPreloadedAppAd(appType)
         }
         
         val title = appNotification.notification.extras?.get("android.title")?.toString() ?: ""
