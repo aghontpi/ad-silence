@@ -70,6 +70,14 @@ class NotificationListener : NotificationListenerService() {
             return Service.START_NOT_STICKY
         } else if (intent?.action == "STOP_FOREGROUND") {
             Log.v(TAG, "Service received STOP_FOREGROUND.")
+            LogManager.addLifecycleLog(LogEntry(
+                appName = "AdSilence",
+                timestamp = System.currentTimeMillis(),
+                isAd = false,
+                title = "Service Stop Foreground",
+                text = "Service received STOP_FOREGROUND.",
+                subText = "Lifecycle Event"
+            ))
             stopForeground(true)
         } else if (intent?.action == "START_SERVICE") {
             Log.v(TAG, "Service received START_SERVICE. Starting foreground.")
@@ -92,6 +100,16 @@ class NotificationListener : NotificationListenerService() {
             }
         } else {
             // Default behavior for system start
+            Log.v(TAG, "Service restored by system (START_STICKY).")
+            LogManager.addLifecycleLog(LogEntry(
+                appName = "AdSilence",
+                timestamp = System.currentTimeMillis(),
+                isAd = false,
+                title = "Service Restored",
+                text = "Service restored by system (START_STICKY).",
+                subText = "Lifecycle Event"
+            ))
+
             if (preference.isNotificationsEnabled()) {
                 appNotificationHelper?.getNotificationBuilder("adSilence, service started")?.run {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
