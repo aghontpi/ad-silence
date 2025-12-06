@@ -735,20 +735,31 @@ class AdSilenceActivity : Activity() {
             deleteIcon.layoutParams = iconParams
             deleteIcon.setPadding(16, 16, 16, 16)
             deleteIcon.setOnClickListener {
+                val dialogView = layoutInflater.inflate(R.layout.dialog_delete_custom_app, null)
                 deleteCustomAppDialog = AlertDialog.Builder(this)
-                    .setTitle("Delete Custom App")
-                    .setMessage("Do you want to delete ${customApp.name}? It's not recoverable.")
-                    .setPositiveButton("Yes, delete") { _, _ ->
-                        preference.removeCustomApp(customApp.packageName)
-                        populateCustomApps(container, preference)
-                    }
-                    .setNegativeButton("Cancel", null)
+                    .setView(dialogView)
                     .create()
+                val dialog = deleteCustomAppDialog!!
+
+                dialogView.findViewById<TextView>(R.id.tv_dialog_message).text = 
+                    getString(R.string.delete_custom_app_message_format, customApp.name)
+
+                dialogView.findViewById<Button>(R.id.btn_cancel).setOnClickListener {
+                    dialog.dismiss()
+                }
+
+                dialogView.findViewById<Button>(R.id.btn_delete).setOnClickListener {
+                    preference.removeCustomApp(customApp.packageName)
+                    populateCustomApps(container, preference)
+                    dialog.dismiss()
+                }
+
+                dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
                 
-                deleteCustomAppDialog?.setOnDismissListener {
+                dialog.setOnDismissListener {
                     deleteCustomAppDialog = null
                 }
-                deleteCustomAppDialog?.show()
+                dialog.show()
             }
 
             // Order: Label -> Edit -> Delete -> Switch
@@ -774,6 +785,11 @@ class AdSilenceActivity : Activity() {
             dialogView.findViewById<EditText>(R.id.et_keywords).setText(appToEdit.keywords.joinToString(", "))
         } else {
             titleView.text = getString(R.string.add_custom_app)
+        }
+
+        dialogView.findViewById<TextView>(R.id.tv_help_link)?.run {
+            setTextFromHtml(this, getString(R.string.custom_app_help_text))
+            this.movementMethod = LinkMovementMethod.getInstance()
         }
 
         dialogView.findViewById<Button>(R.id.btn_cancel)?.setOnClickListener {
