@@ -30,7 +30,7 @@
 
 - **Custom Apps Support**: Ability to add, edit, and delete custom apps to be silenced.
 
-> With the release of v7 and above, Ad-silence now supports custom apps with ability to add, edit and provide keywords specific to the app. 
+> With the release of v0.7.0 and above, Ad-silence now supports custom apps with ability to add, edit and provide keywords specific to the app. 
 
 |     app      | support |
 |:------------:| :-----: |
@@ -55,7 +55,7 @@ You can now add any app to Ad-silence to mute its notifications.
 
 > **Note:**
 > - The app will be muted only if the notification contains the keywords.
-> - Will unmutate the app if the notification does not contain the keywords.
+> - Will unmute the app if the notification does not contain the keywords.
 
 > **Editing:**
 > - click on "select apps" to view custom apps
