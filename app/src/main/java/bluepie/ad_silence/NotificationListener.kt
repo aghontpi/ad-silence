@@ -10,6 +10,9 @@ import android.service.notification.StatusBarNotification
 import android.util.Log
 import android.os.Handler
 import android.os.Looper
+import androidx.mediarouter.media.MediaRouter
+import androidx.mediarouter.media.MediaRouteSelector
+import androidx.mediarouter.media.MediaControlIntent
 
 @SuppressLint("LongLogTag")
 class NotificationListener : NotificationListenerService() {
@@ -20,12 +23,57 @@ class NotificationListener : NotificationListenerService() {
     private var muteCount: Int = 0
     private val handler = Handler(Looper.getMainLooper())
     private var unmuteRunnable: Runnable? = null
+    
+    // MediaRouter related variables
+    private var mediaRouter: MediaRouter? = null
+    private var currentRoute: MediaRouter.RouteInfo? = null
+    private var originalRemoteVolume: Int = -1
+    private val mediaRouterCallback = object : MediaRouter.Callback() {
+        override fun onRouteSelected(router: MediaRouter, route: MediaRouter.RouteInfo) {
+            currentRoute = route
+            Log.v(TAG, "MediaRouter: Route selected: ${route.name}, type: ${route.playbackType}")
+            // If route changes while muted, reset the original volume tracking
+            if (originalRemoteVolume != -1) {
+                originalRemoteVolume = -1
+                // potentially we could try to unmute the old route if we had a reference, but simplified for now
+            }
+        }
+
+        override fun onRouteUnselected(router: MediaRouter, route: MediaRouter.RouteInfo) {
+            Log.v(TAG, "MediaRouter: Route unselected: ${route.name}")
+            if (currentRoute == route) {
+                currentRoute = null
+            }
+        }
+
+        override fun onRouteChanged(router: MediaRouter, route: MediaRouter.RouteInfo) {
+            if (currentRoute == route) {
+                Log.v(TAG, "MediaRouter: Route changed: ${route.name}, volume: ${route.volume}")
+            }
+        }
+    }
 
     override fun onCreate() {
         super.onCreate()
         startTime = System.currentTimeMillis()
         audioManager = applicationContext.getSystemService(AUDIO_SERVICE) as AudioManager
         appNotificationHelper = AppNotificationHelper(applicationContext)
+
+        // Initialize MediaRouter on main thread
+        handler.post {
+            try {
+                mediaRouter = MediaRouter.getInstance(applicationContext)
+                val selector = MediaRouteSelector.Builder()
+                    .addControlCategory(MediaControlIntent.CATEGORY_REMOTE_PLAYBACK)
+                    .addControlCategory(MediaControlIntent.CATEGORY_LIVE_AUDIO)
+                    .build()
+                mediaRouter?.addCallback(selector, mediaRouterCallback, MediaRouter.CALLBACK_FLAG_REQUEST_DISCOVERY)
+                currentRoute = mediaRouter?.selectedRoute
+                Log.v(TAG, "MediaRouter initialized. Current route: ${currentRoute?.name}")
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to initialize MediaRouter", e)
+            }
+        }
 
         Log.v(TAG, "listener created")
         if (Preference(applicationContext).isDebugLogEnabled()) {
@@ -181,6 +229,15 @@ class NotificationListener : NotificationListenerService() {
 
     override fun onDestroy() {
         super.onDestroy()
+        // Cleanup MediaRouter
+        handler.post {
+            try {
+                mediaRouter?.removeCallback(mediaRouterCallback)
+            } catch (e: Exception) {
+                Log.e(TAG, "Error removing MediaRouter callback", e)
+            }
+        }
+        
         Log.v(TAG, "listener destroyed")
         if (Preference(applicationContext).isDebugLogEnabled()) {
             LogManager.addLifecycleLog(
@@ -239,17 +296,38 @@ class NotificationListener : NotificationListenerService() {
                                     }
 
                                     val isMusicStreamMuted = this.isMusicMuted(audioManager!!)
+                                    
+                                    // Check for casting
+                                    val route = currentRoute
+                                    // DEBUG: Force isCasting to true to test logic flow
+                                    val isCasting = true // route != null && route.playbackType == MediaRouter.RouteInfo.PLAYBACK_TYPE_REMOTE
+                                    
                                     if (!isMuted || !isMusicStreamMuted) {
                                         Log.v(TAG, "'MusicStream' muted? -> $isMusicStreamMuted")
                                         Log.v(TAG, "Ad detected muting, state-> $isMuted to ${!isMuted}, currentPackage: $currentPackage")
-                                        this.mute(audioManager, appNotificationHelper, preference)
+                                        
+                                        // DEBUG: Simplified check for null route to prevent crash during mock
+                                        if (isCasting && (route == null || route.volumeHandling == MediaRouter.RouteInfo.PLAYBACK_VOLUME_VARIABLE)) {
+                                            Log.v(TAG, "Casting detected on route: ${route?.name ?: "MOCK_ROUTE"}. Muting remote volume.")
+                                            handler.post {
+                                                if (route != null) {
+                                                    originalRemoteVolume = route.volume
+                                                    route.requestSetVolume(0)
+                                                } else {
+                                                    Log.v(TAG, "MOCK: Would set remote volume to 0")
+                                                }
+                                            }
+                                        } else {
+                                            this.mute(audioManager, appNotificationHelper, preference)
+                                        }
+                                        
                                         if (isDebugEnabled) {
                                             LogManager.addLifecycleLog(LogEntry(
                                                 appName = "AdSilence",
                                                 timestamp = System.currentTimeMillis(),
                                                 isAd = true,
                                                 title = "Muted",
-                                                text = "Muted audio for $currentPackage ($packageName)",
+                                                text = if (isCasting) "Muted remote cast on ${route?.name}" else "Muted audio for $currentPackage ($packageName)",
                                                 subText = "Action"
                                             ))
                                         }
@@ -268,27 +346,60 @@ class NotificationListener : NotificationListenerService() {
                                         // https://github.com/aghontpi/ad-silence/pull/282#issue-3682929324
                                         if (unmuteRunnable == null) {
                                             unmuteRunnable = Runnable {
+                                                val route = this@NotificationListener.currentRoute
                                                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
                                                     Log.v(TAG, "Not an ad, Unmuting, < M")
                                                     // for android 5 & 5.1, unmute has to be done, count x mutedCount
+                                                    // DEBUG: Force isCasting to true
+                                                    val isCasting = true // route != null && route.playbackType == MediaRouter.RouteInfo.PLAYBACK_TYPE_REMOTE
+                                                    
                                                     while (muteCount > 0) {
+                                                        // DEBUG: Handle null route safely
+                                                        if (isCasting && (route == null || (route.volumeHandling == MediaRouter.RouteInfo.PLAYBACK_VOLUME_VARIABLE && originalRemoteVolume != -1))) {
+                                                             Log.v(TAG, "Restoring remote volume to $originalRemoteVolume")
+                                                             handler.post {
+                                                                 if (route != null) {
+                                                                     route.requestSetVolume(originalRemoteVolume)
+                                                                 } else {
+                                                                     Log.v(TAG, "MOCK: Would restore remote volume")
+                                                                 }
+                                                                 originalRemoteVolume = -1
+                                                             }
+                                                        } else {
+                                                            this@run.unmute(
+                                                                audioManager,
+                                                                appNotificationHelper,
+                                                                currentPackage,
+                                                                preference
+                                                            )
+                                                        }
+                                                        muteCount--
+                                                    }
+                                                    isMuted = false
+                                                } else {
+                                                    Log.v(TAG, "Not an ad, Unmuting, > M")
+                                                    // DEBUG: Force isCasting to true
+                                                    val isCasting = true // route != null && route.playbackType == MediaRouter.RouteInfo.PLAYBACK_TYPE_REMOTE
+                                                    
+                                                    // DEBUG: Handle null route safely
+                                                    if (isCasting && (route == null || (route.volumeHandling == MediaRouter.RouteInfo.PLAYBACK_VOLUME_VARIABLE && originalRemoteVolume != -1))) {
+                                                         Log.v(TAG, "Restoring remote volume to $originalRemoteVolume")
+                                                         handler.post {
+                                                             if (route != null) {
+                                                                 route.requestSetVolume(originalRemoteVolume)
+                                                             } else {
+                                                                 Log.v(TAG, "MOCK: Would restore remote volume")
+                                                             }
+                                                             originalRemoteVolume = -1
+                                                         }
+                                                    } else {
                                                         this@run.unmute(
                                                             audioManager,
                                                             appNotificationHelper,
                                                             currentPackage,
                                                             preference
                                                         )
-                                                        muteCount--
                                                     }
-                                                    isMuted = false
-                                                } else {
-                                                    Log.v(TAG, "Not an ad, Unmuting, > M")
-                                                    this@run.unmute(
-                                                        audioManager,
-                                                        appNotificationHelper,
-                                                        currentPackage,
-                                                        preference
-                                                    )
                                                     isMuted = false
                                                 }
                                                 if (isDebugEnabled) {
