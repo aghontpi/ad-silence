@@ -351,9 +351,7 @@ class AdSilenceActivity : Activity() {
             }
         }
 
-        findViewById<Button>(R.id.add_custom_app_btn)?.setOnClickListener {
-            showAddCustomAppDialog()
-        }
+
 
         findViewById<Button>(R.id.debug_log_btn)?.setOnClickListener {
             showDebugLogDialog()
