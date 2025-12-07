@@ -72,13 +72,10 @@ class Utils {
     }
 
     fun mute(audioManager: AudioManager?, addNotificationHelper: AppNotificationHelper?, preference: Preference) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            audioManager?.adjustVolume(
-                AudioManager.ADJUST_MUTE,
-                AudioManager.FLAG_PLAY_SOUND
-            )
+        if (preference.isMuteEntireDeviceEnabled() && Build.VERSION.SDK_INT >= 23) {
+             audioManager?.adjustVolume(AudioManager.ADJUST_MUTE, 0)
         } else {
-            audioManager?.setStreamMute(AudioManager.STREAM_MUSIC, true)
+             audioManager?.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_MUTE, 0)
         }
 
         this.updateNotification("AdSilence, ad-detected", preference, addNotificationHelper)
@@ -98,13 +95,10 @@ class Utils {
         app: SupportedApps,
         preference: Preference
     ) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            audioManager?.adjustVolume(
-                AudioManager.ADJUST_UNMUTE,
-                AudioManager.FLAG_PLAY_SOUND
-            )
+        if (preference.isMuteEntireDeviceEnabled() && Build.VERSION.SDK_INT >= 23) {
+             audioManager?.adjustVolume(AudioManager.ADJUST_UNMUTE, 0)
         } else {
-            audioManager?.setStreamMute(AudioManager.STREAM_MUSIC, false)
+             audioManager?.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE, 0)
         }
 
         this.updateNotification("AdSilence, listening for ads", preference, addNotificationHelper)
