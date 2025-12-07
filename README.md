@@ -49,8 +49,8 @@ You can now add any app to Ad-silence to mute its notifications.
 Wiki: https://github.com/aghontpi/ad-silence/wiki/Custom_App_Wiki
 
 1. Open Ad-silence.
-2. Scroll down to "Custom Apps" section.
-3. Click on "Add" button.
+2. Click on "Select Apps" button.
+3. Scroll down to the bottom and click on "Add Custom App" button.
 4. Enter the name, **Package Name** of the app (e.g., `com.example.radio`).
 5. Enter **Keywords** to trigger muting only on specific notifications.
 6. Click on "Save" button.
