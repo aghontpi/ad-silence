@@ -32,6 +32,7 @@ class AdSilenceActivity : Activity() {
     private var appSelectionDialog: AlertDialog? = null
     private var addCustomAppDialog: AlertDialog? = null
     private var deleteCustomAppDialog: AlertDialog? = null
+    private var settingsDialog: AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,6 +83,10 @@ class AdSilenceActivity : Activity() {
         if (deleteCustomAppDialog != null && deleteCustomAppDialog!!.isShowing) {
             Log.v(TAG, "Dismissing delete custom app dialog")
             deleteCustomAppDialog!!.dismiss()
+        }
+        if (settingsDialog != null && settingsDialog!!.isShowing) {
+            Log.v(TAG, "Dismissing settings dialog")
+            settingsDialog!!.dismiss()
         }
     }
 
@@ -310,6 +315,10 @@ class AdSilenceActivity : Activity() {
         val versionCode = BuildConfig.VERSION_CODE
         val versionName = BuildConfig.VERSION_NAME
         findViewById<TextView>(R.id.app_version)?.text = "$versionName"
+
+        findViewById<Button>(R.id.settings_btn)?.setOnClickListener {
+            showSettingsDialog()
+        }
 
         findViewById<Button>(R.id.about_btn)?.setOnClickListener {
             layoutInflater.inflate(R.layout.about, null)?.run {
@@ -964,6 +973,39 @@ class AdSilenceActivity : Activity() {
             return
         }
         Log.v(TAG, "[permission] notification permission not granted")
+    }
+
+
+    private fun showSettingsDialog() {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_settings, null)
+        val dialog = AlertDialog.Builder(this)
+            .setView(dialogView)
+            .create()
+
+        val preference = Preference(applicationContext)
+
+        dialogView.findViewById<TextView>(R.id.tv_mute_behavior_help)?.run {
+            setTextFromHtml(this, getString(R.string.mute_behavior_help))
+            this.movementMethod = LinkMovementMethod.getInstance()
+        }
+
+        dialogView.findViewById<Switch>(R.id.switch_mute_entire_device)?.apply {
+            isChecked = preference.isMuteEntireDeviceEnabled()
+            setOnCheckedChangeListener { _, isChecked ->
+                preference.setMuteEntireDeviceEnabled(isChecked)
+            }
+        }
+
+        dialogView.findViewById<Button>(R.id.btn_close_settings)?.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        settingsDialog = dialog
+        dialog.setOnDismissListener {
+            settingsDialog = null
+        }
+        dialog.show()
     }
 
 }

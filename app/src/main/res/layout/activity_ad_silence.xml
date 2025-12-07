@@ -198,6 +198,15 @@
             android:textColor="?android:attr/textColorPrimary" />
 
         <Button
+            android:id="@+id/settings_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_button_rounded"
+            android:text="@string/settings"
+            android:textColor="?android:attr/textColorPrimary" />
+
+        <Button
             android:id="@+id/about_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
