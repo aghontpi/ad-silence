@@ -73,4 +73,5 @@
     <string name="clear">Pulisci</string>
     <string name="channel_name">Stato del servizio</string>
     <string name="channel_description">Notifica persistente che mostra che AdSilence è attivo</string>
+    <string name="notification_update_help">Se il silenziamento o il rilevamento non funzionano, prova ad abilitare questa opzione.</string>
 </resources>

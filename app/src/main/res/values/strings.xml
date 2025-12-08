@@ -102,4 +102,5 @@
     <string name="clear">Clear</string>
     <string name="channel_name">Service Status</string>
     <string name="channel_description">Persistent notification showing that AdSilence is active</string>
+    <string name="notification_update_help">If mute or detection is not working, try enabling this.</string>
 </resources>

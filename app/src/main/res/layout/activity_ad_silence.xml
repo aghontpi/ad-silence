@@ -125,6 +125,15 @@
 
         </LinearLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-24dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/notification_update_help"
+            android:textColor="?android:attr/textColorSecondary"
+            android:textSize="12sp" />
+
         <Button
             android:id="@+id/grant_permission"
             android:layout_width="match_parent"
