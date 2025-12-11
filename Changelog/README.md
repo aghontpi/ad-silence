@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.7.1] - (Dec 13, 2025)
+
+**_Stable - requires android 5 or higher_**
+
+## Updates
+
+- Remove the version number from main screen, its distracting.
+- Update CI to take dev version always instead of prod during pull request builds
+- Bump version details for next release.
+
+## Fixes
+
+- Fix: #296 - add note to enable is facing issue.
+
 ## [v0.7.0] - (Dec 06, 2025)
 
 **_Stable - requires android 5 or higher_**

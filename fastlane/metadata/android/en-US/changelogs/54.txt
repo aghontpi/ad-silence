@@ -1,0 +1,11 @@
+- UI redesign
+- Custom Apps Support: Add, edit, and delete custom apps.
+- Debug Log View.
+- Update spotify triggers
+- Battery Optimization settings.
+
+Fixes:
+- Fix race condition in spotify detection
+- Fix loss of granted permission of android 15 and above when turning it off
+- Fix #296: Add note to enable is facing issue
+- Remove version number from main screen
