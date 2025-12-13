@@ -30,7 +30,7 @@
         <![CDATA[<br/><br/>]]>
         Realizzato da <![CDATA[ <a href="https://github.com/aghontpi">aghontpi&lt;bluepie&gt;</a>]]> per OpenSource.
     </string>
-    <string name="github">Codice sorgente (GitHub)</string>
+    <string name="github">GitHub</string>
     <string name="report_issue">segnala un problema</string>
     <string name="not_installed">(non installato)</string>
     <string name="Experimental">Sperimentale</string>
