@@ -40,7 +40,7 @@
         <![CDATA[<br/><br/>]]>
         Made by <![CDATA[ <a href="https://github.com/aghontpi">aghontpi&lt;bluepie&gt;</a>]]> for OpenSource.
     </string>
-    <string name="github">Source Code (GitHub)</string>
+    <string name="github">GitHub</string>
     <string name="report_issue">report issue</string>
     <string name="github_link" translatable="false">https://github.com/aghontpi/Ad-silence</string>
     <string name="not_installed">(not installed)</string>
@@ -102,4 +102,5 @@
     <string name="clear">Clear</string>
     <string name="channel_name">Service Status</string>
     <string name="channel_description">Persistent notification showing that AdSilence is active</string>
+    <string name="notification_update_help">If mute or detection is not working, try enabling this.</string>
 </resources>
