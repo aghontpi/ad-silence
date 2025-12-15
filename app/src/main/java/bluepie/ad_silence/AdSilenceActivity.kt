@@ -314,7 +314,6 @@ class AdSilenceActivity : Activity() {
         val isSoundcloudInstalled = utils.isSoundcloudInstalled(applicationContext)
         val versionCode = BuildConfig.VERSION_CODE
         val versionName = BuildConfig.VERSION_NAME
-        findViewById<TextView>(R.id.app_version)?.text = "$versionName"
 
         findViewById<Button>(R.id.settings_btn)?.setOnClickListener {
             showSettingsDialog()
