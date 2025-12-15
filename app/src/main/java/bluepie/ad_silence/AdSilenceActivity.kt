@@ -789,6 +789,7 @@ class AdSilenceActivity : Activity() {
             dialogView.findViewById<EditText>(R.id.et_app_name).setText(appToEdit.name)
             dialogView.findViewById<EditText>(R.id.et_package_name).setText(appToEdit.packageName)
             dialogView.findViewById<EditText>(R.id.et_keywords).setText(appToEdit.keywords.joinToString(", "))
+            dialogView.findViewById<EditText>(R.id.et_unmute_delay).setText(appToEdit.unmuteDelay.toString())
         } else {
             titleView.text = getString(R.string.add_custom_app)
         }
@@ -826,8 +827,10 @@ class AdSilenceActivity : Activity() {
                 }
             }
 
+            val unmuteDelayText = dialogView.findViewById<EditText>(R.id.et_unmute_delay).text.toString()
+            val unmuteDelay = unmuteDelayText.toLongOrNull() ?: 0L
             val keywords = keywordsText.split(",").map { it.trim() }.filter { it.isNotEmpty() }
-            val customApp = CustomApp(appName, packageName, keywords, appToEdit?.isEnabled ?: true)
+            val customApp = CustomApp(appName, packageName, keywords, appToEdit?.isEnabled ?: true, unmuteDelay)
 
             if (appToEdit != null && appToEdit.packageName != packageName) {
                 preference.removeCustomApp(appToEdit.packageName)

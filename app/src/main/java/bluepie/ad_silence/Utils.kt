@@ -81,7 +81,10 @@ class Utils {
         this.updateNotification("AdSilence, ad-detected", preference, addNotificationHelper)
     }
 
-    fun getUnmuteDelay(app: SupportedApps): Long {
+    fun getUnmuteDelay(app: SupportedApps, packageName: String? = null, preference: Preference? = null): Long {
+        if (app == SupportedApps.CUSTOM && packageName != null && preference != null) {
+            return preference.getCustomApps().find { it.packageName == packageName }?.unmuteDelay ?: 0
+        }
         return when (app) {
             SupportedApps.SPOTIFY_LITE -> 540
             SupportedApps.SPOTIFY -> 480
