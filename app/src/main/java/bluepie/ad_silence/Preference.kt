@@ -203,7 +203,8 @@ class Preference(private val context: Context) {
                     keywords.add(keywordsJsonArray.getString(j))
                 }
                 val isEnabled = jsonObject.optBoolean("isEnabled", true)
-                customApps.add(CustomApp(name, packageName, keywords, isEnabled))
+                val unmuteDelay = jsonObject.optLong("unmuteDelay", 0)
+                customApps.add(CustomApp(name, packageName, keywords, isEnabled, unmuteDelay))
             }
         } catch (e: Exception) {
             Log.e(TAG, "Error parsing custom apps", e)
@@ -248,6 +249,7 @@ class Preference(private val context: Context) {
             app.keywords.forEach { keywordsArray.put(it) }
             jsonObject.put("keywords", keywordsArray)
             jsonObject.put("isEnabled", app.isEnabled)
+            jsonObject.put("unmuteDelay", app.unmuteDelay)
             jsonArray.put(jsonObject)
         }
         preference.edit { putString(CUSTOM_APPS, jsonArray.toString()).commit() }
