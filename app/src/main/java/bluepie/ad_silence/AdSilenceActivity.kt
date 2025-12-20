@@ -996,6 +996,13 @@ class AdSilenceActivity : Activity() {
             }
         }
 
+        dialogView.findViewById<Switch>(R.id.switch_force_mute_no_check)?.apply {
+            isChecked = preference.isForceMuteNoCheckEnabled()
+            setOnCheckedChangeListener { _, isChecked ->
+                preference.setForceMuteNoCheckEnabled(isChecked)
+            }
+        }
+
         dialogView.findViewById<Button>(R.id.btn_close_settings)?.setOnClickListener {
             dialog.dismiss()
         }
