@@ -110,4 +110,6 @@
     <string name="mute_entire_device">Mute Entire Device</string>
     <string name="mute_entire_device_desc">If enabled, the entire device (including ringer) will be muted. If disabled, only the music stream is muted.</string>
     <string name="mute_behavior_help">Not sure which one to choose? <![CDATA[<a href="https://github.com/aghontpi/ad-silence/wiki/Mute%E2%80%90behaviour%E2%80%90settings">Read here!</a>]]></string>
+    <string name="force_mute_title">Force Mute (Don\'t check existing mute)</string>
+    <string name="force_mute_desc">Mute ads without checking if the media is already muted.</string>
 </resources>

@@ -74,4 +74,6 @@
     <string name="channel_name">Stato del servizio</string>
     <string name="channel_description">Notifica persistente che mostra che AdSilence è attivo</string>
     <string name="notification_update_help">Se il silenziamento o il rilevamento non funzionano, prova ad abilitare questa opzione.</string>
+    <string name="force_mute_title">Force Mute (Don\'t check existing mute)</string>
+    <string name="force_mute_desc">Mute ads without checking if the media is already muted.</string>
 </resources>

@@ -178,6 +178,20 @@ class Preference(private val context: Context) {
         }
     }
 
+    private val FORCE_MUTE_NO_CHECK = "ForceMuteNoCheck"
+    private val FORCE_MUTE_NO_CHECK_DEFAULT = true
+
+    fun isForceMuteNoCheckEnabled(): Boolean {
+        return preference.getBoolean(FORCE_MUTE_NO_CHECK, FORCE_MUTE_NO_CHECK_DEFAULT)
+    }
+
+    fun setForceMuteNoCheckEnabled(status: Boolean) {
+        Log.v(TAG, "[configForceMuteNoCheck] ${isForceMuteNoCheckEnabled()} -> $status")
+        preference.edit {
+            putBoolean(FORCE_MUTE_NO_CHECK, status).commit()
+        }
+    }
+
     private val CUSTOM_APPS = "CustomApps"
 
     companion object {
