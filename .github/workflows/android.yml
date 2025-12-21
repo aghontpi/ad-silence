@@ -5,6 +5,12 @@ on:
     branches: [ "master", "development" ]
   pull_request:
     branches: [ "master", "development" ]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'Pull Request Number (Required for manual PR builds)'
+        required: false
+        type: string
 
 permissions:
   contents: write
@@ -16,6 +22,19 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+
+      - name: Determine Execution Context
+        id: context
+        run: |
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            echo "PR_NUMBER=${{ github.event.pull_request.number }}" >> $GITHUB_ENV
+            echo "IS_PR_BUILD=true" >> $GITHUB_ENV
+          elif [[ "${{ github.event_name }}" == "workflow_dispatch" ]] && [[ -n "${{ inputs.pr_number }}" ]]; then
+            echo "PR_NUMBER=${{ inputs.pr_number }}" >> $GITHUB_ENV
+            echo "IS_PR_BUILD=true" >> $GITHUB_ENV
+          else
+            echo "IS_PR_BUILD=false" >> $GITHUB_ENV
+          fi
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
@@ -52,14 +71,14 @@ jobs:
           echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
 
       - name: Rename APK
-        if: github.event_name == 'pull_request'
+        if: env.IS_PR_BUILD == 'true'
         run: |
-          APK_PATH="app/build/outputs/apk/debug/ad-silence-debug-build-${{ env.VERSION_NAME }}-${{ github.event.pull_request.number }}.apk"
+          APK_PATH="app/build/outputs/apk/debug/ad-silence-debug-build-${{ env.VERSION_NAME }}-${{ env.PR_NUMBER }}.apk"
           mv app/build/outputs/apk/debug/app-debug.apk $APK_PATH
           echo "APK_PATH=$APK_PATH" >> $GITHUB_ENV
 
       - name: Extract APK SHA-256 Fingerprint
-        if: github.event_name == 'pull_request'
+        if: env.IS_PR_BUILD == 'true'
         run: |
           echo "Extracting SHA-256 for: ${{ env.APK_PATH }}"
           
@@ -81,7 +100,7 @@ jobs:
           path: app/build/outputs/apk/debug/*.apk
 
       - name: Deploy to builds branch
-        if: github.event_name == 'pull_request'
+        if: env.IS_PR_BUILD == 'true'
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
@@ -98,8 +117,8 @@ jobs:
           (mkdir /tmp/builds_repo && cd /tmp/builds_repo && git init && git checkout -b builds && git remote add origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }})
           
           cd /tmp/builds_repo
-          mkdir -p pr-${{ github.event.pull_request.number }}
-          cp /tmp/apk_stash/$APK_NAME pr-${{ github.event.pull_request.number }}/
+          mkdir -p pr-${{ env.PR_NUMBER }}
+          cp /tmp/apk_stash/$APK_NAME pr-${{ env.PR_NUMBER }}/
           
           git add .
           
@@ -108,20 +127,20 @@ jobs:
             echo "No changes to commit. APK is identical."
             echo "APK_CHANGED=false" >> $GITHUB_ENV
           else
-            git commit -m "Update build for PR #${{ github.event.pull_request.number }}"
+            git commit -m "Update build for PR #${{ env.PR_NUMBER }}"
             git push origin builds
             echo "APK_CHANGED=true" >> $GITHUB_ENV
           fi
 
       - name: Comment Debug APK on PR
-        if: github.event_name == 'pull_request' && env.APK_CHANGED == 'true'
+        if: env.IS_PR_BUILD == 'true' && env.APK_CHANGED == 'true'
         uses: peter-evans/create-or-update-comment@v3
         with:
-          issue-number: ${{ github.event.pull_request.number }}
+          issue-number: ${{ env.PR_NUMBER }}
           body: |
             A debug APK build is available for this pull request.
             
-            [Download ad-silence-${{ env.VERSION_NAME }}-debug APK](https://github.com/${{ github.repository }}/raw/builds/pr-${{ github.event.pull_request.number }}/${{ env.APK_NAME }})
+            [Download ad-silence-${{ env.VERSION_NAME }}-debug APK](https://github.com/${{ github.repository }}/raw/builds/pr-${{ env.PR_NUMBER }}/${{ env.APK_NAME }})
             
             **Certificate SHA-256:** `${{ env.APK_SHA256 }}` (Extracted from build artifact)
             
