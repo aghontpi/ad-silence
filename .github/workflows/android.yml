@@ -48,7 +48,7 @@ jobs:
       - name: Extract Version Name
         id: extract_version
         run: |
-          VERSION_NAME=$(grep "versionName" app/build.gradle | awk '{print $2}' | tr -d '"' | tr -d "'")
+          VERSION_NAME=$(grep "versionName" app/build.gradle | awk '{print $2}' | tr -d '"' | tr -d "'" | sed 's/prod/dev/g')
           echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
 
       - name: Rename APK

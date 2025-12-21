@@ -162,6 +162,36 @@ class Preference(private val context: Context) {
             putBoolean(DEBUG_LOG_ENABLED, status).commit()
         }
     }
+
+    /* Mute Behavior Preferences */
+    private val MUTE_ENTIRE_DEVICE = "MuteEntireDevice"
+    private val MUTE_ENTIRE_DEVICE_DEFAULT = false
+
+    fun isMuteEntireDeviceEnabled(): Boolean {
+        return preference.getBoolean(MUTE_ENTIRE_DEVICE, MUTE_ENTIRE_DEVICE_DEFAULT)
+    }
+
+    fun setMuteEntireDeviceEnabled(status: Boolean) {
+        Log.v(TAG, "[configMuteEntireDevice] ${isMuteEntireDeviceEnabled()} -> $status")
+        preference.edit {
+            putBoolean(MUTE_ENTIRE_DEVICE, status).commit()
+        }
+    }
+
+    private val FORCE_MUTE_NO_CHECK = "ForceMuteNoCheck"
+    private val FORCE_MUTE_NO_CHECK_DEFAULT = true
+
+    fun isForceMuteNoCheckEnabled(): Boolean {
+        return preference.getBoolean(FORCE_MUTE_NO_CHECK, FORCE_MUTE_NO_CHECK_DEFAULT)
+    }
+
+    fun setForceMuteNoCheckEnabled(status: Boolean) {
+        Log.v(TAG, "[configForceMuteNoCheck] ${isForceMuteNoCheckEnabled()} -> $status")
+        preference.edit {
+            putBoolean(FORCE_MUTE_NO_CHECK, status).commit()
+        }
+    }
+
     private val CUSTOM_APPS = "CustomApps"
 
     companion object {
@@ -187,7 +217,8 @@ class Preference(private val context: Context) {
                     keywords.add(keywordsJsonArray.getString(j))
                 }
                 val isEnabled = jsonObject.optBoolean("isEnabled", true)
-                customApps.add(CustomApp(name, packageName, keywords, isEnabled))
+                val unmuteDelay = jsonObject.optLong("unmuteDelay", 0)
+                customApps.add(CustomApp(name, packageName, keywords, isEnabled, unmuteDelay))
             }
         } catch (e: Exception) {
             Log.e(TAG, "Error parsing custom apps", e)
@@ -232,6 +263,7 @@ class Preference(private val context: Context) {
             app.keywords.forEach { keywordsArray.put(it) }
             jsonObject.put("keywords", keywordsArray)
             jsonObject.put("isEnabled", app.isEnabled)
+            jsonObject.put("unmuteDelay", app.unmuteDelay)
             jsonArray.put(jsonObject)
         }
         preference.edit { putString(CUSTOM_APPS, jsonArray.toString()).commit() }

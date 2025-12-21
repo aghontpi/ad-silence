@@ -40,7 +40,7 @@
         <![CDATA[<br/><br/>]]>
         Made by <![CDATA[ <a href="https://github.com/aghontpi">aghontpi&lt;bluepie&gt;</a>]]> for OpenSource.
     </string>
-    <string name="github">Source Code (GitHub)</string>
+    <string name="github">GitHub</string>
     <string name="report_issue">report issue</string>
     <string name="github_link" translatable="false">https://github.com/aghontpi/Ad-silence</string>
     <string name="not_installed">(not installed)</string>
@@ -97,9 +97,19 @@
     <string name="ad_muting_status">Ad-Muting Status</string>
     <string name="enable_ad_silence">Enable Ad-Silence</string>
     <string name="debug_log">Debug Log</string>
-    <string name="custom_detection">Custom Detection</string>
+
     <string name="mock">Mock</string>
     <string name="clear">Clear</string>
     <string name="channel_name">Service Status</string>
     <string name="channel_description">Persistent notification showing that AdSilence is active</string>
+    <string name="notification_update_help">If mute or detection is not working, try enabling this.</string>
+
+    <!-- Settings Strings -->
+    <string name="settings">Settings</string>
+    <string name="mute_behavior_title">Mute Behavior</string>
+    <string name="mute_entire_device">Mute Entire Device</string>
+    <string name="mute_entire_device_desc">If enabled, the entire device (including ringer) will be muted. If disabled, only the music stream is muted.</string>
+    <string name="mute_behavior_help">Not sure which one to choose? <![CDATA[<a href="https://github.com/aghontpi/ad-silence/wiki/Mute%E2%80%90behaviour%E2%80%90settings">Read here!</a>]]></string>
+    <string name="force_mute_title">Force Mute (Don\'t check existing mute)</string>
+    <string name="force_mute_desc">Mute ads without checking if the media is already muted.</string>
 </resources>

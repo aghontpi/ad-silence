@@ -295,7 +295,14 @@ class NotificationListener : NotificationListenerService() {
                                         }
                                     }
 
-                                    val isMusicStreamMuted = this.isMusicMuted(audioManager!!)
+                                    val isForceMuteNoCheckEnabled = preference.isForceMuteNoCheckEnabled()
+                                    var isMusicStreamMuted = this.isMusicMuted(audioManager!!)
+                                    
+                                    if (isForceMuteNoCheckEnabled) {
+                                        Log.v(TAG, "Force mute enabled, ignoring existing mute state")
+                                        isMusicStreamMuted = false
+                                    }
+
                                     
                                     // Check for casting
                                     val route = currentRoute
@@ -415,7 +422,7 @@ class NotificationListener : NotificationListenerService() {
                                                 unmuteRunnable = null
                                             }
 
-                                            val delay = this.getUnmuteDelay(currentPackage)
+                                            val delay = this.getUnmuteDelay(currentPackage, packageName, preference)
                                             if (delay > 0) {
                                                 Log.v(TAG, "scheduling unmute for $currentPackage ($packageName) with delay $delay")
                                                 if (isDebugEnabled) {

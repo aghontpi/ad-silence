@@ -26,16 +26,6 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/app_version"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/app_title"
-            android:layout_alignBaseline="@id/app_title"
-            android:layout_marginStart="4dp"
-            tools:text="v1.0"
-            android:textColor="?android:attr/textColorSecondary"
-            android:textSize="10sp" />
     </RelativeLayout>
 
     <!-- Notification Access Card -->
@@ -125,6 +115,15 @@
 
         </LinearLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-24dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/notification_update_help"
+            android:textColor="?android:attr/textColorSecondary"
+            android:textSize="12sp" />
+
         <Button
             android:id="@+id/grant_permission"
             android:layout_width="match_parent"
@@ -198,6 +197,15 @@
             android:textColor="?android:attr/textColorPrimary" />
 
         <Button
+            android:id="@+id/settings_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_button_rounded"
+            android:text="@string/settings"
+            android:textColor="?android:attr/textColorPrimary" />
+
+        <Button
             android:id="@+id/about_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -207,34 +215,6 @@
             android:textColor="?android:attr/textColorPrimary" />
     </LinearLayout>
 
-    <!-- Custom Detection Card -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/bg_card_rounded"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:padding="16dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:text="@string/custom_detection"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textSize="16sp" />
-
-        <Button
-            android:id="@+id/add_custom_app_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_button_rounded"
-            android:text="@string/add_custom_app"
-            android:textColor="?android:attr/textColorPrimary" />
-
-    </LinearLayout>
-    
     <!-- Hidden views to prevent logic breakage if they are referenced, from old design, remove it
      after couple of releases -->
     <TextView

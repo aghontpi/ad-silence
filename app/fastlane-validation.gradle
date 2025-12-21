@@ -1,0 +1,56 @@
+task validateFastlaneMetadata {
+    doLast {
+        def metadataDir = file("$rootDir/fastlane/metadata/android")
+        if (!metadataDir.exists()) {
+            println "Fastlane metadata directory not found at ${metadataDir.absolutePath}. Skipping validation."
+            return
+        }
+
+        metadataDir.eachDir { localeDir ->
+            println "Validating metadata for locale: ${localeDir.name}"
+
+            // Title (max 30 characters)
+            def titleFile = new File(localeDir, "title.txt")
+            if (titleFile.exists()) {
+                def title = titleFile.text.trim()
+                if (title.length() > 30) {
+                    throw new GradleException("Title in ${titleFile.absolutePath} exceeds 30 characters (current: ${title.length()}).")
+                }
+            }
+
+            // Short Description (max 80 characters)
+            def shortDescFile = new File(localeDir, "short_description.txt")
+            if (shortDescFile.exists()) {
+                def shortDesc = shortDescFile.text.trim()
+                if (shortDesc.length() > 80) {
+                    throw new GradleException("Short description in ${shortDescFile.absolutePath} exceeds 80 characters (current: ${shortDesc.length()}).")
+                }
+            }
+
+            // Full Description (max 4000 characters)
+            def fullDescFile = new File(localeDir, "full_description.txt")
+            if (fullDescFile.exists()) {
+                def fullDesc = fullDescFile.text.trim()
+                if (fullDesc.length() > 4000) {
+                    throw new GradleException("Full description in ${fullDescFile.absolutePath} exceeds 4000 characters (current: ${fullDesc.length()}).")
+                }
+            }
+
+             // Changelogs (max 500 characters)
+            def changelogsDir = new File(localeDir, "changelogs")
+            if (changelogsDir.exists()) {
+                changelogsDir.eachFile { changelogFile ->
+                    if (changelogFile.name.endsWith(".txt")) {
+                        def changelog = changelogFile.text.trim()
+                        if (changelog.length() > 500) {
+                            throw new GradleException("Changelog in ${changelogFile.absolutePath} exceeds 500 characters (current: ${changelog.length()}).")
+                        }
+                    }
+                }
+            }
+        }
+        println "Fastlane metadata validation passed."
+    }
+}
+
+preBuild.dependsOn validateFastlaneMetadata
