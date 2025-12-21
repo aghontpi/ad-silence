@@ -30,13 +30,13 @@
             android:layout_marginEnd="8dp" />
 
         <Button
-            android:id="@+id/mock_log_btn"
+            android:id="@+id/test_mute_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:background="@drawable/bg_button_rounded"
             android:minHeight="32dp"
-            android:text="@string/mock"
+            android:text="Mute/Unmute"
             android:textColor="?android:attr/textColorPrimary"
             android:textSize="12sp" />
 
@@ -59,9 +59,20 @@
         android:gravity="center"
         android:textSize="12sp"
         android:textColor="?android:attr/textColorSecondary"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         android:visibility="gone"
         tools:text="Active for: 2h 30m" />
+
+    <TextView
+        android:id="@+id/dialog_casting_status_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="12sp"
+        android:textColor="?android:attr/textColorSecondary"
+        android:layout_marginBottom="16dp"
+        android:visibility="gone"
+        tools:text="Casting: Living Room TV" />
 
     <ListView
         android:id="@+id/log_list_view"

@@ -20,12 +20,16 @@ import android.view.View
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
+import androidx.mediarouter.media.MediaControlIntent
+import androidx.mediarouter.media.MediaRouter
+import androidx.mediarouter.media.MediaRouteSelector
+import android.media.AudioDeviceInfo
+import android.media.AudioManager
 
 class AdSilenceActivity : Activity() {
 
     private val TAG = "AdSilence.Activity"
     private val NOTIFICATION_PERMISSION_REQUEST_CODE = 1001
-    private val SHOW_MOCK_DATA = false
     private var aboutDialog: AlertDialog? = null
     private var batteryOptimizationDialog: AlertDialog? = null
     private var debugLogDialog: AlertDialog? = null
@@ -904,25 +908,179 @@ class AdSilenceActivity : Activity() {
             }
         }
 
-        dialogView.findViewById<Button>(R.id.mock_log_btn)?.run {
-            if (SHOW_MOCK_DATA) {
-                this.visibility = View.VISIBLE
-                this.setOnClickListener {
-                    if (preference.isDebugLogEnabled()) {
-                        LogManager.addMockData()
+
+        val testMuteBtn = dialogView.findViewById<Button>(R.id.test_mute_btn)
+        
+        fun updateMuteButtonState() {
+            val audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+            val currentMusicVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
+            
+            val mediaController = NotificationListener.instance?.getMediaControllerForCasting()
+            var isMuted = currentMusicVolume == 0
+
+            if (mediaController != null) {
+                try {
+                    val playbackInfo = mediaController.playbackInfo
+                    if (playbackInfo != null) {
+                        Log.v(TAG, "Cast PlaybackInfo Volume: ${playbackInfo.currentVolume}, Max: ${playbackInfo.maxVolume}")
+                        // If we have a controller, treat it as the source of truth for "Mute" state if testing for casting
+                        isMuted = playbackInfo.currentVolume == 0 // taking 0 as mute
                     }
+                } catch (e: Exception) {
+                    Log.e(TAG, "Error getting playback info", e)
+                }
+            }
+            
+            testMuteBtn?.text = if (isMuted) "Unmute" else "Mute"
+        }
+        
+        updateMuteButtonState()
+
+        testMuteBtn?.setOnClickListener {
+            val audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+            
+            // Try specific MediaSession first
+            val mediaController = NotificationListener.instance?.getMediaControllerForCasting()
+            
+            var isCurrentlyMuted = false
+             if (mediaController != null) {
+                try {
+                     isCurrentlyMuted = mediaController.playbackInfo?.currentVolume == 0
+                } catch (e: Exception) {
+                    isCurrentlyMuted = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC) == 0
                 }
             } else {
-                this.visibility = View.GONE
+                isCurrentlyMuted = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC) == 0
             }
+            
+            if (!isCurrentlyMuted) {
+                // MUTE
+                if (mediaController != null) {
+                    Log.v("AdSilence", "Muting via MediaController")
+                    mediaController.setVolumeTo(0, 0)
+                    Toast.makeText(applicationContext, "Muted Cast (Session)", Toast.LENGTH_SHORT).show()
+                } else {
+                    Log.v("AdSilence", "Muting via AudioManager (Fallback)")
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_MUTE, AudioManager.FLAG_SHOW_UI)
+                    } else {
+                        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, AudioManager.FLAG_SHOW_UI)
+                    }
+                    Toast.makeText(applicationContext, "Muted System (Fallback)", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                // UNMUTE
+                if (mediaController != null) {
+                    Log.v("AdSilence", "Unmuting via MediaController")
+                    // Use adjustVolume(ADJUST_UNMUTE) or set to a reasonable default if 0
+                    try {
+                         // Some apps does not support ADJUST_UNMUTE or it might not work if volume is set to 0 directly.
+                         // try setVolumeTo(DEFAULT) if max > 0, else adjust
+                         val max = mediaController.playbackInfo?.maxVolume ?: 10
+                         val targetVol = if (max > 15) max / 3 else max / 2 // not to blast music, to be adjusted after testing
+                         
+                         mediaController.setVolumeTo(targetVol, 0)
+                         // Also send ADJUST_UNMUTE just in case
+                         // mediaController.adjustVolume(AudioManager.ADJUST_UNMUTE, 0)
+                    } catch (e: Exception) {
+                        Log.e("AdSilence", "Error setting volume, trying adjust", e)
+                        mediaController.adjustVolume(AudioManager.ADJUST_UNMUTE, 0)
+                    }
+
+                    Toast.makeText(applicationContext, "Unmuted Cast (Session)", Toast.LENGTH_SHORT).show()
+                } else {
+                    Log.v("AdSilence", "Unmuting via AudioManager (Fallback)")
+                    audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE, AudioManager.FLAG_SHOW_UI)
+                    Toast.makeText(applicationContext, "Unmuted System (Fallback)", Toast.LENGTH_SHORT).show()
+                }
+            }
+            
+            // Post update to allow volume change to propagate (short delay)
+            testMuteBtn?.postDelayed({ updateMuteButtonState() }, 500)
         }
 
         dialogView.findViewById<Button>(R.id.clear_log_btn)?.setOnClickListener {
             LogManager.clearLogs()
         }
 
+        val castingStatusTextView = dialogView.findViewById<TextView>(R.id.dialog_casting_status_text_view)
+        var mediaRouter: MediaRouter? = null
+        var mediaRouterCallback: MediaRouter.Callback? = null
+
+        try {
+            mediaRouter = MediaRouter.getInstance(applicationContext)
+            val selector = MediaRouteSelector.Builder()
+                .addControlCategory(MediaControlIntent.CATEGORY_REMOTE_PLAYBACK)
+                .addControlCategory(MediaControlIntent.CATEGORY_LIVE_AUDIO)
+                .addControlCategory(MediaControlIntent.CATEGORY_LIVE_VIDEO)
+                .build()
+
+            fun updateCastingStatus() {
+                val route = mediaRouter?.selectedRoute
+                Log.v(TAG, "DebugDialog: Current route: ${route?.name}, type: ${route?.playbackType}, desc: ${route?.description}")
+                
+               // Check AudioManager as well
+                val audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    val devices = audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS)
+                    for (device in devices) {
+                        Log.v(TAG, "DebugDialog: Audio Device: ${device.productName}, type: ${device.type}")
+                    }
+                }
+
+                if (route != null && route.playbackType == MediaRouter.RouteInfo.PLAYBACK_TYPE_REMOTE) {
+                    castingStatusTextView?.text = "Casting to: ${route.name}"
+                    castingStatusTextView?.visibility = View.VISIBLE
+                } else {
+                    // Fallback: Check for system notification
+                    val listenerInstance = NotificationListener.instance
+                    if (listenerInstance == null) {
+                        Log.v(TAG, "DebugDialog: NotificationListener instance is null. Service likely not running or permission missing.")
+                        castingStatusTextView?.text = "Casting: Service Not Connected (Check Permissions)"
+                        castingStatusTextView?.visibility = View.VISIBLE
+                    } else {
+                        val notificationCastingStatus = listenerInstance.checkForCastingNotification()
+                        if (notificationCastingStatus != null) {
+                            castingStatusTextView?.text = "Casting (Sys): $notificationCastingStatus"
+                            castingStatusTextView?.visibility = View.VISIBLE
+                        } else if (route != null) {
+                            castingStatusTextView?.text = "Not Casting (Route: ${route.name})"
+                            castingStatusTextView?.visibility = View.VISIBLE
+                        } else {
+                            castingStatusTextView?.text = "Casting: Not Connected"
+                            castingStatusTextView?.visibility = View.VISIBLE
+                        }
+                    }
+                }
+            }
+            
+            updateCastingStatus()
+
+            mediaRouterCallback = object : MediaRouter.Callback() {
+                override fun onRouteSelected(router: MediaRouter, route: MediaRouter.RouteInfo) {
+                    updateCastingStatus()
+                }
+                override fun onRouteUnselected(router: MediaRouter, route: MediaRouter.RouteInfo) {
+                    updateCastingStatus()
+                }
+                override fun onRouteChanged(router: MediaRouter, route: MediaRouter.RouteInfo) {
+                    updateCastingStatus()
+                }
+            }
+            
+            mediaRouter?.addCallback(selector, mediaRouterCallback, MediaRouter.CALLBACK_FLAG_REQUEST_DISCOVERY)
+
+        } catch (e: Exception) {
+            Log.e(TAG, "Error initializing MediaRouter for debug dialog", e)
+            castingStatusTextView?.text = "Casting: Error accessing MediaRouter"
+            castingStatusTextView?.visibility = View.VISIBLE
+        }
+
         dialog.setOnDismissListener {
             LogManager.removeListener(logListener)
+            mediaRouterCallback?.let {
+                 mediaRouter?.removeCallback(it)
+            }
         }
 
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
