@@ -42,6 +42,7 @@ class AdSilenceActivity : Activity() {
         // handleHibernation()
         configureViewsWithLinks()
         configureBatteryOptimization()
+        updateUiVisibility()
     }
 
     override fun onResume() {
@@ -55,6 +56,15 @@ class AdSilenceActivity : Activity() {
         // handleHibernation()
         configureViewsWithLinks()
         configureBatteryOptimization()
+        updateUiVisibility()
+    }
+
+    private fun updateUiVisibility() {
+        val hasPermission = checkNotificationListenerPermission(applicationContext)
+        val visibility = if (hasPermission) View.VISIBLE else View.GONE
+        
+        findViewById<View>(R.id.ad_muting_status_card)?.visibility = visibility
+        findViewById<View>(R.id.custom_detection_card)?.visibility = visibility
     }
 
     override fun onDestroy() {
