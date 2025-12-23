@@ -9,11 +9,25 @@ class CastMuteManager(private val context: Context) {
     private val TAG = "CastMuteManager"
     private var isMutedByManager = false
 
+    private var originalVolume = -1
+
     fun tryMute(notificationListener: NotificationListener): Boolean {
         val controller = notificationListener.getMediaControllerForCasting()
         if (controller != null) {
             Log.v(TAG, "Found MediaController, attempting to mute...")
             try {
+                // Save volume only if not already muted by CasteMuteManager
+                // a bug where subsequence mute, saves as 0.
+                if (!isMutedByManager) {
+                    val current = controller.playbackInfo?.currentVolume
+                    if (current != null) {
+                        originalVolume = current
+                        Log.v(TAG, "Saved cast volume: $originalVolume")
+                    }
+                } else {
+                    Log.v(TAG, "Already muted by manager, keeping original volume: $originalVolume")
+                }
+                
                 controller.setVolumeTo(0, 0)
                 isMutedByManager = true
                 return true
@@ -33,17 +47,20 @@ class CastMuteManager(private val context: Context) {
         if (controller != null) {
             Log.v(TAG, "Found MediaController, attempting to unmute...")
             try {
-                // Some apps does not support ADJUST_UNMUTE or it might not work if volume is set to 0 directly.
-                val max = controller.playbackInfo?.maxVolume ?: 10
-                val targetVol = if (max > 15) max / 3 else max / 2 // Default to reasonable volume
-                
-                Log.v(TAG, "Unmuting: Setting volume to $targetVol (Max: $max)")
-                controller.setVolumeTo(targetVol, 0)
+                if (originalVolume != -1) {
+                     Log.v(TAG, "Restoring cast volume to $originalVolume")
+                     controller.setVolumeTo(originalVolume, 0)
+                     originalVolume = -1
+                } else {
+                     // Fallback if missed saving
+                     Log.v(TAG, "No saved volume, adjusting unmute")
+                     controller.adjustVolume(AudioManager.ADJUST_UNMUTE, 0)
+                }
                 
                 isMutedByManager = false
                 return true
             } catch (e: Exception) {
-                Log.e(TAG, "Error unmuting via MediaController, trying adjust fallback", e)
+                Log.e(TAG, "Error unmuting via MediaController", e)
                 try {
                      controller.adjustVolume(AudioManager.ADJUST_UNMUTE, 0)
                      isMutedByManager = false

@@ -20,9 +20,7 @@ import android.view.View
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
-import androidx.mediarouter.media.MediaControlIntent
-import androidx.mediarouter.media.MediaRouter
-import androidx.mediarouter.media.MediaRouteSelector
+import android.media.MediaRouter
 import android.media.AudioDeviceInfo
 import android.media.AudioManager
 
@@ -936,6 +934,8 @@ class AdSilenceActivity : Activity() {
         
         updateMuteButtonState()
 
+        var originalVolume = -1
+
         testMuteBtn?.setOnClickListener {
             val audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
             
@@ -945,6 +945,7 @@ class AdSilenceActivity : Activity() {
             var isCurrentlyMuted = false
              if (mediaController != null) {
                 try {
+                     // 0 is technically muted, but some devices have min volume.
                      isCurrentlyMuted = mediaController.playbackInfo?.currentVolume == 0
                 } catch (e: Exception) {
                     isCurrentlyMuted = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC) == 0
@@ -957,6 +958,11 @@ class AdSilenceActivity : Activity() {
                 // MUTE
                 if (mediaController != null) {
                     Log.v("AdSilence", "Muting via MediaController")
+                    try {
+                        originalVolume = mediaController.playbackInfo?.currentVolume ?: -1
+                    } catch (e: Exception) {
+                        originalVolume = -1
+                    }
                     mediaController.setVolumeTo(0, 0)
                     Toast.makeText(applicationContext, "Muted Cast (Session)", Toast.LENGTH_SHORT).show()
                 } else {
@@ -972,16 +978,16 @@ class AdSilenceActivity : Activity() {
                 // UNMUTE
                 if (mediaController != null) {
                     Log.v("AdSilence", "Unmuting via MediaController")
-                    // Use adjustVolume(ADJUST_UNMUTE) or set to a reasonable default if 0
                     try {
-                         // Some apps does not support ADJUST_UNMUTE or it might not work if volume is set to 0 directly.
-                         // try setVolumeTo(DEFAULT) if max > 0, else adjust
-                         val max = mediaController.playbackInfo?.maxVolume ?: 10
-                         val targetVol = if (max > 15) max / 3 else max / 2 // not to blast music, to be adjusted after testing
-                         
-                         mediaController.setVolumeTo(targetVol, 0)
-                         // Also send ADJUST_UNMUTE just in case
-                         // mediaController.adjustVolume(AudioManager.ADJUST_UNMUTE, 0)
+                         if (originalVolume != -1) {
+                             mediaController.setVolumeTo(originalVolume, 0)
+                             originalVolume = -1 // Reset
+                         } else {
+                             // Fallback if we didn't capture original volume
+                             val max = mediaController.playbackInfo?.maxVolume ?: 10
+                             val targetVol = if (max > 15) max / 3 else max / 2 
+                             mediaController.setVolumeTo(targetVol, 0)
+                         }
                     } catch (e: Exception) {
                         Log.e("AdSilence", "Error setting volume, trying adjust", e)
                         mediaController.adjustVolume(AudioManager.ADJUST_UNMUTE, 0)
@@ -1008,15 +1014,10 @@ class AdSilenceActivity : Activity() {
         var mediaRouterCallback: MediaRouter.Callback? = null
 
         try {
-            mediaRouter = MediaRouter.getInstance(applicationContext)
-            val selector = MediaRouteSelector.Builder()
-                .addControlCategory(MediaControlIntent.CATEGORY_REMOTE_PLAYBACK)
-                .addControlCategory(MediaControlIntent.CATEGORY_LIVE_AUDIO)
-                .addControlCategory(MediaControlIntent.CATEGORY_LIVE_VIDEO)
-                .build()
+            mediaRouter = applicationContext.getSystemService(Context.MEDIA_ROUTER_SERVICE) as MediaRouter
 
             fun updateCastingStatus() {
-                val route = mediaRouter?.selectedRoute
+                val route = mediaRouter?.getSelectedRoute(MediaRouter.ROUTE_TYPE_LIVE_AUDIO)
                 Log.v(TAG, "DebugDialog: Current route: ${route?.name}, type: ${route?.playbackType}, desc: ${route?.description}")
                 
                // Check AudioManager as well
@@ -1056,11 +1057,11 @@ class AdSilenceActivity : Activity() {
             
             updateCastingStatus()
 
-            mediaRouterCallback = object : MediaRouter.Callback() {
-                override fun onRouteSelected(router: MediaRouter, route: MediaRouter.RouteInfo) {
+            mediaRouterCallback = object : MediaRouter.SimpleCallback() {
+                override fun onRouteSelected(router: MediaRouter, type: Int, route: MediaRouter.RouteInfo) {
                     updateCastingStatus()
                 }
-                override fun onRouteUnselected(router: MediaRouter, route: MediaRouter.RouteInfo) {
+                override fun onRouteUnselected(router: MediaRouter, type: Int, route: MediaRouter.RouteInfo) {
                     updateCastingStatus()
                 }
                 override fun onRouteChanged(router: MediaRouter, route: MediaRouter.RouteInfo) {
@@ -1068,7 +1069,7 @@ class AdSilenceActivity : Activity() {
                 }
             }
             
-            mediaRouter?.addCallback(selector, mediaRouterCallback, MediaRouter.CALLBACK_FLAG_REQUEST_DISCOVERY)
+            mediaRouter?.addCallback(MediaRouter.ROUTE_TYPE_LIVE_AUDIO, mediaRouterCallback, MediaRouter.CALLBACK_FLAG_PERFORM_ACTIVE_SCAN)
 
         } catch (e: Exception) {
             Log.e(TAG, "Error initializing MediaRouter for debug dialog", e)

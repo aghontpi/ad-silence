@@ -68,7 +68,9 @@ dependencies {
     implementation("androidx.concurrent:concurrent-futures-ktx:1.1.0")
     // requirements for android 11 and above to use hibernation end
 
-    implementation 'androidx.mediarouter:mediarouter:1.7.0'
+    // including this increase the final buil size by 600kb, so removing it 
+    // and using native, since targetting android > 5, so it should just work
+    // implementation 'androidx.mediarouter:mediarouter:1.7.0'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
