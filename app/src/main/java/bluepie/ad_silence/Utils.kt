@@ -54,7 +54,7 @@ class Utils {
     fun isSoundcloudInstalled(context: Context) =
         isPackageInstalled(context, context.getString(R.string.soundcloud_package_name))
 
-    fun isMusicMuted(audoManager: AudioManager): Boolean {
+    fun isMusicMuted(context: Context, audoManager: AudioManager): Boolean {
         if (Build.VERSION.SDK_INT >= 23) {
             return audoManager.isStreamMute(AudioManager.STREAM_MUSIC)
         } else {

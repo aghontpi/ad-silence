@@ -293,7 +293,7 @@ class NotificationListener : NotificationListenerService() {
                                     }
 
                                     val isForceMuteNoCheckEnabled = preference.isForceMuteNoCheckEnabled()
-                                    var isMusicStreamMuted = this.isMusicMuted(audioManager!!)
+                                    var isMusicStreamMuted = this.isMusicMuted(applicationContext, audioManager!!)
                                     
                                     if (isForceMuteNoCheckEnabled) {
                                         Log.v(TAG, "Force mute enabled, ignoring existing mute state")
