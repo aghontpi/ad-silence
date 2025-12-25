@@ -23,12 +23,6 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <Switch
-            android:id="@+id/debug_log_toggle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp" />
-
         <Button
             android:id="@+id/test_mute_btn"
             android:layout_width="wrap_content"
@@ -44,11 +38,17 @@
             android:id="@+id/clear_log_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:background="@drawable/bg_button_rounded"
             android:minHeight="32dp"
             android:text="@string/clear"
             android:textColor="?android:attr/textColorPrimary"
             android:textSize="12sp" />
+
+        <Switch
+            android:id="@+id/debug_log_toggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
