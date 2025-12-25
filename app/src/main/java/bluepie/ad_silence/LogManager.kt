@@ -63,18 +63,7 @@ object LogManager {
         notifyListeners()
     }
 
-    fun addMockData() {
-        val mockLogs = listOf(
-            LogEntry("Spotify", System.currentTimeMillis(), true, "Song Title", "Artist Name", "Album Info", "Artist Name"),
-            LogEntry("YouTube", System.currentTimeMillis() - 60000, false, "Video Title", "Channel Name", "Description", null),
-            LogEntry("Pandora", System.currentTimeMillis() - 120000, true, "Ad Title", "Ad Text", "Sponsored", "Ad Text"),
-            LogEntry("System", System.currentTimeMillis() - 180000, false, "Service Started", "AdSilence", "Background Service", null)
-        )
-        synchronized(logs) {
-            logs.addAll(0, mockLogs)
-        }
-        notifyListeners()
-    }
+
 
     fun addListener(listener: () -> Unit) {
         listeners.add(listener)

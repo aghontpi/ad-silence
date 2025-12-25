@@ -97,8 +97,9 @@
     <string name="ad_muting_status">Ad-Muting Status</string>
     <string name="enable_ad_silence">Enable Ad-Silence</string>
     <string name="debug_log">Debug Log</string>
-
+    <string name="custom_detection">Custom Detection</string>
     <string name="mock">Mock</string>
+
     <string name="clear">Clear</string>
     <string name="channel_name">Service Status</string>
     <string name="channel_description">Persistent notification showing that AdSilence is active</string>
