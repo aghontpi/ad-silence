@@ -28,61 +28,292 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <Switch
-                android:id="@+id/accuradio_selection_switch"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="48dp"
-                android:text="@string/accuradio"
-                android:textColor="?android:attr/textColorPrimary" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-            <Switch
-                android:id="@+id/spotify_selection_switch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="48dp"
-                android:text="@string/spotify"
-                android:textColor="?android:attr/textColorPrimary" />
+                <TextView
+                    android:id="@+id/tv_accuradio"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/accuradio"
+                    android:textColor="?android:attr/textColorPrimary" />
 
-            <Switch
-                android:id="@+id/spotify_lite_selection_switch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="48dp"
-                android:text="@string/spotify_lite"
-                android:textColor="?android:attr/textColorPrimary" />
+                <ImageView
+                    android:id="@+id/accuradio_reset_btn"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:padding="12dp"
+                    android:src="@drawable/ic_restore"
+                    android:contentDescription="Reset"
+                    android:visibility="gone"
+                    android:layout_marginEnd="4dp"/>
 
-            <Switch
-                android:id="@+id/soundcloud_selection_switch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="48dp"
-                android:text="@string/soundcloud"
-                android:textColor="?android:attr/textColorPrimary" />
+                <ImageView
+                    android:id="@+id/accuradio_edit_btn"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:padding="16px"
+                    android:src="@drawable/ic_edit"
+                    android:contentDescription="Edit" />
 
-            <Switch
-                android:id="@+id/tidal_selection_switch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="48dp"
-                android:text="@string/tidal"
-                android:textColor="?android:attr/textColorPrimary" />
+                <Switch
+                    android:id="@+id/accuradio_selection_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp" />
+            </LinearLayout>
 
-            <Switch
-                android:id="@+id/pandora_selection_switch"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="48dp"
-                android:text="@string/pandora"
-                android:textColor="?android:attr/textColorPrimary" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-            <Switch
-                android:id="@+id/liveone_selection_switch"
+                <TextView
+                    android:id="@+id/tv_spotify"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/spotify"
+                    android:textColor="?android:attr/textColorPrimary" />
+
+                <ImageView
+                    android:id="@+id/spotify_reset_btn"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:padding="12dp"
+                    android:src="@drawable/ic_restore"
+                    android:contentDescription="Reset"
+                    android:visibility="gone"
+                    android:layout_marginEnd="4dp"/>
+
+                <ImageView
+                    android:id="@+id/spotify_edit_btn"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:padding="16px"
+                    android:src="@drawable/ic_edit"
+                    android:contentDescription="Edit" />
+
+                <Switch
+                    android:id="@+id/spotify_selection_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="48dp"
-                android:text="@string/liveone"
-                android:textColor="?android:attr/textColorPrimary" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_spotify_lite"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/spotify_lite"
+                    android:textColor="?android:attr/textColorPrimary" />
+
+                <ImageView
+                    android:id="@+id/spotify_lite_reset_btn"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:padding="12dp"
+                    android:src="@drawable/ic_restore"
+                    android:contentDescription="Reset"
+                    android:visibility="gone"
+                    android:layout_marginEnd="4dp"/>
+
+                <ImageView
+                    android:id="@+id/spotify_lite_edit_btn"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:padding="16px"
+                    android:src="@drawable/ic_edit"
+                    android:contentDescription="Edit" />
+
+                <Switch
+                    android:id="@+id/spotify_lite_selection_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_soundcloud"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/soundcloud"
+                    android:textColor="?android:attr/textColorPrimary" />
+
+                <ImageView
+                    android:id="@+id/soundcloud_reset_btn"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:padding="12dp"
+                    android:src="@drawable/ic_restore"
+                    android:contentDescription="Reset"
+                    android:visibility="gone"
+                    android:layout_marginEnd="4dp"/>
+
+                <ImageView
+                    android:id="@+id/soundcloud_edit_btn"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:padding="16px"
+                    android:src="@drawable/ic_edit"
+                    android:contentDescription="Edit" />
+
+                <Switch
+                    android:id="@+id/soundcloud_selection_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_tidal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/tidal"
+                    android:textColor="?android:attr/textColorPrimary" />
+
+                <ImageView
+                    android:id="@+id/tidal_reset_btn"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:padding="12dp"
+                    android:src="@drawable/ic_restore"
+                    android:contentDescription="Reset"
+                    android:visibility="gone"
+                    android:layout_marginEnd="4dp"/>
+
+                <ImageView
+                    android:id="@+id/tidal_edit_btn"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:padding="16px"
+                    android:src="@drawable/ic_edit"
+                    android:contentDescription="Edit" />
+
+                <Switch
+                    android:id="@+id/tidal_selection_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_pandora"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/pandora"
+                    android:textColor="?android:attr/textColorPrimary" />
+
+                <ImageView
+                    android:id="@+id/pandora_reset_btn"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:padding="12dp"
+                    android:src="@drawable/ic_restore"
+                    android:contentDescription="Reset"
+                    android:visibility="gone"
+                    android:layout_marginEnd="4dp"/>
+
+                <ImageView
+                    android:id="@+id/pandora_edit_btn"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:padding="16px"
+                    android:src="@drawable/ic_edit"
+                    android:contentDescription="Edit" />
+
+                <Switch
+                    android:id="@+id/pandora_selection_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_liveone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/liveone"
+                    android:textColor="?android:attr/textColorPrimary" />
+
+                <ImageView
+                    android:id="@+id/liveone_reset_btn"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:padding="12dp"
+                    android:src="@drawable/ic_restore"
+                    android:contentDescription="Reset"
+                    android:visibility="gone"
+                    android:layout_marginEnd="4dp"/>
+
+                <ImageView
+                    android:id="@+id/liveone_edit_btn"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:padding="16px"
+                    android:src="@drawable/ic_edit"
+                    android:contentDescription="Edit" />
+
+                <Switch
+                    android:id="@+id/liveone_selection_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp" />
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/custom_apps_container"
