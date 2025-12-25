@@ -860,8 +860,9 @@ class AdSilenceActivity : Activity() {
             .setView(dialogView)
             .create()
         val dialog = debugLogDialog!!
+    val preference = Preference(applicationContext)
 
-        val listView = dialogView.findViewById<ListView>(R.id.log_list_view)
+    val listView = dialogView.findViewById<ListView>(R.id.log_list_view)
     
         try {
             val uptimeTextView = dialogView.findViewById<TextView>(R.id.dialog_uptime_text_view)
@@ -873,12 +874,50 @@ class AdSilenceActivity : Activity() {
                 val seconds = (uptimeMillis / 1000) % 60
                 uptimeTextView?.text = String.format("Service running for: %dh %dm %ds", hours, minutes, seconds)
                 uptimeTextView?.visibility = View.VISIBLE
-            } else {
-                uptimeTextView?.visibility = View.GONE
-            }
-        } catch (e: Exception) {
-            Log.e(TAG, "Error setting uptime text", e)
+        } else {
+            uptimeTextView?.visibility = View.GONE
         }
+        
+        val audioManager = getSystemService(Context.AUDIO_SERVICE) as android.media.AudioManager
+        val carHelper = CarHelper(applicationContext, audioManager)
+        val isCarMode = carHelper.isCarConnected()
+        
+        val carStatusTextView = dialogView.findViewById<TextView>(R.id.dialog_car_status_text_view)
+        carStatusTextView?.text = "Car Mode: ${if (isCarMode) "Active" else "Inactive"}"
+        carStatusTextView?.visibility = View.VISIBLE
+
+        val testMuteBtn = dialogView.findViewById<Button>(R.id.btn_test_car_mute)
+        if (isCarMode) {
+            testMuteBtn?.visibility = View.VISIBLE
+            var isMutedTest = false
+            testMuteBtn?.setOnClickListener {
+                if (!isMutedTest) {
+                    val result = carHelper.attemptMute(null, preference)
+                    if (result) {
+                        testMuteBtn.text = "Unmute (Car)"
+                        isMutedTest = true
+                        Toast.makeText(this, "Playing Silence + Duck", Toast.LENGTH_SHORT).show()
+                    } else {
+                         Toast.makeText(this, "Failed to Duck", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    val result = carHelper.attemptUnmute(null, preference)
+                    if (result) {
+                        testMuteBtn.text = "Mute (Car)"
+                        isMutedTest = false
+                        Toast.makeText(this, "Stopped Silence + Restored", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this, "Failed to Restore", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        } else {
+             testMuteBtn?.visibility = View.GONE
+        }
+
+    } catch (e: Exception) {
+        Log.e(TAG, "Error setting uptime/car text", e)
+    }
     
         val adapter = LogAdapter(LogManager.getLogs())
         listView.adapter = adapter
@@ -896,7 +935,6 @@ class AdSilenceActivity : Activity() {
         }
         LogManager.addListener(logListener)
 
-        val preference = Preference(applicationContext)
         dialogView.findViewById<Switch>(R.id.debug_log_toggle)?.run {
             this.isChecked = preference.isDebugLogEnabled()
             this.setOnCheckedChangeListener { _, isChecked ->

@@ -63,6 +63,27 @@
         android:visibility="gone"
         tools:text="Active for: 2h 30m" />
 
+    <TextView
+        android:id="@+id/dialog_car_status_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="12sp"
+        android:textColor="?android:attr/textColorSecondary"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone"
+        tools:text="Car Status: Not Connected" />
+
+    <Button
+        android:id="@+id/btn_test_car_mute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Test Mute (Car)"
+        android:visibility="gone"
+        android:layout_marginBottom="8dp"
+        style="@android:style/Widget.Material.Button.Small" />
+
     <ListView
         android:id="@+id/log_list_view"
         android:layout_width="match_parent"

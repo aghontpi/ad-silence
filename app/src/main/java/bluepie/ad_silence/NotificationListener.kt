@@ -21,11 +21,14 @@ class NotificationListener : NotificationListenerService() {
     private val handler = Handler(Looper.getMainLooper())
     private var unmuteRunnable: Runnable? = null
 
+    private var carHelper: CarHelper? = null
+
     override fun onCreate() {
         super.onCreate()
         startTime = System.currentTimeMillis()
         audioManager = applicationContext.getSystemService(AUDIO_SERVICE) as AudioManager
         appNotificationHelper = AppNotificationHelper(applicationContext)
+        carHelper = CarHelper(applicationContext, audioManager)
 
         Log.v(TAG, "listener created")
         if (Preference(applicationContext).isDebugLogEnabled()) {
@@ -249,7 +252,14 @@ class NotificationListener : NotificationListenerService() {
                                     if (!isMuted || !isMusicStreamMuted) {
                                         Log.v(TAG, "'MusicStream' muted? -> $isMusicStreamMuted")
                                         Log.v(TAG, "Ad detected muting, state-> $isMuted to ${!isMuted}, currentPackage: $currentPackage")
-                                        this.mute(audioManager, appNotificationHelper, preference)
+                                        
+                                        // Try car helper first
+                                        var mutedByCar = carHelper?.attemptMute(appNotificationHelper, preference) ?: false
+                                        
+                                        if (!mutedByCar) {
+                                            this.mute(audioManager, appNotificationHelper, preference)
+                                        }
+
                                         if (isDebugEnabled) {
                                             LogManager.addLifecycleLog(LogEntry(
                                                 appName = "AdSilence",
@@ -275,7 +285,10 @@ class NotificationListener : NotificationListenerService() {
                                         // https://github.com/aghontpi/ad-silence/pull/282#issue-3682929324
                                         if (unmuteRunnable == null) {
                                             unmuteRunnable = Runnable {
-                                                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                                                // Try car helper unmute first
+                                                if (carHelper?.attemptUnmute(appNotificationHelper, preference) == true) {
+                                                    isMuted = false
+                                                } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
                                                     Log.v(TAG, "Not an ad, Unmuting, < M")
                                                     // for android 5 & 5.1, unmute has to be done, count x mutedCount
                                                     while (muteCount > 0) {
@@ -298,6 +311,7 @@ class NotificationListener : NotificationListenerService() {
                                                     )
                                                     isMuted = false
                                                 }
+
                                                 if (isDebugEnabled) {
                                                     LogManager.addLifecycleLog(LogEntry(
                                                         appName = "AdSilence",
