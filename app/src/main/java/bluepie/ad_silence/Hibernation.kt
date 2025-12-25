@@ -42,6 +42,16 @@ class Hibernation(private val context: Context, private val activity: AdSilenceA
 
             UnusedAppRestrictionsConstants.DISABLED -> {
                 Log.v(TAG, "[hibernation] user has disabled hibernation for the app")
+                 if (Preference(context).isDebugLogEnabled()) {
+                    LogManager.addLog(LogEntry(
+                        appName = "AdSilence",
+                        timestamp = System.currentTimeMillis(),
+                        isAd = false,
+                        title = "Hibernation Status",
+                        text = "User has disabled hibernation for the app (Good)",
+                        subText = "System"
+                    ))
+                }
             }
 
             // Restrictions don't apply to your app on this device.
@@ -51,7 +61,19 @@ class Hibernation(private val context: Context, private val activity: AdSilenceA
 
             // If the user doesn't start your app for a few months, the system will
             // place restrictions on it. See the API_* constants for details.
-            UnusedAppRestrictionsConstants.API_30_BACKPORT, UnusedAppRestrictionsConstants.API_30, UnusedAppRestrictionsConstants.API_31 -> this.handleRestrictions(appRestrictionsStatus)
+            UnusedAppRestrictionsConstants.API_30_BACKPORT, UnusedAppRestrictionsConstants.API_30, UnusedAppRestrictionsConstants.API_31 -> {
+                 if (Preference(context).isDebugLogEnabled()) {
+                    LogManager.addLog(LogEntry(
+                        appName = "AdSilence",
+                        timestamp = System.currentTimeMillis(),
+                        isAd = false,
+                        title = "Hibernation Status",
+                        text = "Hibernation restrictions might apply (API 30+)",
+                        subText = "System"
+                    ))
+                }
+                this.handleRestrictions(appRestrictionsStatus)
+            }
         }
     }
 

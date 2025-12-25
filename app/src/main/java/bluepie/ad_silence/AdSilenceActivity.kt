@@ -524,9 +524,29 @@ class AdSilenceActivity : Activity() {
             NOTIFICATION_PERMISSION_REQUEST_CODE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Log.v(TAG, "[permission] permission granted in dialog")
+                    if (preference.isDebugLogEnabled()) {
+                        LogManager.addLifecycleLog(LogEntry(
+                            appName = "AdSilence",
+                            timestamp = System.currentTimeMillis(),
+                            isAd = false,
+                            title = "Permission Granted",
+                            text = "Notification Posting Permission Granted",
+                            subText = "Permission"
+                        ))
+                    }
                     preference.setNotificationPostingPermission(true)
                 } else {
                     Log.v(TAG, "[permission] permission not granted in dialog")
+                    if (preference.isDebugLogEnabled()) {
+                        LogManager.addLifecycleLog(LogEntry(
+                            appName = "AdSilence",
+                            timestamp = System.currentTimeMillis(),
+                            isAd = false,
+                            title = "Permission Denied",
+                            text = "Notification Posting Permission Denied",
+                            subText = "Permission"
+                        ))
+                    }
                     preference.setNotificationPostingPermission(false)
                 }
                 preference.setNotificationPermissionRequested(true)
@@ -758,6 +778,16 @@ class AdSilenceActivity : Activity() {
 
                 dialogView.findViewById<Button>(R.id.btn_delete).setOnClickListener {
                     preference.removeCustomApp(customApp.packageName)
+                    if (preference.isDebugLogEnabled()) {
+                        LogManager.addLog(LogEntry(
+                            appName = "AdSilence",
+                            timestamp = System.currentTimeMillis(),
+                            isAd = false,
+                            title = "Custom App Deleted",
+                            text = "Deleted custom app: ${customApp.name} (${customApp.packageName})",
+                            subText = "Settings"
+                        ))
+                    }
                     populateCustomApps(container, preference)
                     dialog.dismiss()
                 }
@@ -839,6 +869,16 @@ class AdSilenceActivity : Activity() {
             }
 
             preference.addCustomApp(customApp)
+            if (preference.isDebugLogEnabled()) {
+                LogManager.addLog(LogEntry(
+                    appName = "AdSilence",
+                    timestamp = System.currentTimeMillis(),
+                    isAd = false,
+                    title = if (appToEdit != null) "Custom App Updated" else "Custom App Added",
+                    text = "${if (appToEdit != null) "Updated" else "Added"} custom app: $appName ($packageName)",
+                    subText = "Settings"
+                ))
+            }
 
             Toast.makeText(this, if (appToEdit != null) "Custom app updated" else "Custom app added", Toast.LENGTH_SHORT).show()
             onSuccess()
@@ -964,6 +1004,16 @@ class AdSilenceActivity : Activity() {
                         originalVolume = -1
                     }
                     mediaController.setVolumeTo(0, 0)
+                    if (preference.isDebugLogEnabled()) {
+                        LogManager.addLog(LogEntry(
+                            appName = "AdSilence",
+                            timestamp = System.currentTimeMillis(),
+                            isAd = false,
+                            title = "Test Mute",
+                            text = "Muted Cast Stream via MediaController",
+                            subText = "Debug Test"
+                        ))
+                    }
                     Toast.makeText(applicationContext, "Muted Cast (Session)", Toast.LENGTH_SHORT).show()
                 } else {
                     Log.v("AdSilence", "Muting via AudioManager (Fallback)")
@@ -971,6 +1021,16 @@ class AdSilenceActivity : Activity() {
                         audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_MUTE, AudioManager.FLAG_SHOW_UI)
                     } else {
                         audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, AudioManager.FLAG_SHOW_UI)
+                    }
+                    if (preference.isDebugLogEnabled()) {
+                         LogManager.addLog(LogEntry(
+                            appName = "AdSilence",
+                            timestamp = System.currentTimeMillis(),
+                            isAd = false,
+                            title = "Test Mute",
+                            text = "Muted Music Stream via AudioManager (Fallback)",
+                            subText = "Debug Test"
+                        ))
                     }
                     Toast.makeText(applicationContext, "Muted System (Fallback)", Toast.LENGTH_SHORT).show()
                 }
@@ -994,9 +1054,29 @@ class AdSilenceActivity : Activity() {
                     }
 
                     Toast.makeText(applicationContext, "Unmuted Cast (Session)", Toast.LENGTH_SHORT).show()
+                    if (preference.isDebugLogEnabled()) {
+                        LogManager.addLog(LogEntry(
+                            appName = "AdSilence",
+                            timestamp = System.currentTimeMillis(),
+                            isAd = false,
+                            title = "Test Unmute",
+                            text = "Unmuted Cast Stream via MediaController",
+                            subText = "Debug Test"
+                        ))
+                    }
                 } else {
                     Log.v("AdSilence", "Unmuting via AudioManager (Fallback)")
                     audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE, AudioManager.FLAG_SHOW_UI)
+                    if (preference.isDebugLogEnabled()) {
+                         LogManager.addLog(LogEntry(
+                            appName = "AdSilence",
+                            timestamp = System.currentTimeMillis(),
+                            isAd = false,
+                            title = "Test Unmute",
+                            text = "Unmuted Music Stream via AudioManager (Fallback)",
+                            subText = "Debug Test"
+                        ))
+                    }
                     Toast.makeText(applicationContext, "Unmuted System (Fallback)", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -1152,6 +1232,16 @@ class AdSilenceActivity : Activity() {
             isChecked = preference.isMuteEntireDeviceEnabled()
             setOnCheckedChangeListener { _, isChecked ->
                 preference.setMuteEntireDeviceEnabled(isChecked)
+                if (preference.isDebugLogEnabled()) {
+                    LogManager.addLog(LogEntry(
+                        appName = "AdSilence",
+                        timestamp = System.currentTimeMillis(),
+                        isAd = false,
+                        title = "Setting Changed",
+                        text = "Mute Entire Device: $isChecked",
+                        subText = "Settings"
+                    ))
+                }
             }
         }
 
@@ -1159,6 +1249,16 @@ class AdSilenceActivity : Activity() {
             isChecked = preference.isForceMuteNoCheckEnabled()
             setOnCheckedChangeListener { _, isChecked ->
                 preference.setForceMuteNoCheckEnabled(isChecked)
+                if (preference.isDebugLogEnabled()) {
+                    LogManager.addLog(LogEntry(
+                        appName = "AdSilence",
+                        timestamp = System.currentTimeMillis(),
+                        isAd = false,
+                        title = "Setting Changed",
+                        text = "Force Mute: $isChecked",
+                        subText = "Settings"
+                    ))
+                }
             }
         }
 

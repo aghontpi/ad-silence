@@ -312,6 +312,16 @@ class NotificationListener : NotificationListenerService() {
                                         if (castController != null) {
                                             isCasting = true
                                             Log.v(TAG, "Casting detected via Notification Fallback")
+                                            if (isDebugEnabled) {
+                                                LogManager.addLifecycleLog(LogEntry(
+                                                    appName = "AdSilence",
+                                                    timestamp = System.currentTimeMillis(),
+                                                    isAd = true,
+                                                    title = "Casting Detected",
+                                                    text = "Casting session detected via Notification Fallback",
+                                                    subText = "Detection"
+                                                ))
+                                            }
                                         }
                                     }
                                     
@@ -322,6 +332,16 @@ class NotificationListener : NotificationListenerService() {
                                         if (isCasting) {
                                             if (route != null && route.playbackType == MediaRouter.RouteInfo.PLAYBACK_TYPE_REMOTE) {
                                                 Log.v(TAG, "Casting detected on route: ${route.name}. Muting remote volume.")
+                                                if (isDebugEnabled) {
+                                                    LogManager.addLifecycleLog(LogEntry(
+                                                        appName = "AdSilence",
+                                                        timestamp = System.currentTimeMillis(),
+                                                        isAd = true,
+                                                        title = "Casting Mute (Remote)",
+                                                        text = "Muting remote volume on route: ${route.name}",
+                                                        subText = "Action"
+                                                    ))
+                                                }
                                                 handler.post {
                                                     originalRemoteVolume = route.volume
                                                     route.requestSetVolume(0)

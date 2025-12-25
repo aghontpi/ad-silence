@@ -65,6 +65,16 @@ class Utils {
                     TAG,
                     "Could not retrieve stream volume for stream type " + AudioManager.STREAM_MUSIC
                 )
+                  if (Preference(context).isDebugLogEnabled()) {
+                    LogManager.addLog(LogEntry(
+                        appName = "AdSilence",
+                        timestamp = System.currentTimeMillis(),
+                        isAd = false,
+                        title = "Volume Check Error",
+                        text = "Could not retrieve stream volume (Runtime Exception)",
+                        subText = "Error"
+                    ))
+                }
                 audoManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
             }
             return volume == 0
@@ -76,6 +86,17 @@ class Utils {
              audioManager?.adjustVolume(AudioManager.ADJUST_MUTE, 0)
         } else {
              audioManager?.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_MUTE, 0)
+        }
+
+        if (preference.isDebugLogEnabled()) {
+            LogManager.addLifecycleLog(LogEntry(
+                appName = "AdSilence",
+                timestamp = System.currentTimeMillis(),
+                isAd = true,
+                title = "System Mute Executed",
+                text = "Mute command sent to AudioManager",
+                subText = "Action"
+            ))
         }
 
         this.updateNotification("AdSilence, ad-detected", preference, addNotificationHelper)
@@ -102,6 +123,17 @@ class Utils {
              audioManager?.adjustVolume(AudioManager.ADJUST_UNMUTE, 0)
         } else {
              audioManager?.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE, 0)
+        }
+
+        if (preference.isDebugLogEnabled()) {
+            LogManager.addLifecycleLog(LogEntry(
+                appName = "AdSilence",
+                timestamp = System.currentTimeMillis(),
+                isAd = false,
+                title = "System Unmute Executed",
+                text = "Unmute command sent to AudioManager",
+                subText = "Action"
+            ))
         }
 
         this.updateNotification("AdSilence, listening for ads", preference, addNotificationHelper)
