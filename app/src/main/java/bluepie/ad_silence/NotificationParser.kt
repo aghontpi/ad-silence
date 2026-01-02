@@ -32,44 +32,29 @@ fun AppNotification.getPreloadedAppType(): SupportedApps {
 
 
 fun AppNotification.getApp(): SupportedApps {
+    val preloadedAppType = getPreloadedAppType()
+    if (preloadedAppType != SupportedApps.INVALID) {
+        return preloadedAppType
+    }
+
     val preference = Preference(context)
     val customApps = preference.getCustomApps()
     if (customApps.any { it.packageName == packageName && it.isEnabled }) {
         return SupportedApps.CUSTOM
     }
 
-    return getPreloadedAppType()
+    return SupportedApps.INVALID
 }
 
 fun AppNotification.adString(): List<String> {
-    if (getApp() == SupportedApps.CUSTOM) {
-        val preference = Preference(context)
-        return preference.getCustomApps().find { it.packageName == packageName }?.keywords ?: emptyList()
+    val preference = Preference(context)
+    val customApp = preference.getCustomApps().find { it.packageName == packageName }
+    
+    if (customApp != null) {
+        return customApp.keywords
     }
 
-    return when (getApp()) {
-        SupportedApps.ACCURADIO -> listOf(context.getString(R.string.accuradio_ad_text))
-        SupportedApps.SPOTIFY, SupportedApps.SPOTIFY_LITE -> listOf(
-            context.getString(R.string.spotify_ad_string),
-            context.getString(R.string.spotify_ad2),
-            *spotifyTrigger
-        )
-
-        SupportedApps.TIDAL -> listOf(context.getString(R.string.tidal_ad_string))
-        SupportedApps.PANDORA -> listOf(
-            context.getString(R.string.pandora_ad_string),
-            context.getString(R.string.pandora_ad_string_2)
-        )
-
-        SupportedApps.LiveOne -> listOf(
-            context.getString(R.string.liveOne_ad_string),
-            context.getString(R.string.liveOne_ad_string_2)
-        )
-
-        SupportedApps.Soundcloud -> listOf(context.getString(R.string.soundcloud_ad_string))
-
-        else -> listOf("")
-    }
+    return DefaultAppConfig.getDefaultKeywords(getApp(), context)
 }
 
 interface NotificationParserInterface {

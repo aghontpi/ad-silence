@@ -17,6 +17,7 @@ import android.text.Html.fromHtml
 import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.View
+import android.view.MotionEvent
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
@@ -363,14 +364,18 @@ class AdSilenceActivity : Activity() {
             val appSelectionView = layoutInflater.inflate(R.layout.app_selection, null)
             val preference = Preference(applicationContext)
 
+            val updateResetButtonVisibility = { pkgName: String, resetBtn: View ->
+                if (preference.isCustomAppConfigured(SupportedApps.CUSTOM, pkgName)) {
+                    resetBtn.visibility = View.VISIBLE
+                } else {
+                    resetBtn.visibility = View.GONE
+                }
+            }
+
             appSelectionView.findViewById<Switch>(R.id.accuradio_selection_switch)?.run {
                 this.isEnabled = isAccuradioInstalled
                 this.isChecked = preference.isAppConfigured(SupportedApps.ACCURADIO)
-                "${getString(R.string.accuradio)} ${
-                    if (isAccuradioInstalled) "" else context.getString(
-                        R.string.not_installed
-                    )
-                }".also { this.text = it }
+                this.text = "" 
                 this.setOnClickListener {
                     preference.setAppConfigured(
                         SupportedApps.ACCURADIO,
@@ -378,17 +383,27 @@ class AdSilenceActivity : Activity() {
                     )
                 }
             }
+            appSelectionView.findViewById<TextView>(R.id.tv_accuradio)?.text = 
+                "${getString(R.string.accuradio)} ${if (isAccuradioInstalled) "" else getString(R.string.not_installed)}"
+            val accuradioResetBtn = appSelectionView.findViewById<ImageView>(R.id.accuradio_reset_btn)
+            updateResetButtonVisibility(getString(R.string.accuradio_pkg_name), accuradioResetBtn)
+            accuradioResetBtn.setOnClickListener {
+                showResetConfirmationDialog(getString(R.string.accuradio)) {
+                    preference.removeCustomApp(getString(R.string.accuradio_pkg_name))
+                    updateResetButtonVisibility(getString(R.string.accuradio_pkg_name), accuradioResetBtn)
+                    Toast.makeText(this, "Reset to default", Toast.LENGTH_SHORT).show()
+                }
+            }
+            appSelectionView.findViewById<ImageView>(R.id.accuradio_edit_btn)?.setOnClickListener {
+                handlePreloadedAppEdit(SupportedApps.ACCURADIO, appSelectionView.findViewById(R.id.custom_apps_container), preference) {
+                    updateResetButtonVisibility(getString(R.string.accuradio_pkg_name), accuradioResetBtn)
+                }
+            }
 
             appSelectionView.findViewById<Switch>(R.id.spotify_selection_switch)?.run {
                 this.isEnabled = isSpotifyInstalled
                 this.isChecked = preference.isAppConfigured(SupportedApps.SPOTIFY)
-                "${getString(R.string.spotify)} ${
-                    if (isSpotifyInstalled) "" else context.getString(
-                        R.string.not_installed
-                    )
-                }".also {
-                    this.text = it
-                }
+                this.text = ""
                 this.setOnClickListener {
                     preference.setAppConfigured(
                         SupportedApps.SPOTIFY,
@@ -396,17 +411,27 @@ class AdSilenceActivity : Activity() {
                     )
                 }
             }
+            appSelectionView.findViewById<TextView>(R.id.tv_spotify)?.text = 
+                "${getString(R.string.spotify)} ${if (isSpotifyInstalled) "" else getString(R.string.not_installed)}"
+            val spotifyResetBtn = appSelectionView.findViewById<ImageView>(R.id.spotify_reset_btn)
+            updateResetButtonVisibility(getString(R.string.spotify_package_name), spotifyResetBtn)
+            spotifyResetBtn.setOnClickListener {
+                showResetConfirmationDialog(getString(R.string.spotify)) {
+                    preference.removeCustomApp(getString(R.string.spotify_package_name))
+                    updateResetButtonVisibility(getString(R.string.spotify_package_name), spotifyResetBtn)
+                    Toast.makeText(this, "Reset to default", Toast.LENGTH_SHORT).show()
+                }
+            }
+            appSelectionView.findViewById<ImageView>(R.id.spotify_edit_btn)?.setOnClickListener {
+                handlePreloadedAppEdit(SupportedApps.SPOTIFY, appSelectionView.findViewById(R.id.custom_apps_container), preference) {
+                    updateResetButtonVisibility(getString(R.string.spotify_package_name), spotifyResetBtn)
+                }
+            }
 
             appSelectionView.findViewById<Switch>(R.id.tidal_selection_switch)?.run {
                 this.isEnabled = isTidalInstalled
                 this.isChecked = preference.isAppConfigured(SupportedApps.TIDAL)
-                "${context.getString(R.string.tidal)} ${
-                    if (isTidalInstalled) "" else context.getString(
-                        R.string.not_installed
-                    )
-                }".also {
-                    this.text = it
-                }
+                this.text = ""
                 this.setOnClickListener {
                     preference.setAppConfigured(
                         SupportedApps.TIDAL,
@@ -414,17 +439,27 @@ class AdSilenceActivity : Activity() {
                     )
                 }
             }
+            appSelectionView.findViewById<TextView>(R.id.tv_tidal)?.text = 
+                "${getString(R.string.tidal)} ${if (isTidalInstalled) "" else getString(R.string.not_installed)}"
+            val tidalResetBtn = appSelectionView.findViewById<ImageView>(R.id.tidal_reset_btn)
+            updateResetButtonVisibility(getString(R.string.tidal_package_name), tidalResetBtn)
+            tidalResetBtn.setOnClickListener {
+                 showResetConfirmationDialog(getString(R.string.tidal)) {
+                    preference.removeCustomApp(getString(R.string.tidal_package_name))
+                    updateResetButtonVisibility(getString(R.string.tidal_package_name), tidalResetBtn)
+                    Toast.makeText(this, "Reset to default", Toast.LENGTH_SHORT).show()
+                 }
+            }
+            appSelectionView.findViewById<ImageView>(R.id.tidal_edit_btn)?.setOnClickListener {
+                handlePreloadedAppEdit(SupportedApps.TIDAL, appSelectionView.findViewById(R.id.custom_apps_container), preference) {
+                    updateResetButtonVisibility(getString(R.string.tidal_package_name), tidalResetBtn)
+                }
+            }
 
             appSelectionView.findViewById<Switch>(R.id.spotify_lite_selection_switch)?.run {
                 this.isEnabled = isSpotifyLiteInstalled
                 this.isChecked = preference.isAppConfigured(SupportedApps.SPOTIFY_LITE)
-                "${context.getString(R.string.spotify_lite)} ${
-                    if (isSpotifyLiteInstalled) "" else context.getString(
-                        R.string.not_installed
-                    )
-                }".also {
-                    this.text = it
-                }
+                this.text = ""
                 this.setOnClickListener {
                     preference.setAppConfigured(
                         SupportedApps.SPOTIFY_LITE,
@@ -432,17 +467,27 @@ class AdSilenceActivity : Activity() {
                     )
                 }
             }
+            appSelectionView.findViewById<TextView>(R.id.tv_spotify_lite)?.text = 
+                "${getString(R.string.spotify_lite)} ${if (isSpotifyLiteInstalled) "" else getString(R.string.not_installed)}"
+            val spotifyLiteResetBtn = appSelectionView.findViewById<ImageView>(R.id.spotify_lite_reset_btn)
+            updateResetButtonVisibility(getString(R.string.spotify_lite_package_name), spotifyLiteResetBtn)
+            spotifyLiteResetBtn.setOnClickListener {
+                showResetConfirmationDialog(getString(R.string.spotify_lite)) {
+                    preference.removeCustomApp(getString(R.string.spotify_lite_package_name))
+                    updateResetButtonVisibility(getString(R.string.spotify_lite_package_name), spotifyLiteResetBtn)
+                    Toast.makeText(this, "Reset to default", Toast.LENGTH_SHORT).show()
+                }
+            }
+            appSelectionView.findViewById<ImageView>(R.id.spotify_lite_edit_btn)?.setOnClickListener {
+                handlePreloadedAppEdit(SupportedApps.SPOTIFY_LITE, appSelectionView.findViewById(R.id.custom_apps_container), preference) {
+                    updateResetButtonVisibility(getString(R.string.spotify_lite_package_name), spotifyLiteResetBtn)
+                }
+            }
 
             appSelectionView.findViewById<Switch>(R.id.pandora_selection_switch)?.run {
                 this.isEnabled = isPandoraInstalled
                 this.isChecked = preference.isAppConfigured(SupportedApps.PANDORA)
-                "${context.getString(R.string.pandora)} ${
-                    if (isPandoraInstalled) applicationContext.getString(R.string.beta) else context.getString(
-                        R.string.not_installed
-                    )
-                }".also {
-                    this.text = it
-                }
+                this.text = ""
                 this.setOnClickListener {
                     preference.setAppConfigured(
                         SupportedApps.PANDORA,
@@ -450,17 +495,27 @@ class AdSilenceActivity : Activity() {
                     )
                 }
             }
+            appSelectionView.findViewById<TextView>(R.id.tv_pandora)?.text = 
+                "${getString(R.string.pandora)} ${if (isPandoraInstalled) getString(R.string.beta) else getString(R.string.not_installed)}"
+            val pandoraResetBtn = appSelectionView.findViewById<ImageView>(R.id.pandora_reset_btn)
+            updateResetButtonVisibility(getString(R.string.pandora_package_name), pandoraResetBtn)
+            pandoraResetBtn.setOnClickListener {
+                showResetConfirmationDialog(getString(R.string.pandora)) {
+                    preference.removeCustomApp(getString(R.string.pandora_package_name))
+                    updateResetButtonVisibility(getString(R.string.pandora_package_name), pandoraResetBtn)
+                    Toast.makeText(this, "Reset to default", Toast.LENGTH_SHORT).show()
+                }
+            }
+            appSelectionView.findViewById<ImageView>(R.id.pandora_edit_btn)?.setOnClickListener {
+                handlePreloadedAppEdit(SupportedApps.PANDORA, appSelectionView.findViewById(R.id.custom_apps_container), preference) {
+                    updateResetButtonVisibility(getString(R.string.pandora_package_name), pandoraResetBtn)
+                }
+            }
 
             appSelectionView.findViewById<Switch>(R.id.liveone_selection_switch)?.run {
                 this.isEnabled = isLiveOneInstalled
                 this.isChecked = preference.isAppConfigured(SupportedApps.LiveOne)
-                "${context.getString(R.string.liveone)} ${
-                    if (isLiveOneInstalled) applicationContext.getString(R.string.beta) else context.getString(
-                        R.string.not_installed
-                    )
-                }".also {
-                    this.text = it
-                }
+                this.text = ""
                 this.setOnClickListener {
                     preference.setAppConfigured(
                         SupportedApps.LiveOne,
@@ -468,20 +523,48 @@ class AdSilenceActivity : Activity() {
                     )
                 }
             }
+            appSelectionView.findViewById<TextView>(R.id.tv_liveone)?.text = 
+                "${getString(R.string.liveone)} ${if (isLiveOneInstalled) getString(R.string.beta) else getString(R.string.not_installed)}"
+            val liveOneResetBtn = appSelectionView.findViewById<ImageView>(R.id.liveone_reset_btn)
+            updateResetButtonVisibility(getString(R.string.liveOne_package_name), liveOneResetBtn)
+            liveOneResetBtn.setOnClickListener {
+                showResetConfirmationDialog(getString(R.string.liveone)) {
+                    preference.removeCustomApp(getString(R.string.liveOne_package_name))
+                    updateResetButtonVisibility(getString(R.string.liveOne_package_name), liveOneResetBtn)
+                    Toast.makeText(this, "Reset to default", Toast.LENGTH_SHORT).show()
+                }
+            }
+            appSelectionView.findViewById<ImageView>(R.id.liveone_edit_btn)?.setOnClickListener {
+                handlePreloadedAppEdit(SupportedApps.LiveOne, appSelectionView.findViewById(R.id.custom_apps_container), preference) {
+                    updateResetButtonVisibility(getString(R.string.liveOne_package_name), liveOneResetBtn)
+                }
+            }
 
             appSelectionView.findViewById<Switch>(R.id.soundcloud_selection_switch)?.run {
                 this.isEnabled = isSoundcloudInstalled
                 this.isChecked = preference.isAppConfigured(SupportedApps.Soundcloud)
-                "${context.getString(R.string.soundcloud)} ${
-                    if (isSoundcloudInstalled) "" else context.getString(R.string.not_installed)
-                }".also {
-                    this.text = it
-                }
+                this.text = ""
                 this.setOnClickListener {
                     preference.setAppConfigured(
                         SupportedApps.Soundcloud,
                         !preference.isAppConfigured(SupportedApps.Soundcloud)
                     )
+                }
+            }
+            appSelectionView.findViewById<TextView>(R.id.tv_soundcloud)?.text = 
+                "${getString(R.string.soundcloud)} ${if (isSoundcloudInstalled) "" else getString(R.string.not_installed)}"
+            val soundcloudResetBtn = appSelectionView.findViewById<ImageView>(R.id.soundcloud_reset_btn)
+            updateResetButtonVisibility(getString(R.string.soundcloud_package_name), soundcloudResetBtn)
+            soundcloudResetBtn.setOnClickListener {
+                 showResetConfirmationDialog(getString(R.string.soundcloud)) {
+                    preference.removeCustomApp(getString(R.string.soundcloud_package_name))
+                    updateResetButtonVisibility(getString(R.string.soundcloud_package_name), soundcloudResetBtn)
+                    Toast.makeText(this, "Reset to default", Toast.LENGTH_SHORT).show()
+                 }
+            }
+            appSelectionView.findViewById<ImageView>(R.id.soundcloud_edit_btn)?.setOnClickListener {
+                handlePreloadedAppEdit(SupportedApps.Soundcloud, appSelectionView.findViewById(R.id.custom_apps_container), preference) {
+                    updateResetButtonVisibility(getString(R.string.soundcloud_package_name), soundcloudResetBtn)
                 }
             }
 
@@ -713,7 +796,17 @@ class AdSilenceActivity : Activity() {
         val customApps = preference.getCustomApps()
         Log.v(TAG, "Found ${customApps.size} custom apps")
         
-        customApps.forEach { customApp ->
+        val preloadedPackageNames = listOf(
+            getString(R.string.accuradio_pkg_name),
+            getString(R.string.spotify_package_name),
+            getString(R.string.spotify_lite_package_name),
+            getString(R.string.tidal_package_name),
+            getString(R.string.pandora_package_name),
+            getString(R.string.liveOne_package_name),
+            getString(R.string.soundcloud_package_name)
+        )
+
+        customApps.filter { !preloadedPackageNames.contains(it.packageName) }.forEach { customApp ->
             val row = LinearLayout(this)
             row.orientation = LinearLayout.HORIZONTAL
             row.gravity = android.view.Gravity.CENTER_VERTICAL
@@ -809,7 +902,79 @@ class AdSilenceActivity : Activity() {
         }
     }
 
-    private fun showAddCustomAppDialog(appToEdit: CustomApp? = null, onSuccess: () -> Unit = {}) {
+    private fun handlePreloadedAppEdit(
+        app: SupportedApps, 
+        container: LinearLayout, 
+        preference: Preference, 
+        onSuccess: () -> Unit = {}
+    ) {
+        val pkgNameId = when (app) {
+            SupportedApps.ACCURADIO -> R.string.accuradio_pkg_name
+            SupportedApps.SPOTIFY -> R.string.spotify_package_name
+            SupportedApps.SPOTIFY_LITE -> R.string.spotify_lite_package_name
+            SupportedApps.TIDAL -> R.string.tidal_package_name
+            SupportedApps.PANDORA -> R.string.pandora_package_name
+            SupportedApps.LiveOne -> R.string.liveOne_package_name
+            SupportedApps.Soundcloud -> R.string.soundcloud_package_name
+            else -> return
+        }
+        val pkgName = getString(pkgNameId)
+        val appNameId = when(app) {
+            SupportedApps.ACCURADIO -> R.string.accuradio
+            SupportedApps.SPOTIFY -> R.string.spotify
+            SupportedApps.SPOTIFY_LITE -> R.string.spotify_lite
+            SupportedApps.TIDAL -> R.string.tidal
+            SupportedApps.PANDORA -> R.string.pandora
+            SupportedApps.LiveOne -> R.string.liveone
+            SupportedApps.Soundcloud -> R.string.soundcloud
+             else -> return
+        }
+        val appName = getString(appNameId)
+
+        val customApps = preference.getCustomApps()
+        val existingApp = customApps.find { it.packageName == pkgName }
+        
+        val appToEdit = existingApp ?: CustomApp(
+            name = appName,
+            packageName = pkgName,
+            keywords = DefaultAppConfig.getDefaultKeywords(app, applicationContext),
+            isEnabled = true, 
+            unmuteDelay = Utils().getUnmuteDelay(app, pkgName, preference)
+        )
+        
+        showAddCustomAppDialog(appToEdit, isPreloaded = true) {
+            populateCustomApps(container, preference)
+            onSuccess()
+        }
+    }
+
+    private fun showResetConfirmationDialog(appName: String, onConfirm: () -> Unit) {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_delete_custom_app, null)
+        val dialog = AlertDialog.Builder(this)
+            .setView(dialogView)
+            .create()
+
+        dialogView.findViewById<TextView>(R.id.tv_dialog_title).text = getString(R.string.reset_app_configuration)
+
+        dialogView.findViewById<TextView>(R.id.tv_dialog_message).text = 
+            getString(R.string.reset_custom_app_message_format, appName)
+        
+        val deleteBtn = dialogView.findViewById<Button>(R.id.btn_delete)
+        deleteBtn.text = getString(R.string.reset)
+        deleteBtn.setOnClickListener {
+            onConfirm()
+            dialog.dismiss()
+        }
+
+        dialogView.findViewById<Button>(R.id.btn_cancel).setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.show()
+    }
+
+    private fun showAddCustomAppDialog(appToEdit: CustomApp? = null, isPreloaded: Boolean = false, onSuccess: () -> Unit = {}) {
         val dialogView = layoutInflater.inflate(R.layout.dialog_add_custom_app, null)
         val dialog = AlertDialog.Builder(this)
             .setView(dialogView)
@@ -817,9 +982,14 @@ class AdSilenceActivity : Activity() {
 
         val titleView = dialogView.findViewById<TextView>(R.id.tv_dialog_title)
         if (appToEdit != null) {
-            titleView.text = "Edit Custom App"
+            titleView.text = if (isPreloaded) "Edit App Configuration" else "Edit Custom App"
             dialogView.findViewById<EditText>(R.id.et_app_name).setText(appToEdit.name)
-            dialogView.findViewById<EditText>(R.id.et_package_name).setText(appToEdit.packageName)
+            val pkgEdit = dialogView.findViewById<EditText>(R.id.et_package_name)
+            pkgEdit.setText(appToEdit.packageName)
+            if (isPreloaded) {
+                pkgEdit.isEnabled = false
+                pkgEdit.alpha = 0.5f
+            }
             dialogView.findViewById<EditText>(R.id.et_keywords).setText(appToEdit.keywords.joinToString(", "))
             dialogView.findViewById<EditText>(R.id.et_unmute_delay).setText(appToEdit.unmuteDelay.toString())
         } else {
@@ -831,9 +1001,22 @@ class AdSilenceActivity : Activity() {
             this.movementMethod = LinkMovementMethod.getInstance()
         }
 
+        dialogView.findViewById<EditText>(R.id.et_keywords)?.setOnTouchListener { v, event ->
+            if (v.id == R.id.et_keywords) {
+                val scrollView = dialogView.findViewById<ScrollView>(R.id.sv_content)
+                scrollView.requestDisallowInterceptTouchEvent(true)
+                when (event.action and MotionEvent.ACTION_MASK) {
+                    MotionEvent.ACTION_UP -> scrollView.requestDisallowInterceptTouchEvent(false)
+                }
+            }
+            false
+        }
+
         dialogView.findViewById<Button>(R.id.btn_cancel)?.setOnClickListener {
             dialog.dismiss()
         }
+
+
 
         dialogView.findViewById<Button>(R.id.btn_save)?.setOnClickListener {
             val appName = dialogView.findViewById<EditText>(R.id.et_app_name).text.toString()

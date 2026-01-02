@@ -74,6 +74,9 @@
     <string name="channel_name">Stato del servizio</string>
     <string name="channel_description">Notifica persistente che mostra che AdSilence è attivo</string>
     <string name="notification_update_help">Se il silenziamento o il rilevamento non funzionano, prova ad abilitare questa opzione.</string>
-    <string name="force_mute_title">Force Mute (Don\'t check existing mute)</string>
-    <string name="force_mute_desc">Mute ads without checking if the media is already muted.</string>
+    <string name="force_mute_title">Forza Muto (non controllare il muto esistente)</string>
+    <string name="force_mute_desc">Disattiva gli annunci senza verificare se i media sono già disattivati.</string>
+    <string name="reset">Ripristina</string>
+    <string name="reset_app_configuration">Ripristina configurazione app</string>
+    <string name="reset_custom_app_message_format">Sei sicuro? Le tue modifiche per %1$s verranno ripristinate ai valori predefiniti.</string>
 </resources>

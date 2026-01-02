@@ -94,17 +94,24 @@ class Preference(private val context: Context) {
         }
 
         if(app != SupportedApps.INVALID){
-            val extraInfo = if (app == SupportedApps.CUSTOM && packageName != null) {
+             val extraInfo = if (app == SupportedApps.CUSTOM && packageName != null) {
                 val name = getCustomApps().find { it.packageName == packageName }?.name
                 if (name != null) "($name : $packageName)" else "($packageName)"
             } else if (packageName != null) {
-                 "($packageName)"
+                "($packageName)"
             } else {
                 ""
             }
-            Log.v(TAG, "getting appConfiguration: $app $extraInfo -> $status")
+            Log.v(TAG, "isAppConfigured: $app $extraInfo -> $status")
         }
         return status
+    }
+
+    fun isCustomAppConfigured(app: SupportedApps, packageName: String? = null): Boolean {
+        if (app == SupportedApps.CUSTOM && packageName != null) {
+            return getCustomApps().any { it.packageName == packageName }
+        }
+        return false
     }
 
     fun isNotificationPostingPermissionGranted(): Boolean {

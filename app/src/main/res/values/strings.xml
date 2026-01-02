@@ -78,6 +78,7 @@
 
     <!-- Custom App Dialog Strings -->
     <string name="add_custom_app">Add Custom App</string>
+    <string name="reset">Reset</string>
     <string name="custom_app_help_text">Not sure what to put? <![CDATA[<a href="https://github.com/aghontpi/ad-silence/wiki/Custom_App_Wiki">View guide here!</a>]]></string>
     <string name="custom_app_overlay_hint">Tip: Use the package name of a pre-configured app (like Spotify) to add extra ad-blocking keywords.</string>
     <string name="custom_app_list_hint">Missed ads? For existing preconfigured apps, you can also use \'Add Custom App\' below to define new detection keywords.</string>
@@ -113,4 +114,6 @@
     <string name="mute_behavior_help">Not sure which one to choose? <![CDATA[<a href="https://github.com/aghontpi/ad-silence/wiki/Mute%E2%80%90behaviour%E2%80%90settings">Read here!</a>]]></string>
     <string name="force_mute_title">Force Mute (Don\'t check existing mute)</string>
     <string name="force_mute_desc">Mute ads without checking if the media is already muted.</string>
+    <string name="reset_app_configuration">Reset App Configuration</string>
+    <string name="reset_custom_app_message_format">Are you sure? Your changes for %1$s will be reset to default.</string>
 </resources>
