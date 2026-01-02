@@ -303,24 +303,25 @@ class NotificationListener : NotificationListenerService() {
                                     
                                     // Check for casting
                                     val route = currentRoute
-                                    var isCasting = route != null && route.playbackType == MediaRouter.RouteInfo.PLAYBACK_TYPE_REMOTE
-                                    var castController: android.media.session.MediaController? = null
-
-                                    // Fallback: If MediaRouter says local, check notifications for a casting token
-                                    if (!isCasting) {
-                                        castController = getMediaControllerForCasting()
-                                        if (castController != null) {
-                                            isCasting = true
-                                            Log.v(TAG, "Casting detected via Notification Fallback")
-                                            if (isDebugEnabled) {
-                                                LogManager.addLifecycleLog(LogEntry(
-                                                    appName = "AdSilence",
-                                                    timestamp = System.currentTimeMillis(),
-                                                    isAd = true,
-                                                    title = "Casting Detected",
-                                                    text = "Casting session detected via Notification Fallback",
-                                                    subText = "Detection"
-                                                ))
+                                    var isCasting = false
+                                    if (preference.isCastingMuteEnabled()) {
+                                        isCasting = route != null && route.playbackType == MediaRouter.RouteInfo.PLAYBACK_TYPE_REMOTE
+                                        // Fallback: If MediaRouter says local, check notifications for a casting token
+                                        if (!isCasting) {
+                                            val castController = getMediaControllerForCasting()
+                                            if (castController != null) {
+                                                isCasting = true
+                                                Log.v(TAG, "Casting detected via Notification Fallback")
+                                                if (isDebugEnabled) {
+                                                    LogManager.addLifecycleLog(LogEntry(
+                                                        appName = "AdSilence",
+                                                        timestamp = System.currentTimeMillis(),
+                                                        isAd = true,
+                                                        title = "Casting Detected",
+                                                        text = "Casting session detected via Notification Fallback",
+                                                        subText = "Detection"
+                                                    ))
+                                                }
                                             }
                                         }
                                     }
@@ -352,11 +353,7 @@ class NotificationListener : NotificationListenerService() {
                                                 }
                                             }
                                         } else {
-                                            if (castMuteManager.tryMute(this@NotificationListener)) {
-                                                Log.v(TAG, "Muted via CastMuteManager")
-                                            } else {
-                                                this.mute(audioManager, appNotificationHelper, preference)
-                                            }
+                                            this.mute(audioManager, appNotificationHelper, preference)
                                         }
                                         
                                         if (isDebugEnabled) {
@@ -408,16 +405,13 @@ class NotificationListener : NotificationListenerService() {
                                                                 }
                                                             }
                                                         } else {
-                                                            if (castMuteManager.tryUnmute(this@NotificationListener)) {
-                                                                Log.v(TAG, "Unmuted via CastMuteManager (< M)")
-                                                            } else {
-                                                                this@run.unmute(
-                                                                    audioManager,
-                                                                    appNotificationHelper,
-                                                                    currentPackage,
-                                                                    preference
-                                                                )
-                                                            }
+                                                            castMuteManager.resetState()
+                                                            unmute(
+                                                                audioManager,
+                                                                appNotificationHelper,
+                                                                currentPackage,
+                                                                preference
+                                                            )
                                                         }
                                                         muteCount--
                                                     }
@@ -444,10 +438,8 @@ class NotificationListener : NotificationListenerService() {
                                                              }
                                                          }
                                                     } else {
-                                                        if (castMuteManager.tryUnmute(this@NotificationListener)) {
-                                                            Log.v(TAG, "Unmuted via CastMuteManager (> M)")
-                                                        } else {
-                                                            this@run.unmute(
+                                                            castMuteManager.resetState()
+                                                            unmute(
                                                                 audioManager,
                                                                 appNotificationHelper,
                                                                 currentPackage,
@@ -456,7 +448,7 @@ class NotificationListener : NotificationListenerService() {
                                                         }
                                                     }
                                                     isMuted = false
-                                                }
+
                                                 if (isDebugEnabled) {
                                                     LogManager.addLifecycleLog(LogEntry(
                                                         appName = "AdSilence",

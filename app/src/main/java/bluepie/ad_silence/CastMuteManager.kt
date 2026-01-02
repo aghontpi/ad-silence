@@ -8,8 +8,13 @@ import android.util.Log
 class CastMuteManager(private val context: Context) {
     private val TAG = "CastMuteManager"
     private var isMutedByManager = false
-
     private var originalVolume = -1
+
+    fun resetState() {
+        Log.v(TAG, "Resetting state")
+        isMutedByManager = false
+        originalVolume = -1
+    }
 
     fun tryMute(notificationListener: NotificationListener): Boolean {
         val controller = notificationListener.getMediaControllerForCasting()

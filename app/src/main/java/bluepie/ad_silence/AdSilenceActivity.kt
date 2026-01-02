@@ -1280,6 +1280,13 @@ class AdSilenceActivity : Activity() {
             mediaRouter = applicationContext.getSystemService(Context.MEDIA_ROUTER_SERVICE) as MediaRouter
 
             fun updateCastingStatus() {
+                val preference = Preference(applicationContext)
+                if (!preference.isCastingMuteEnabled()) {
+                    castingStatusTextView?.text = "Casting settings turned off"
+                    castingStatusTextView?.visibility = View.VISIBLE
+                    return
+                }
+
                 val route = mediaRouter?.getSelectedRoute(MediaRouter.ROUTE_TYPE_LIVE_AUDIO)
                 Log.v(TAG, "DebugDialog: Current route: ${route?.name}, type: ${route?.playbackType}, desc: ${route?.description}")
                 
@@ -1439,6 +1446,23 @@ class AdSilenceActivity : Activity() {
                         isAd = false,
                         title = "Setting Changed",
                         text = "Force Mute: $isChecked",
+                        subText = "Settings"
+                    ))
+                }
+            }
+        }
+
+        dialogView.findViewById<Switch>(R.id.switch_casting_mute)?.apply {
+            isChecked = preference.isCastingMuteEnabled()
+            setOnCheckedChangeListener { _, isChecked ->
+                preference.setCastingMuteEnabled(isChecked)
+                if (preference.isDebugLogEnabled()) {
+                    LogManager.addLog(LogEntry(
+                        appName = "AdSilence",
+                        timestamp = System.currentTimeMillis(),
+                        isAd = false,
+                        title = "Setting Changed",
+                        text = "Casting Mute: $isChecked",
                         subText = "Settings"
                     ))
                 }
