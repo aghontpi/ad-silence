@@ -199,6 +199,20 @@ class Preference(private val context: Context) {
         }
     }
 
+    private val CASTING_MUTE_ENABLED = "CastingMuteEnabled"
+    private val CASTING_MUTE_ENABLED_DEFAULT = true
+
+    fun isCastingMuteEnabled(): Boolean {
+        return preference.getBoolean(CASTING_MUTE_ENABLED, CASTING_MUTE_ENABLED_DEFAULT)
+    }
+
+    fun setCastingMuteEnabled(status: Boolean) {
+        Log.v(TAG, "[configCastingMuteEnabled] ${isCastingMuteEnabled()} -> $status")
+        preference.edit {
+            putBoolean(CASTING_MUTE_ENABLED, status).commit()
+        }
+    }
+
     private val CUSTOM_APPS = "CustomApps"
 
     companion object {
