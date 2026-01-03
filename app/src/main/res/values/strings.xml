@@ -120,4 +120,7 @@
 
     <string name="reset_app_configuration">Reset App Configuration</string>
     <string name="reset_custom_app_message_format">Are you sure? Your changes for %1$s will be reset to default.</string>
+    <string name="jio_saavn_pkg_name" translatable="false">com.jio.media.jiobeats</string>
+    <string name="jio_saavn_ad_string" translatable="false">Advertisement</string>
+    <string name="jio_saavn" translatable="false">Jio Saavn</string>
 </resources>

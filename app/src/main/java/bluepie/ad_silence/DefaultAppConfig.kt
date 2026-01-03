@@ -22,6 +22,7 @@ object DefaultAppConfig {
                 context.getString(R.string.liveOne_ad_string_2)
             )
             SupportedApps.Soundcloud -> listOf(context.getString(R.string.soundcloud_ad_string))
+            SupportedApps.JIO_SAAVN -> listOf(context.getString(R.string.jio_saavn_ad_string))
             else -> emptyList()
         }
     }

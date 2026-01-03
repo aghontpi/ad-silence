@@ -26,6 +26,7 @@ fun AppNotification.getPreloadedAppType(): SupportedApps {
         context.getString(R.string.pandora_package_name) -> SupportedApps.PANDORA
         context.getString(R.string.liveOne_package_name) -> SupportedApps.LiveOne
         context.getString(R.string.soundcloud_package_name) -> SupportedApps.Soundcloud
+        context.getString(R.string.jio_saavn_pkg_name) -> SupportedApps.JIO_SAAVN
         else -> SupportedApps.INVALID
     }
 }
@@ -78,6 +79,7 @@ class NotificationParser(override var appNotification: AppNotification) :
             SupportedApps.PANDORA -> parsePandoraNotification()
             SupportedApps.LiveOne -> parseLiveOneNotification()
             SupportedApps.Soundcloud -> parseSoundCloudNotification()
+            SupportedApps.JIO_SAAVN -> parseJioSaavnNotification()
             else -> false
         }
     }
@@ -406,6 +408,26 @@ class NotificationParser(override var appNotification: AppNotification) :
                  isAd = true
                  break
              }
+        }
+        return isAd
+    }
+
+    private fun parseJioSaavnNotification(): Boolean {
+        var isAd = false
+        val title = this.appNotification.notification.extras?.get("android.title").toString()
+        val text = this.appNotification.notification.extras?.get("android.text").toString()
+        val subText = this.appNotification.notification.extras?.get("android.subText").toString()
+
+        Log.v(TAG, "trying match against \"$title\", \"$text\", \"$subText\" with ${appNotification.adString()}")
+
+        for (adString in appNotification.adString()) {
+            if (title.contains(adString, ignoreCase = true) || 
+                text.contains(adString, ignoreCase = true) ||
+                subText.contains(adString, ignoreCase = true)) {
+                Log.v(TAG, "detection in Jio Saavn: $adString")
+                isAd = true
+                break
+            }
         }
         return isAd
     }

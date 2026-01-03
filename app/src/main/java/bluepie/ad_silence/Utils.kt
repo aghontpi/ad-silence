@@ -54,6 +54,9 @@ class Utils {
     fun isSoundcloudInstalled(context: Context) =
         isPackageInstalled(context, context.getString(R.string.soundcloud_package_name))
 
+    fun isJioSaavnInstalled(context: Context) =
+        isPackageInstalled(context, context.getString(R.string.jio_saavn_pkg_name))
+
     fun isMusicMuted(context: Context, audoManager: AudioManager): Boolean {
         if (Build.VERSION.SDK_INT >= 23) {
             return audoManager.isStreamMute(AudioManager.STREAM_MUSIC)
@@ -112,6 +115,7 @@ class Utils {
     return when (app) {
         SupportedApps.SPOTIFY_LITE -> 540
         SupportedApps.SPOTIFY -> 480
+        SupportedApps.JIO_SAAVN -> 0
         else -> 0
     }
 }

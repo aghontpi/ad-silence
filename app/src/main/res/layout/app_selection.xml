@@ -316,6 +316,47 @@
             </LinearLayout>
 
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_jio_saavn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/jio_saavn"
+                    android:textColor="?android:attr/textColorPrimary" />
+
+                <ImageView
+                    android:id="@+id/jio_saavn_reset_btn"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:padding="12dp"
+                    android:src="@drawable/ic_restore"
+                    android:contentDescription="Reset"
+                    android:visibility="gone"
+                    android:layout_marginEnd="4dp"/>
+
+                <ImageView
+                    android:id="@+id/jio_saavn_edit_btn"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:padding="16px"
+                    android:src="@drawable/ic_edit"
+                    android:contentDescription="Edit" />
+
+                <Switch
+                    android:id="@+id/jio_saavn_selection_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/custom_apps_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
