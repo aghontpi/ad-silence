@@ -568,6 +568,36 @@ class AdSilenceActivity : Activity() {
                 }
             }
 
+            val isJioSaavnInstalled = utils.isJioSaavnInstalled(applicationContext)
+
+            appSelectionView.findViewById<Switch>(R.id.jio_saavn_selection_switch)?.run {
+                this.isEnabled = isJioSaavnInstalled
+                this.isChecked = preference.isAppConfigured(SupportedApps.JIO_SAAVN)
+                this.text = ""
+                this.setOnClickListener {
+                    preference.setAppConfigured(
+                        SupportedApps.JIO_SAAVN,
+                        !preference.isAppConfigured(SupportedApps.JIO_SAAVN)
+                    )
+                }
+            }
+            appSelectionView.findViewById<TextView>(R.id.tv_jio_saavn)?.text = 
+                "${getString(R.string.jio_saavn)} ${if (isJioSaavnInstalled) "" else getString(R.string.not_installed)}"
+            val jioSaavnResetBtn = appSelectionView.findViewById<ImageView>(R.id.jio_saavn_reset_btn)
+            updateResetButtonVisibility(getString(R.string.jio_saavn_pkg_name), jioSaavnResetBtn)
+            jioSaavnResetBtn.setOnClickListener {
+                 showResetConfirmationDialog(getString(R.string.jio_saavn)) {
+                    preference.removeCustomApp(getString(R.string.jio_saavn_pkg_name))
+                    updateResetButtonVisibility(getString(R.string.jio_saavn_pkg_name), jioSaavnResetBtn)
+                    Toast.makeText(this, "Reset to default", Toast.LENGTH_SHORT).show()
+                 }
+            }
+            appSelectionView.findViewById<ImageView>(R.id.jio_saavn_edit_btn)?.setOnClickListener {
+                handlePreloadedAppEdit(SupportedApps.JIO_SAAVN, appSelectionView.findViewById(R.id.custom_apps_container), preference) {
+                    updateResetButtonVisibility(getString(R.string.jio_saavn_pkg_name), jioSaavnResetBtn)
+                }
+            }
+
             val container = appSelectionView.findViewById<LinearLayout>(R.id.custom_apps_container)
             populateCustomApps(container, preference)
 
@@ -803,7 +833,8 @@ class AdSilenceActivity : Activity() {
             getString(R.string.tidal_package_name),
             getString(R.string.pandora_package_name),
             getString(R.string.liveOne_package_name),
-            getString(R.string.soundcloud_package_name)
+            getString(R.string.soundcloud_package_name),
+            getString(R.string.jio_saavn_pkg_name)
         )
 
         customApps.filter { !preloadedPackageNames.contains(it.packageName) }.forEach { customApp ->
@@ -916,6 +947,7 @@ class AdSilenceActivity : Activity() {
             SupportedApps.PANDORA -> R.string.pandora_package_name
             SupportedApps.LiveOne -> R.string.liveOne_package_name
             SupportedApps.Soundcloud -> R.string.soundcloud_package_name
+            SupportedApps.JIO_SAAVN -> R.string.jio_saavn_pkg_name
             else -> return
         }
         val pkgName = getString(pkgNameId)
@@ -927,6 +959,7 @@ class AdSilenceActivity : Activity() {
             SupportedApps.PANDORA -> R.string.pandora
             SupportedApps.LiveOne -> R.string.liveone
             SupportedApps.Soundcloud -> R.string.soundcloud
+            SupportedApps.JIO_SAAVN -> R.string.jio_saavn
              else -> return
         }
         val appName = getString(appNameId)
