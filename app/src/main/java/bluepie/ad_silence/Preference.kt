@@ -32,6 +32,8 @@ class Preference(private val context: Context) {
     private val LIVEONE_DEFAULT = true
     val SOUNDCLOUD = "Soundcloud"
     private val SOUNDCLOUD_DEFAULT = true
+    val JIO_SAAVN = "JioSaavn"
+    private val JIO_SAAVN_DEFAULT = true
 
 
     private val Android13NotificationPermissionGranted = "Android13NotificationPermissionGranted"
@@ -69,6 +71,7 @@ class Preference(private val context: Context) {
             SupportedApps.PANDORA-> preference.edit { putBoolean(PANDORA, status).commit() }
             SupportedApps.LiveOne-> preference.edit { putBoolean(LIVEONE, status).commit() }
             SupportedApps.Soundcloud-> preference.edit { putBoolean(SOUNDCLOUD, status).commit() }
+            SupportedApps.JIO_SAAVN-> preference.edit { putBoolean(JIO_SAAVN, status).commit() }
             SupportedApps.CUSTOM -> {} // Custom apps are handled via setCustomAppEnabled
             else -> {}
         }
@@ -83,6 +86,7 @@ class Preference(private val context: Context) {
             SupportedApps.PANDORA-> preference.getBoolean(PANDORA, PANDORA_DEFAULT)
             SupportedApps.LiveOne-> preference.getBoolean(LIVEONE, LIVEONE_DEFAULT)
             SupportedApps.Soundcloud-> preference.getBoolean(SOUNDCLOUD, SOUNDCLOUD_DEFAULT)
+            SupportedApps.JIO_SAAVN-> preference.getBoolean(JIO_SAAVN, JIO_SAAVN_DEFAULT)
             SupportedApps.CUSTOM -> {
                 if (packageName != null) {
                     getCustomApps().find { it.packageName == packageName }?.isEnabled ?: false
