@@ -31,11 +31,30 @@ class CastMuteManager(private val context: Context) {
                 ))
             }
             try {
+                val current = controller.playbackInfo?.currentVolume
+                
+                // Consistency Check: If manager thinks it's muted, but volume is > 0, 
+                // it means user/app unmuted externally. Treat as fresh mute.
+                if (isMutedByManager && current != null && current > 0) {
+                    Log.w(TAG, "Manager was marked muted, but current volume is $current. External unmute detected. Resaving.")
+                    if (Preference(context).isDebugLogEnabled()) {
+                        LogManager.addLifecycleLog(LogEntry(
+                            appName = "AdSilence",
+                            timestamp = System.currentTimeMillis(),
+                            isAd = true,
+                            title = "External Unmute Detected",
+                            text = "Manager thought muted/0, but found vol=$current. Resaving.",
+                            subText = "Cast Manager"
+                        ))
+                    }
+                    isMutedByManager = false // Reset to force save
+                }
+
                 // Save volume only if not already muted by CasteMuteManager
                 // a bug where subsequence mute, saves as 0.
                 if (!isMutedByManager) {
-                    val current = controller.playbackInfo?.currentVolume
-                    if (current != null) {
+                    // Only save if current volume is > 0 to prevent "sticking" to 0 if restarted while muted
+                    if (current != null && current > 0) {
                         originalVolume = current
                         Log.v(TAG, "Saved cast volume: $originalVolume")
                         if (Preference(context).isDebugLogEnabled()) {
@@ -48,6 +67,8 @@ class CastMuteManager(private val context: Context) {
                                 subText = "Cast Manager"
                             ))
                         }
+                    } else {
+                        Log.v(TAG, "Skipping save of cast volume: $current (Too low or null)")
                     }
                 } else {
                     Log.v(TAG, "Already muted by manager, keeping original volume: $originalVolume")
@@ -113,7 +134,7 @@ class CastMuteManager(private val context: Context) {
                 ))
             }
             try {
-                if (originalVolume != -1) {
+                if (originalVolume > 0) {
                      Log.v(TAG, "Restoring cast volume to $originalVolume")
                      controller.setVolumeTo(originalVolume, 0)
                      if (Preference(context).isDebugLogEnabled()) {
@@ -128,16 +149,22 @@ class CastMuteManager(private val context: Context) {
                     }
                      originalVolume = -1
                 } else {
-                     // Fallback if missed saving
-                     Log.v(TAG, "No saved volume, adjusting unmute")
-                     controller.adjustVolume(AudioManager.ADJUST_UNMUTE, 0)
+                     // Fallback: If no valid original volume, set to safe default (e.g. 1/3 max)
+                     // because ADJUST_UNMUTE often doesn't work well for Cast if volume is 0
+                     val max = controller.playbackInfo?.maxVolume ?: 50 // Default 50 if null
+                     val safeVol = (max / 3).coerceAtLeast(1)
+                     
+                     Log.v(TAG, "No saved volume, setting to safe default: $safeVol (Max: $max)")
+                     // need to revert to // controller.adjustVolume(AudioManager.ADJUST_UNMUTE, 0) if below is causing issues
+                     controller.setVolumeTo(safeVol, 0)
+                     
                      if (Preference(context).isDebugLogEnabled()) {
                         LogManager.addLifecycleLog(LogEntry(
                             appName = "AdSilence",
                             timestamp = System.currentTimeMillis(),
                             isAd = false,
                             title = "Casting Unmute Fallback",
-                            text = "No saved volume, using adjustVolume UNMUTE",
+                            text = "No saved volume, setting to safe default: $safeVol (Max: $max)",
                             subText = "Cast Manager"
                         ))
                     }

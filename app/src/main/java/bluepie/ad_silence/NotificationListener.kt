@@ -521,29 +521,61 @@ class NotificationListener : NotificationListenerService() {
         return null
     }
     fun getMediaControllerForCasting(): android.media.session.MediaController? {
+        var fallbackController: android.media.session.MediaController? = null
+        
         try {
             val notifications = activeNotifications
+            if (notifications.isEmpty()) {
+                Log.v(TAG, "getMediaControllerForCasting: No active notifications found.")
+            }
+            
             for (sbn in notifications) {
                 val extras = sbn.notification.extras
                 val token = extras.getParcelable<android.media.session.MediaSession.Token>(android.app.Notification.EXTRA_MEDIA_SESSION)
+                val title = extras.getCharSequence(android.app.Notification.EXTRA_TITLE)?.toString() ?: "No Title"
+                val subText = extras.getCharSequence(android.app.Notification.EXTRA_SUB_TEXT)?.toString() ?: ""
                 
-                if (token != null) {
-                    val subText = extras.getCharSequence(android.app.Notification.EXTRA_SUB_TEXT)?.toString() ?: ""
-                    
-                    // Check if it's likely the casting session
-                val isCastingText = subText.contains("Listening on", ignoreCase = true) || 
-                                  subText.contains("Casting to", ignoreCase = true) ||
-                                  extras.getCharSequence(android.app.Notification.EXTRA_TITLE)?.toString()?.contains("Casting to", ignoreCase = true) == true
+                Log.v(TAG, "Checking notification: Pkg=${sbn.packageName}, Title='$title', SubText='$subText', Token=${if(token!=null) "Yes" else "No"}")
 
-                if (isCastingText) {
-                     Log.v(TAG, "Found MediaSession for casting: ${sbn.packageName}")
-                     return android.media.session.MediaController(applicationContext, token)
+                if (token != null) {
+                    val controller = android.media.session.MediaController(applicationContext, token)
+                    
+                    // 1. High Priority: Explicit "Casting" text
+                    val isCastingText = subText.contains("Listening on", ignoreCase = true) || 
+                                      subText.contains("Casting to", ignoreCase = true) ||
+                                      title.contains("Casting to", ignoreCase = true)
+
+                    if (isCastingText) {
+                         Log.v(TAG, "Found MediaSession for casting (Explicit): ${sbn.packageName}")
+                         return controller
+                    }
+                    
+                    // 2. Fallback: Check if it's playing
+                    // We prefer a controller that is actually playing over a paused one
+                    val playbackState = controller.playbackState
+                    val isPlaying = playbackState != null && 
+                                   (playbackState.state == android.media.session.PlaybackState.STATE_PLAYING ||
+                                    playbackState.state == android.media.session.PlaybackState.STATE_BUFFERING)
+                    
+                    if (isPlaying) {
+                        Log.v(TAG, "Found candidate MediaSession (Playing): ${sbn.packageName}")
+                        fallbackController = controller
+                    } else if (fallbackController == null) {
+                        // Store as last resort if we haven't found a playing one yet
+                        Log.v(TAG, "Found candidate MediaSession (Token Only): ${sbn.packageName}")
+                        fallbackController = controller
+                    }
                 }
-            }
             }
         } catch (e: Exception) {
             Log.e(TAG, "Error getting MediaController", e)
         }
+        
+        if (fallbackController != null) {
+            Log.v(TAG, "Using fallback MediaController")
+            return fallbackController
+        }
+        
         return null
     }
 }
