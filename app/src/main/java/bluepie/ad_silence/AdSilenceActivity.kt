@@ -1164,39 +1164,139 @@ class AdSilenceActivity : Activity() {
 
 
         val testMuteBtn = dialogView.findViewById<Button>(R.id.test_mute_btn)
+        val castingStatusTextView = dialogView.findViewById<TextView>(R.id.dialog_casting_status_text_view)
         
-        fun updateMuteButtonState() {
-        val audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        val currentMusicVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
-        
-        var isMuted = currentMusicVolume == 0
+        // MediaRouter and Status Logic FIRST so buttons can use it
+        var mediaRouter: MediaRouter? = null
+        var mediaRouterCallback: MediaRouter.Callback? = null
+        var isStatusExpanded = false
+        // function variable first to allow recursion/usage
+        var updateCastingStatusRef: (() -> Unit)? = null
 
-        // Check MediaRouter first (Primary Casting Method)
-        val mediaRouter = getSystemService(Context.MEDIA_ROUTER_SERVICE) as MediaRouter
-        val route = mediaRouter.getSelectedRoute(MediaRouter.ROUTE_TYPE_LIVE_AUDIO)
-        
-        if (route != null && route.playbackType == MediaRouter.RouteInfo.PLAYBACK_TYPE_REMOTE) {
-             Log.v(TAG, "Debug: Found Remote Route: ${route.name}, Volume: ${route.volume}")
-             // For remote, if volume is 0, consider it muted
-             isMuted = route.volume == 0
-        } else {
-            // Fallback to MediaController
-            val mediaController = NotificationListener.instance?.getMediaControllerForCasting()
-            if (mediaController != null) {
-                try {
+        try {
+            mediaRouter = applicationContext.getSystemService(Context.MEDIA_ROUTER_SERVICE) as MediaRouter
+
+            fun updateCastingStatus() {
+                val preference = Preference(applicationContext)
+                if (!preference.isCastingMuteEnabled()) {
+                    castingStatusTextView?.text = "Casting settings turned off"
+                    castingStatusTextView?.visibility = View.VISIBLE
+                    return
+                }
+
+                val sb = StringBuilder()
+                var summaryText = ""
+
+                // 1. Check MediaRouter
+                val route = mediaRouter?.getSelectedRoute(MediaRouter.ROUTE_TYPE_LIVE_AUDIO)
+                val isRemoteRoute = route != null && route.playbackType == MediaRouter.RouteInfo.PLAYBACK_TYPE_REMOTE
+                
+                if (isRemoteRoute) {
+                    val info = "Endpoint (Router): ${route?.name} (Vol: ${route?.volume})"
+                    sb.append("$info\n")
+                    summaryText = "Casting: ${route?.name}"
+                } else {
+                    sb.append("Endpoint (Router): Local Phone\n")
+                    summaryText = "Casting: None"
+                }
+
+                // 2. Check MediaController (Fallback)
+                val mediaController = NotificationListener.instance?.getMediaControllerForCasting()
+                if (mediaController != null) {
+                    val pkg = mediaController.packageName
                     val playbackInfo = mediaController.playbackInfo
-                    if (playbackInfo != null) {
-                        Log.v(TAG, "Cast PlaybackInfo Volume: ${playbackInfo.currentVolume}, Max: ${playbackInfo.maxVolume}")
-                        isMuted = playbackInfo.currentVolume == 0 
+                    // Using literals to avoid import resolution issues with inner class PlaybackInfo
+                    val type = if(playbackInfo?.playbackType == 2) "Remote" else "Local" // 2 = PLAYBACK_TYPE_REMOTE
+                    
+                    val volControl = when(playbackInfo?.volumeControl) {
+                        2 -> "Absolute" // VOLUME_CONTROL_ABSOLUTE
+                        1 -> "Relative" // VOLUME_CONTROL_RELATIVE
+                        0 -> "Fixed"    // VOLUME_CONTROL_FIXED
+                        else -> "Unknown"
                     }
-                } catch (e: Exception) {
-                    Log.e(TAG, "Error getting playback info", e)
+                    
+                    sb.append("Session (Token): $pkg\n")
+                    sb.append(" - Type: $type\n")
+                    sb.append(" - VolControl: $volControl\n")
+                    sb.append(" - Vol: ${playbackInfo?.currentVolume}/${playbackInfo?.maxVolume}")
+                    
+                    Log.d(TAG, "Debug Controller: Pkg=$pkg, Type=$type, Control=$volControl, Vol=${playbackInfo?.currentVolume}")
+                    
+                    if (summaryText == "Casting: None") {
+                        summaryText = "Casting: $pkg (Session)"
+                    }
+                } else {
+                    sb.append("Session (Token): None found")
+                }
+                
+                if (isStatusExpanded) {
+                    castingStatusTextView?.text = "$summaryText ▼\n$sb"
+                } else {
+                    castingStatusTextView?.text = "$summaryText (Expand) ▶"
+                }
+                castingStatusTextView?.visibility = View.VISIBLE
+            }
+            // Assign to ref
+            updateCastingStatusRef = ::updateCastingStatus
+            
+            castingStatusTextView?.setOnClickListener {
+                isStatusExpanded = !isStatusExpanded
+                updateCastingStatus()
+            }
+            
+            updateCastingStatus()
+
+            mediaRouterCallback = object : MediaRouter.SimpleCallback() {
+                override fun onRouteSelected(router: MediaRouter, type: Int, route: MediaRouter.RouteInfo) {
+                    updateCastingStatus()
+                }
+                override fun onRouteUnselected(router: MediaRouter, type: Int, route: MediaRouter.RouteInfo) {
+                    updateCastingStatus()
+                }
+                override fun onRouteChanged(router: MediaRouter, route: MediaRouter.RouteInfo) {
+                    updateCastingStatus()
                 }
             }
+            mediaRouter?.addCallback(MediaRouter.ROUTE_TYPE_LIVE_AUDIO, mediaRouterCallback!!, MediaRouter.CALLBACK_FLAG_PERFORM_ACTIVE_SCAN)
+
+        } catch (e: Exception) {
+            Log.e(TAG, "Error initializing MediaRouter for debug dialog", e)
+            castingStatusTextView?.text = "Casting: Error accessing MediaRouter"
+            castingStatusTextView?.visibility = View.VISIBLE
         }
-        
-        testMuteBtn?.text = if (isMuted) "Unmute" else "Mute"
-    }    
+
+        fun updateMuteButtonState() {
+            val audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+            val currentMusicVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
+            
+            var isMuted = currentMusicVolume == 0
+
+            // Check MediaRouter first (Primary Casting Method)
+            val mediaRouter = getSystemService(Context.MEDIA_ROUTER_SERVICE) as MediaRouter
+            val route = mediaRouter.getSelectedRoute(MediaRouter.ROUTE_TYPE_LIVE_AUDIO)
+            
+            if (route != null && route.playbackType == MediaRouter.RouteInfo.PLAYBACK_TYPE_REMOTE) {
+                 Log.v(TAG, "Debug: Found Remote Route: ${route.name}, Volume: ${route.volume}")
+                 // For remote, if volume is 0, consider it muted
+                 isMuted = route.volume == 0
+            } else {
+                // Fallback to MediaController
+                val mediaController = NotificationListener.instance?.getMediaControllerForCasting()
+                if (mediaController != null) {
+                    try {
+                        val playbackInfo = mediaController.playbackInfo
+                        if (playbackInfo != null) {
+                            Log.v(TAG, "Cast PlaybackInfo Volume: ${playbackInfo.currentVolume}, Max: ${playbackInfo.maxVolume}")
+                            isMuted = playbackInfo.currentVolume == 0 
+                        }
+                    } catch (e: Exception) {
+                        Log.e(TAG, "Error getting playback info", e)
+                    }
+                }
+            }
+            
+            testMuteBtn?.text = if (isMuted) "Unmute" else "Mute"
+        }    
         
         updateMuteButtonState()
 
@@ -1274,7 +1374,9 @@ class AdSilenceActivity : Activity() {
                     if (originalVolume != -1) {
                         mediaController.setVolumeTo(originalVolume, 0)
                     } else {
-                        mediaController.adjustVolume(AudioManager.ADJUST_UNMUTE, 0)
+                        val max = mediaController.playbackInfo?.maxVolume ?: 50
+                        val safeVol = (max / 3).coerceAtLeast(1)
+                        mediaController.setVolumeTo(safeVol, 0)
                     }
                     if (preference.isDebugLogEnabled()) {
                          LogManager.addLog(LogEntry(
@@ -1302,89 +1404,12 @@ class AdSilenceActivity : Activity() {
             // Delay update to allow async volume change
             listView.postDelayed({
                  updateMuteButtonState()
+                 updateCastingStatusRef?.invoke() // Update text, when changed volume by using mute/unmute button
             }, 500)
         }
 
         dialogView.findViewById<Button>(R.id.clear_log_btn)?.setOnClickListener {
             LogManager.clearLogs()
-        }
-
-        val castingStatusTextView = dialogView.findViewById<TextView>(R.id.dialog_casting_status_text_view)
-        var mediaRouter: MediaRouter? = null
-        var mediaRouterCallback: MediaRouter.Callback? = null
-
-        try {
-            mediaRouter = applicationContext.getSystemService(Context.MEDIA_ROUTER_SERVICE) as MediaRouter
-
-            fun updateCastingStatus() {
-                val preference = Preference(applicationContext)
-                if (!preference.isCastingMuteEnabled()) {
-                    castingStatusTextView?.text = "Casting settings turned off"
-                    castingStatusTextView?.visibility = View.VISIBLE
-                    return
-                }
-
-                val sb = StringBuilder()
-                
-                // 1. Check MediaRouter
-                val route = mediaRouter?.getSelectedRoute(MediaRouter.ROUTE_TYPE_LIVE_AUDIO)
-                val isRemoteRoute = route != null && route.playbackType == MediaRouter.RouteInfo.PLAYBACK_TYPE_REMOTE
-                
-                if (isRemoteRoute) {
-                    sb.append("Endpoint (Router): ${route?.name} (Vol: ${route?.volume})\n")
-                } else {
-                    sb.append("Endpoint (Router): Local Phone\n")
-                }
-
-                // 2. Check MediaController (Fallback)
-                val mediaController = NotificationListener.instance?.getMediaControllerForCasting()
-                if (mediaController != null) {
-                    val pkg = mediaController.packageName
-                    val playbackInfo = mediaController.playbackInfo
-                    // Using literals to avoid import resolution issues with inner class PlaybackInfo
-                    val type = if(playbackInfo?.playbackType == 2) "Remote" else "Local" // 2 = PLAYBACK_TYPE_REMOTE
-                    
-                    val volControl = when(playbackInfo?.volumeControl) {
-                        2 -> "Absolute" // VOLUME_CONTROL_ABSOLUTE
-                        1 -> "Relative" // VOLUME_CONTROL_RELATIVE
-                        0 -> "Fixed"    // VOLUME_CONTROL_FIXED
-                        else -> "Unknown"
-                    }
-                    
-                    sb.append("Session (Token): $pkg\n")
-                    sb.append(" - Type: $type\n")
-                    sb.append(" - VolControl: $volControl\n")
-                    sb.append(" - Vol: ${playbackInfo?.currentVolume}/${playbackInfo?.maxVolume}")
-                    
-                    Log.d(TAG, "Debug Controller: Pkg=$pkg, Type=$type, Control=$volControl, Vol=${playbackInfo?.currentVolume}")
-                } else {
-                    sb.append("Session (Token): None found")
-                }
-                
-                castingStatusTextView?.text = sb.toString()
-                castingStatusTextView?.visibility = View.VISIBLE
-            }
-            
-            updateCastingStatus()
-
-            mediaRouterCallback = object : MediaRouter.SimpleCallback() {
-                override fun onRouteSelected(router: MediaRouter, type: Int, route: MediaRouter.RouteInfo) {
-                    updateCastingStatus()
-                }
-                override fun onRouteUnselected(router: MediaRouter, type: Int, route: MediaRouter.RouteInfo) {
-                    updateCastingStatus()
-                }
-                override fun onRouteChanged(router: MediaRouter, route: MediaRouter.RouteInfo) {
-                    updateCastingStatus()
-                }
-            }
-            
-            mediaRouter?.addCallback(MediaRouter.ROUTE_TYPE_LIVE_AUDIO, mediaRouterCallback, MediaRouter.CALLBACK_FLAG_PERFORM_ACTIVE_SCAN)
-
-        } catch (e: Exception) {
-            Log.e(TAG, "Error initializing MediaRouter for debug dialog", e)
-            castingStatusTextView?.text = "Casting: Error accessing MediaRouter"
-            castingStatusTextView?.visibility = View.VISIBLE
         }
 
         dialog.setOnDismissListener {
