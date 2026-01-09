@@ -37,6 +37,7 @@ class AdSilenceActivity : Activity() {
     private var deleteCustomAppDialog: AlertDialog? = null
     private var settingsDialog: AlertDialog? = null
     private var miuiAutostartDialog: AlertDialog? = null
+    private var hasOpenedAutostartSettings: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -254,37 +255,7 @@ class AdSilenceActivity : Activity() {
             
             if (toChange) {
                 // Turning ON
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    Log.v(TAG, "Toggling ON: Requesting Rebind (API >= 24)")
-                    if (preference.isDebugLogEnabled()) {
-                        LogManager.addLifecycleLog(LogEntry(
-                            appName = "AdSilence",
-                            timestamp = System.currentTimeMillis(),
-                            isAd = false,
-                            title = "Service Rebind",
-                            text = "Toggling ON: Requesting Rebind (API >= 24)",
-                            subText = "Lifecycle Event"
-                        ))
-                    }
-                    android.service.notification.NotificationListenerService.requestRebind(
-                        android.content.ComponentName(this, NotificationListener::class.java)
-                    )
-                } else {
-                    Log.v(TAG, "Toggling ON: Sending START_SERVICE intent (API < 24)")
-                    if (preference.isDebugLogEnabled()) {
-                        LogManager.addLifecycleLog(LogEntry(
-                            appName = "AdSilence",
-                            timestamp = System.currentTimeMillis(),
-                            isAd = false,
-                            title = "Service Start",
-                            text = "Toggling ON: Sending START_SERVICE intent (API < 24)",
-                            subText = "Lifecycle Event"
-                        ))
-                    }
-                    val intent = Intent(this, NotificationListener::class.java)
-                    intent.action = "START_SERVICE"
-                    startService(intent)
-                }
+                    startNotificationService()
             } else {
                 // Turning OFF
                 Log.v(TAG, "Toggling OFF: Sending STOP_SERVICE intent")
@@ -1564,6 +1535,15 @@ class AdSilenceActivity : Activity() {
         if (!isXiaomi()) return
         
         val preference = Preference(applicationContext)
+        
+        // If we just came back from Autostart settings, try to restart the service
+        if (hasOpenedAutostartSettings) {
+             Log.v(TAG, "Returned from Autostart Settings. Attempting to restart service.")
+             startNotificationService()
+             hasOpenedAutostartSettings = false
+             return // Don't show dialog immediately again
+        }
+
         // Only checking if
         // 1. App is enabled
         // 2. Notification permission is granted (so we expect service to run)
@@ -1601,6 +1581,7 @@ class AdSilenceActivity : Activity() {
                     "com.miui.permcenter.autostart.AutoStartManagementActivity"
                 )
                 startActivity(intent)
+                hasOpenedAutostartSettings = true
             } catch (e: Exception) {
                 Log.e(TAG, "Failed to open MIUI Autostart settings", e)
                 Toast.makeText(this, "Could not open Autostart settings directly. Please go to Autostart settings and enable it manually.", Toast.LENGTH_LONG).show()
@@ -1622,6 +1603,44 @@ class AdSilenceActivity : Activity() {
         dialog.show()
     }
 
+    private fun startNotificationService() {
+        val preference = Preference(applicationContext)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Log.v(TAG, "Requesting Rebind (API >= 24)")
+            if (preference.isDebugLogEnabled()) {
+                LogManager.addLifecycleLog(LogEntry(
+                    appName = "AdSilence",
+                    timestamp = System.currentTimeMillis(),
+                    isAd = false,
+                    title = "Service Rebind",
+                    text = "Requesting Rebind (API >= 24)",
+                    subText = "Lifecycle Event"
+                ))
+            }
+            try {
+                android.service.notification.NotificationListenerService.requestRebind(
+                    android.content.ComponentName(this, NotificationListener::class.java)
+                )
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to request rebind", e)
+            }
+        } else {
+            Log.v(TAG, "Sending START_SERVICE intent (API < 24)")
+             if (preference.isDebugLogEnabled()) {
+                LogManager.addLifecycleLog(LogEntry(
+                    appName = "AdSilence",
+                    timestamp = System.currentTimeMillis(),
+                    isAd = false,
+                    title = "Service Start",
+                    text = "Sending START_SERVICE intent (API < 24)",
+                    subText = "Lifecycle Event"
+                ))
+            }
+            val intent = Intent(this, NotificationListener::class.java)
+            intent.action = "START_SERVICE"
+            startService(intent)
+        }
+    }
 }
 
 
