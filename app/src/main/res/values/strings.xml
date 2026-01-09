@@ -123,4 +123,10 @@
     <string name="jio_saavn_pkg_name" translatable="false">com.jio.media.jiobeats</string>
     <string name="jio_saavn_ad_string" translatable="false">Advertisement</string>
     <string name="jio_saavn" translatable="false">Jio Saavn</string>
+
+    <!-- MIUI Autostart Strings -->
+    <string name="miui_autostart_title">Enable Autostart</string>
+    <string name="miui_autostart_message">On Xiaomi/MIUI devices, you must enable \'Autostart\' for Ad-silence to work reliability in the background. Please enable it in the next screen.</string>
+    <string name="miui_autostart_button">Open Settings</string>
+    <string name="miui_autostart_ignore">Ignore</string>
 </resources>

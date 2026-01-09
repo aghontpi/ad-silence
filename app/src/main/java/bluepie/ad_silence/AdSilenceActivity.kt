@@ -36,6 +36,7 @@ class AdSilenceActivity : Activity() {
     private var addCustomAppDialog: AlertDialog? = null
     private var deleteCustomAppDialog: AlertDialog? = null
     private var settingsDialog: AlertDialog? = null
+    private var miuiAutostartDialog: AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +60,7 @@ class AdSilenceActivity : Activity() {
         // handleHibernation()
         configureViewsWithLinks()
         configureBatteryOptimization()
+        checkAndPromptForMiuiAutostart()
     }
 
     override fun onDestroy() {
@@ -90,6 +92,11 @@ class AdSilenceActivity : Activity() {
         if (settingsDialog != null && settingsDialog!!.isShowing) {
             Log.v(TAG, "Dismissing settings dialog")
             settingsDialog!!.dismiss()
+        }
+
+        if (miuiAutostartDialog != null && miuiAutostartDialog!!.isShowing) {
+            Log.v(TAG, "Dismissing miui autostart dialog")
+            miuiAutostartDialog!!.dismiss()
         }
     }
 
@@ -1542,6 +1549,75 @@ class AdSilenceActivity : Activity() {
         settingsDialog = dialog
         dialog.setOnDismissListener {
             settingsDialog = null
+        }
+        dialog.show()
+    }
+
+
+    private fun isXiaomi(): Boolean {
+        return Build.MANUFACTURER.equals("xiaomi", ignoreCase = true) ||
+               Build.MANUFACTURER.equals("redmi", ignoreCase = true) ||
+               Build.MANUFACTURER.equals("poco", ignoreCase = true)
+    }
+
+    private fun checkAndPromptForMiuiAutostart() {
+        if (!isXiaomi()) return
+        
+        val preference = Preference(applicationContext)
+        // Only checking if
+        // 1. App is enabled
+        // 2. Notification permission is granted (so we expect service to run)
+        // 3. Service instance is null (it's not running)
+        
+        if (preference.isEnabled() && 
+            checkNotificationListenerPermission(applicationContext) && 
+            NotificationListener.instance == null) {
+                
+            Log.v(TAG, "MIUI Device detected & Service not running. Prompting Autostart.")
+            showMiuiAutostartDialog()
+        }
+    }
+
+    private fun showMiuiAutostartDialog() {
+        if (miuiAutostartDialog != null && miuiAutostartDialog!!.isShowing) {
+            return
+        }
+
+        val dialogView = layoutInflater.inflate(R.layout.dialog_delete_custom_app, null) // Reuse generic dialog layout
+        val dialog = AlertDialog.Builder(this)
+            .setView(dialogView)
+            .create()
+
+        dialogView.findViewById<TextView>(R.id.tv_dialog_title).text = getString(R.string.miui_autostart_title)
+        dialogView.findViewById<TextView>(R.id.tv_dialog_message).text = getString(R.string.miui_autostart_message)
+        
+        val openSettingsBtn = dialogView.findViewById<Button>(R.id.btn_delete)
+        openSettingsBtn.text = getString(R.string.miui_autostart_button)
+        openSettingsBtn.setOnClickListener {
+            try {
+                val intent = Intent()
+                intent.component = android.content.ComponentName(
+                    "com.miui.securitycenter",
+                    "com.miui.permcenter.autostart.AutoStartManagementActivity"
+                )
+                startActivity(intent)
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to open MIUI Autostart settings", e)
+                Toast.makeText(this, "Could not open Autostart settings directly. Please go to Autostart settings and enable it manually.", Toast.LENGTH_LONG).show()
+            }
+            dialog.dismiss()
+        }
+
+        val ignoreBtn = dialogView.findViewById<Button>(R.id.btn_cancel)
+        ignoreBtn.text = getString(R.string.miui_autostart_ignore)
+        ignoreBtn.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        miuiAutostartDialog = dialog
+        dialog.setOnDismissListener {
+            miuiAutostartDialog = null
         }
         dialog.show()
     }
