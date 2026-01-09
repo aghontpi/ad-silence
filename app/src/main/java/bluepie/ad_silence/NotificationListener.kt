@@ -386,17 +386,24 @@ class NotificationListener : NotificationListenerService() {
                                                     Log.v(TAG, "Not an ad, Unmuting, < M")
                                                     // for android 5 & 5.1, unmute has to be done, count x mutedCount
                                                     // Check for casting (Route or Fallback)
-                                                    val currentRoute = this@NotificationListener.currentRoute
-                                                    val isRemoteRoute = currentRoute != null && currentRoute.playbackType == MediaRouter.RouteInfo.PLAYBACK_TYPE_REMOTE
-                                                    val fallbackController = if (!isRemoteRoute) getMediaControllerForCasting() else null
-                                                    val isCasting = isRemoteRoute || fallbackController != null
+                                                    var isCasting = false
+                                                    var isRemoteRoute = false
+                                                    var currentRoute : MediaRouter.RouteInfo? = null
+
+                                                    if (preference.isCastingMuteEnabled()) {
+                                                        currentRoute = this@NotificationListener.currentRoute
+                                                        isRemoteRoute = currentRoute != null && currentRoute.playbackType == MediaRouter.RouteInfo.PLAYBACK_TYPE_REMOTE
+                                                        val fallbackController = if (!isRemoteRoute) getMediaControllerForCasting() else null
+                                                        isCasting = isRemoteRoute || fallbackController != null
+                                                    }
                                                     
                                                     while (muteCount > 0) {
                                                         if (isCasting) {
                                                             if (isRemoteRoute && currentRoute?.volumeHandling == MediaRouter.RouteInfo.PLAYBACK_VOLUME_VARIABLE && originalRemoteVolume != -1) {
+                                                                 val routeToRestore = currentRoute
                                                                  Log.v(TAG, "Restoring remote volume to $originalRemoteVolume")
                                                                  handler.post {
-                                                                     currentRoute.requestSetVolume(originalRemoteVolume)
+                                                                     routeToRestore?.requestSetVolume(originalRemoteVolume)
                                                                      originalRemoteVolume = -1
                                                                  }
                                                             } else {
@@ -419,17 +426,23 @@ class NotificationListener : NotificationListenerService() {
                                                 } else {
                                                     Log.v(TAG, "Not an ad, Unmuting, > M")
                                                      // Check for casting (Route or Fallback) 
-                                                    
-                                                    val currentRoute = this@NotificationListener.currentRoute
-                                                    val isRemoteRoute = currentRoute != null && currentRoute.playbackType == MediaRouter.RouteInfo.PLAYBACK_TYPE_REMOTE
-                                                    val fallbackController = if (!isRemoteRoute) getMediaControllerForCasting() else null
-                                                    val isCasting = isRemoteRoute || fallbackController != null
+                                                    var isCasting = false
+                                                    var isRemoteRoute = false
+                                                    var currentRoute : MediaRouter.RouteInfo? = null
+
+                                                    if (preference.isCastingMuteEnabled()) {
+                                                        currentRoute = this@NotificationListener.currentRoute
+                                                        isRemoteRoute = currentRoute != null && currentRoute.playbackType == MediaRouter.RouteInfo.PLAYBACK_TYPE_REMOTE
+                                                        val fallbackController = if (!isRemoteRoute) getMediaControllerForCasting() else null
+                                                        isCasting = isRemoteRoute || fallbackController != null
+                                                    }
 
                                                     if (isCasting) {
                                                          if (isRemoteRoute && currentRoute?.volumeHandling == MediaRouter.RouteInfo.PLAYBACK_VOLUME_VARIABLE && originalRemoteVolume != -1) {
+                                                             val routeToRestore = currentRoute
                                                              Log.v(TAG, "Restoring remote volume to $originalRemoteVolume")
                                                              handler.post {
-                                                                 currentRoute.requestSetVolume(originalRemoteVolume)
+                                                                 routeToRestore?.requestSetVolume(originalRemoteVolume)
                                                                  originalRemoteVolume = -1
                                                              }
                                                          } else {
