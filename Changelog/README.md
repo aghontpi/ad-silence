@@ -5,6 +5,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.8.0] - (Jan 10, 2026)
+
+**_Stable - requires android 5 or higher_**
+
+## Added
+
+- **Casting Support**: Support for casting (Spotify, Jio Saavn, etc.) with improved mute logic.
+- **Settings Menu**: Centralized settings for mute behavior, casting, and other options.
+- **Edit Preloaded Apps**: Ability to edit preloaded apps and set custom unmute delays.
+- **Mute Logic**: Option to mute only the music stream instead of the entire device.
+- **MIUI Support**: Fixes for autostart permissions and persistent notification listener service.
+- **App Support**: Added native support for **Jio Saavn**.
+- **Fastlane Validation**: Added validation steps to ensure valid fastlane configuration.
+
+## Updates
+
+- **Default Music Stream Mute**: The default mute behavior now specifically targets the music stream (leaving calls/alarms intact), replacing the previous system-decided behavior. Users can control this behavior via options in the settings menu.
+- **Force Mute**: Now force-mutes the music stream, ensuring it stays muted even if the user presses the volume button to unmute. Users can control this behavior via the new option in the settings menu.
+- **Select Apps**: Removed "Add Custom App" from main screen; integrated into the "Select Apps" view.
+
+## Fixes
+
+- Fixed casting mute logic when settings are disabled.
+- Addressed autostart issues on MIUI devices.
+
 ## [v0.7.1] - (Dec 13, 2025)
 
 **_Stable - requires android 5 or higher_**

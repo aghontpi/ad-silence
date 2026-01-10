@@ -1,6 +1,6 @@
 # Ad-silence
 
-> Remove ads in Accuradio, Spotify, Tidal, Pandora or Any App.
+> Silence ads in Accuradio, Spotify, Pandora, Soundcloud or Any App.
 
 <p align="left">
   <br/>
@@ -18,19 +18,19 @@
 
 ## Features
 
-- Block ads on `Accuradio`, `Spotify` (full & lite versions), `Tidal` & `Pandora` or **`Any app` with custom App Option**
-- Minimal UI
+- Mute ads on `Accuradio`, `Spotify` (full & lite versions), `Pandora`, `Soundcloud` or **`Any app` with custom App Option**
+- Minimal UI, Lightweight & App size **less than 150KB**
 - Debug log directly integrated in the app to help with easier debugging
-- App size **less than 150KB**
-- Configure which apps to remove ads in
-- Open source
+- Supports casting (google chromecast..etc) 
+- **Fully Configurable**: Edit preloaded apps, add new custom apps, and adjust keywords or unmute delays for precise control.
 - No inapp purchases or ads
+- Open source
 
 ## Supported apps?
 
 - **Custom Apps Support**: Ability to add, edit, and delete custom apps to be silenced.
 
-> With the release of v0.7.0 and above, Ad-silence now supports custom apps with ability to add, edit and provide keywords specific to the app. 
+> With the release of v0.7.0 and above, Ad-silence now supports custom apps with ability to add, edit, unmute delay and provide keywords specific to the app. 
 
 |     app      | support |
 |:------------:| :-----: |
@@ -40,7 +40,8 @@
 |  Soundcloud  |   yes   |
 |    Tidal     |   yes   |
 |   Pandora    |   yes   |
-| **Any app**  | yes |
+|   JioSaavn  |   yes   |
+| **Any app**  |   yes   |
 
 ## Custom Apps
 
@@ -80,6 +81,10 @@ You have to enable the debug log in the app to see the logs.
 - See all the logs of the service (notification listener) in the app .
 - See all the notifications parsed by the service.
 - Each debug logs is timestamped, gives out the parsing decision it made (like what it matched against and whether it matched or not).
+- View **Casting Information** specific to the current session:
+  - **Endpoint**: Shows the active router name and volume.
+  - **Session**: Displays the media controller package, playback type (Remote/Local), volume control mode, and volume levels.
+- **Test Mute/Unmute**: A button to manually toggle mute on the active media stream (works for both local playback and casting sessions) to verify if the app can control the volume.
 
 You can keep the debug log enabled always, it will not affect the performance of the app, only the recent 100 logs are stored in memory.
 
@@ -96,6 +101,7 @@ You can keep the debug log enabled always, it will not affect the performance of
     <img src="./sample/3.png" alt="about" height="400px" width="auto"/> 
     <img src="./sample/4.png" alt="custom apps" height="400px" width="auto"/> 
     <img src="./sample/5.png" alt="edit custom apps" height="400px" width="auto"/> 
+    <img src="./sample/6.png" alt="edit custom apps" height="400px" width="auto"/> 
   </p>
 
 ## How this works
