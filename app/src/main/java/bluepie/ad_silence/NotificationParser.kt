@@ -26,50 +26,36 @@ fun AppNotification.getPreloadedAppType(): SupportedApps {
         context.getString(R.string.pandora_package_name) -> SupportedApps.PANDORA
         context.getString(R.string.liveOne_package_name) -> SupportedApps.LiveOne
         context.getString(R.string.soundcloud_package_name) -> SupportedApps.Soundcloud
+        context.getString(R.string.jio_saavn_pkg_name) -> SupportedApps.JIO_SAAVN
         else -> SupportedApps.INVALID
     }
 }
 
 
 fun AppNotification.getApp(): SupportedApps {
+    val preloadedAppType = getPreloadedAppType()
+    if (preloadedAppType != SupportedApps.INVALID) {
+        return preloadedAppType
+    }
+
     val preference = Preference(context)
     val customApps = preference.getCustomApps()
     if (customApps.any { it.packageName == packageName && it.isEnabled }) {
         return SupportedApps.CUSTOM
     }
 
-    return getPreloadedAppType()
+    return SupportedApps.INVALID
 }
 
 fun AppNotification.adString(): List<String> {
-    if (getApp() == SupportedApps.CUSTOM) {
-        val preference = Preference(context)
-        return preference.getCustomApps().find { it.packageName == packageName }?.keywords ?: emptyList()
+    val preference = Preference(context)
+    val customApp = preference.getCustomApps().find { it.packageName == packageName }
+    
+    if (customApp != null) {
+        return customApp.keywords
     }
 
-    return when (getApp()) {
-        SupportedApps.ACCURADIO -> listOf(context.getString(R.string.accuradio_ad_text))
-        SupportedApps.SPOTIFY, SupportedApps.SPOTIFY_LITE -> listOf(
-            context.getString(R.string.spotify_ad_string),
-            context.getString(R.string.spotify_ad2),
-            *spotifyTrigger
-        )
-
-        SupportedApps.TIDAL -> listOf(context.getString(R.string.tidal_ad_string))
-        SupportedApps.PANDORA -> listOf(
-            context.getString(R.string.pandora_ad_string),
-            context.getString(R.string.pandora_ad_string_2)
-        )
-
-        SupportedApps.LiveOne -> listOf(
-            context.getString(R.string.liveOne_ad_string),
-            context.getString(R.string.liveOne_ad_string_2)
-        )
-
-        SupportedApps.Soundcloud -> listOf(context.getString(R.string.soundcloud_ad_string))
-
-        else -> listOf("")
-    }
+    return DefaultAppConfig.getDefaultKeywords(getApp(), context)
 }
 
 interface NotificationParserInterface {
@@ -93,6 +79,7 @@ class NotificationParser(override var appNotification: AppNotification) :
             SupportedApps.PANDORA -> parsePandoraNotification()
             SupportedApps.LiveOne -> parseLiveOneNotification()
             SupportedApps.Soundcloud -> parseSoundCloudNotification()
+            SupportedApps.JIO_SAAVN -> parseJioSaavnNotification()
             else -> false
         }
     }
@@ -421,6 +408,26 @@ class NotificationParser(override var appNotification: AppNotification) :
                  isAd = true
                  break
              }
+        }
+        return isAd
+    }
+
+    private fun parseJioSaavnNotification(): Boolean {
+        var isAd = false
+        val title = this.appNotification.notification.extras?.get("android.title").toString()
+        val text = this.appNotification.notification.extras?.get("android.text").toString()
+        val subText = this.appNotification.notification.extras?.get("android.subText").toString()
+
+        Log.v(TAG, "trying match against \"$title\", \"$text\", \"$subText\" with ${appNotification.adString()}")
+
+        for (adString in appNotification.adString()) {
+            if (title.contains(adString, ignoreCase = true) || 
+                text.contains(adString, ignoreCase = true) ||
+                subText.contains(adString, ignoreCase = true)) {
+                Log.v(TAG, "detection in Jio Saavn: $adString")
+                isAd = true
+                break
+            }
         }
         return isAd
     }

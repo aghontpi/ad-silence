@@ -78,6 +78,7 @@
 
     <!-- Custom App Dialog Strings -->
     <string name="add_custom_app">Add Custom App</string>
+    <string name="reset">Reset</string>
     <string name="custom_app_help_text">Not sure what to put? <![CDATA[<a href="https://github.com/aghontpi/ad-silence/wiki/Custom_App_Wiki">View guide here!</a>]]></string>
     <string name="custom_app_overlay_hint">Tip: Use the package name of a pre-configured app (like Spotify) to add extra ad-blocking keywords.</string>
     <string name="custom_app_list_hint">Missed ads? For existing preconfigured apps, you can also use \'Add Custom App\' below to define new detection keywords.</string>
@@ -99,8 +100,33 @@
     <string name="debug_log">Debug Log</string>
     <string name="custom_detection">Custom Detection</string>
     <string name="mock">Mock</string>
+
     <string name="clear">Clear</string>
     <string name="channel_name">Service Status</string>
     <string name="channel_description">Persistent notification showing that AdSilence is active</string>
     <string name="notification_update_help">If mute or detection is not working, try enabling this.</string>
+
+    <!-- Settings Strings -->
+    <string name="settings">Settings</string>
+    <string name="mute_behavior_title">Mute Behavior</string>
+    <string name="mute_entire_device">Mute Entire Device</string>
+    <string name="mute_entire_device_desc">If enabled, the entire device (including ringer) will be muted. If disabled, only the music stream is muted.</string>
+    <string name="mute_behavior_help">Not sure which one to choose? <![CDATA[<a href="https://github.com/aghontpi/ad-silence/wiki/Mute%E2%80%90behaviour%E2%80%90settings">Read here!</a>]]></string>
+    <string name="force_mute_title">Force Mute (Don\'t check existing mute)</string>
+    <string name="force_mute_desc">Mute ads without checking if the media is already muted.</string>
+
+    <string name="casting_mute_title">Casting</string>
+    <string name="casting_mute_desc">Mute ads while casting to other devices (e.g. Google Home, Chromecast).</string>
+
+    <string name="reset_app_configuration">Reset App Configuration</string>
+    <string name="reset_custom_app_message_format">Are you sure? Your changes for %1$s will be reset to default.</string>
+    <string name="jio_saavn_pkg_name" translatable="false">com.jio.media.jiobeats</string>
+    <string name="jio_saavn_ad_string" translatable="false">Advertisement</string>
+    <string name="jio_saavn" translatable="false">Jio Saavn</string>
+
+    <!-- MIUI Autostart Strings -->
+    <string name="miui_autostart_title">Enable Autostart</string>
+    <string name="miui_autostart_message">On Xiaomi/MIUI devices, you must enable \'Autostart\' for Ad-silence to work reliability in the background. Please enable it in the next screen.</string>
+    <string name="miui_autostart_button">Open Settings</string>
+    <string name="miui_autostart_ignore">Ignore</string>
 </resources>

@@ -8,6 +8,7 @@ enum class SupportedApps {
     PANDORA,
     LiveOne,
     Soundcloud,
+    JIO_SAAVN,
     CUSTOM,
     INVALID
 }

@@ -54,7 +54,10 @@ class Utils {
     fun isSoundcloudInstalled(context: Context) =
         isPackageInstalled(context, context.getString(R.string.soundcloud_package_name))
 
-    fun isMusicMuted(audoManager: AudioManager): Boolean {
+    fun isJioSaavnInstalled(context: Context) =
+        isPackageInstalled(context, context.getString(R.string.jio_saavn_pkg_name))
+
+    fun isMusicMuted(context: Context, audoManager: AudioManager): Boolean {
         if (Build.VERSION.SDK_INT >= 23) {
             return audoManager.isStreamMute(AudioManager.STREAM_MUSIC)
         } else {
@@ -65,6 +68,16 @@ class Utils {
                     TAG,
                     "Could not retrieve stream volume for stream type " + AudioManager.STREAM_MUSIC
                 )
+                  if (Preference(context).isDebugLogEnabled()) {
+                    LogManager.addLog(LogEntry(
+                        appName = "AdSilence",
+                        timestamp = System.currentTimeMillis(),
+                        isAd = false,
+                        title = "Volume Check Error",
+                        text = "Could not retrieve stream volume (Runtime Exception)",
+                        subText = "Error"
+                    ))
+                }
                 audoManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
             }
             return volume == 0
@@ -72,25 +85,40 @@ class Utils {
     }
 
     fun mute(audioManager: AudioManager?, addNotificationHelper: AppNotificationHelper?, preference: Preference) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            audioManager?.adjustVolume(
-                AudioManager.ADJUST_MUTE,
-                AudioManager.FLAG_PLAY_SOUND
-            )
+        if (preference.isMuteEntireDeviceEnabled() && Build.VERSION.SDK_INT >= 23) {
+             audioManager?.adjustVolume(AudioManager.ADJUST_MUTE, 0)
         } else {
-            audioManager?.setStreamMute(AudioManager.STREAM_MUSIC, true)
+             audioManager?.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_MUTE, 0)
+        }
+
+        if (preference.isDebugLogEnabled()) {
+            LogManager.addLifecycleLog(LogEntry(
+                appName = "AdSilence",
+                timestamp = System.currentTimeMillis(),
+                isAd = true,
+                title = "System Mute Executed",
+                text = "Mute command sent to AudioManager",
+                subText = "Action"
+            ))
         }
 
         this.updateNotification("AdSilence, ad-detected", preference, addNotificationHelper)
     }
 
-    fun getUnmuteDelay(app: SupportedApps): Long {
-        return when (app) {
-            SupportedApps.SPOTIFY_LITE -> 540
-            SupportedApps.SPOTIFY -> 480
-            else -> 0
+    fun getUnmuteDelay(app: SupportedApps, packageName: String? = null, preference: Preference? = null): Long {
+    if (preference != null && packageName != null) {
+        val delay = preference.getCustomApps().find { it.packageName == packageName }?.unmuteDelay
+        if (delay != null) {
+             return delay
         }
     }
+    return when (app) {
+        SupportedApps.SPOTIFY_LITE -> 540
+        SupportedApps.SPOTIFY -> 480
+        SupportedApps.JIO_SAAVN -> 0
+        else -> 0
+    }
+}
 
     fun unmute(
         audioManager: AudioManager?,
@@ -98,13 +126,21 @@ class Utils {
         app: SupportedApps,
         preference: Preference
     ) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            audioManager?.adjustVolume(
-                AudioManager.ADJUST_UNMUTE,
-                AudioManager.FLAG_PLAY_SOUND
-            )
+        if (preference.isMuteEntireDeviceEnabled() && Build.VERSION.SDK_INT >= 23) {
+             audioManager?.adjustVolume(AudioManager.ADJUST_UNMUTE, 0)
         } else {
-            audioManager?.setStreamMute(AudioManager.STREAM_MUSIC, false)
+             audioManager?.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE, 0)
+        }
+
+        if (preference.isDebugLogEnabled()) {
+            LogManager.addLifecycleLog(LogEntry(
+                appName = "AdSilence",
+                timestamp = System.currentTimeMillis(),
+                isAd = false,
+                title = "System Unmute Executed",
+                text = "Unmute command sent to AudioManager",
+                subText = "Action"
+            ))
         }
 
         this.updateNotification("AdSilence, listening for ads", preference, addNotificationHelper)

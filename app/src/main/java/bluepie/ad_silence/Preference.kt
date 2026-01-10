@@ -32,6 +32,8 @@ class Preference(private val context: Context) {
     private val LIVEONE_DEFAULT = true
     val SOUNDCLOUD = "Soundcloud"
     private val SOUNDCLOUD_DEFAULT = true
+    val JIO_SAAVN = "JioSaavn"
+    private val JIO_SAAVN_DEFAULT = true
 
 
     private val Android13NotificationPermissionGranted = "Android13NotificationPermissionGranted"
@@ -69,6 +71,7 @@ class Preference(private val context: Context) {
             SupportedApps.PANDORA-> preference.edit { putBoolean(PANDORA, status).commit() }
             SupportedApps.LiveOne-> preference.edit { putBoolean(LIVEONE, status).commit() }
             SupportedApps.Soundcloud-> preference.edit { putBoolean(SOUNDCLOUD, status).commit() }
+            SupportedApps.JIO_SAAVN-> preference.edit { putBoolean(JIO_SAAVN, status).commit() }
             SupportedApps.CUSTOM -> {} // Custom apps are handled via setCustomAppEnabled
             else -> {}
         }
@@ -83,6 +86,7 @@ class Preference(private val context: Context) {
             SupportedApps.PANDORA-> preference.getBoolean(PANDORA, PANDORA_DEFAULT)
             SupportedApps.LiveOne-> preference.getBoolean(LIVEONE, LIVEONE_DEFAULT)
             SupportedApps.Soundcloud-> preference.getBoolean(SOUNDCLOUD, SOUNDCLOUD_DEFAULT)
+            SupportedApps.JIO_SAAVN-> preference.getBoolean(JIO_SAAVN, JIO_SAAVN_DEFAULT)
             SupportedApps.CUSTOM -> {
                 if (packageName != null) {
                     getCustomApps().find { it.packageName == packageName }?.isEnabled ?: false
@@ -94,17 +98,24 @@ class Preference(private val context: Context) {
         }
 
         if(app != SupportedApps.INVALID){
-            val extraInfo = if (app == SupportedApps.CUSTOM && packageName != null) {
+             val extraInfo = if (app == SupportedApps.CUSTOM && packageName != null) {
                 val name = getCustomApps().find { it.packageName == packageName }?.name
                 if (name != null) "($name : $packageName)" else "($packageName)"
             } else if (packageName != null) {
-                 "($packageName)"
+                "($packageName)"
             } else {
                 ""
             }
-            Log.v(TAG, "getting appConfiguration: $app $extraInfo -> $status")
+            Log.v(TAG, "isAppConfigured: $app $extraInfo -> $status")
         }
         return status
+    }
+
+    fun isCustomAppConfigured(app: SupportedApps, packageName: String? = null): Boolean {
+        if (app == SupportedApps.CUSTOM && packageName != null) {
+            return getCustomApps().any { it.packageName == packageName }
+        }
+        return false
     }
 
     fun isNotificationPostingPermissionGranted(): Boolean {
@@ -162,6 +173,50 @@ class Preference(private val context: Context) {
             putBoolean(DEBUG_LOG_ENABLED, status).commit()
         }
     }
+
+    /* Mute Behavior Preferences */
+    private val MUTE_ENTIRE_DEVICE = "MuteEntireDevice"
+    private val MUTE_ENTIRE_DEVICE_DEFAULT = false
+
+    fun isMuteEntireDeviceEnabled(): Boolean {
+        return preference.getBoolean(MUTE_ENTIRE_DEVICE, MUTE_ENTIRE_DEVICE_DEFAULT)
+    }
+
+    fun setMuteEntireDeviceEnabled(status: Boolean) {
+        Log.v(TAG, "[configMuteEntireDevice] ${isMuteEntireDeviceEnabled()} -> $status")
+        preference.edit {
+            putBoolean(MUTE_ENTIRE_DEVICE, status).commit()
+        }
+    }
+
+    private val FORCE_MUTE_NO_CHECK = "ForceMuteNoCheck"
+    private val FORCE_MUTE_NO_CHECK_DEFAULT = true
+
+    fun isForceMuteNoCheckEnabled(): Boolean {
+        return preference.getBoolean(FORCE_MUTE_NO_CHECK, FORCE_MUTE_NO_CHECK_DEFAULT)
+    }
+
+    fun setForceMuteNoCheckEnabled(status: Boolean) {
+        Log.v(TAG, "[configForceMuteNoCheck] ${isForceMuteNoCheckEnabled()} -> $status")
+        preference.edit {
+            putBoolean(FORCE_MUTE_NO_CHECK, status).commit()
+        }
+    }
+
+    private val CASTING_MUTE_ENABLED = "CastingMuteEnabled"
+    private val CASTING_MUTE_ENABLED_DEFAULT = true
+
+    fun isCastingMuteEnabled(): Boolean {
+        return preference.getBoolean(CASTING_MUTE_ENABLED, CASTING_MUTE_ENABLED_DEFAULT)
+    }
+
+    fun setCastingMuteEnabled(status: Boolean) {
+        Log.v(TAG, "[configCastingMuteEnabled] ${isCastingMuteEnabled()} -> $status")
+        preference.edit {
+            putBoolean(CASTING_MUTE_ENABLED, status).commit()
+        }
+    }
+
     private val CUSTOM_APPS = "CustomApps"
 
     companion object {
@@ -187,7 +242,8 @@ class Preference(private val context: Context) {
                     keywords.add(keywordsJsonArray.getString(j))
                 }
                 val isEnabled = jsonObject.optBoolean("isEnabled", true)
-                customApps.add(CustomApp(name, packageName, keywords, isEnabled))
+                val unmuteDelay = jsonObject.optLong("unmuteDelay", 0)
+                customApps.add(CustomApp(name, packageName, keywords, isEnabled, unmuteDelay))
             }
         } catch (e: Exception) {
             Log.e(TAG, "Error parsing custom apps", e)
@@ -232,6 +288,7 @@ class Preference(private val context: Context) {
             app.keywords.forEach { keywordsArray.put(it) }
             jsonObject.put("keywords", keywordsArray)
             jsonObject.put("isEnabled", app.isEnabled)
+            jsonObject.put("unmuteDelay", app.unmuteDelay)
             jsonArray.put(jsonObject)
         }
         preference.edit { putString(CUSTOM_APPS, jsonArray.toString()).commit() }

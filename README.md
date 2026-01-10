@@ -1,6 +1,6 @@
 # Ad-silence
 
-> Remove ads in Accuradio, Spotify, Tidal, Pandora or Any App.
+> Silence ads in Accuradio, Spotify, Pandora, Soundcloud or Any App.
 
 <p align="left">
   <br/>
@@ -18,19 +18,19 @@
 
 ## Features
 
-- Block ads on `Accuradio`, `Spotify` (full & lite versions), `Tidal` & `Pandora` or **`Any app` with custom App Option**
-- Minimal UI
+- Mute ads on `Accuradio`, `Spotify` (full & lite versions), `Pandora`, `Soundcloud` or **`Any app` with custom App Option**
+- Minimal UI, Lightweight & App size **less than 150KB**
 - Debug log directly integrated in the app to help with easier debugging
-- App size **less than 150KB**
-- Configure which apps to remove ads in
-- Open source
+- Supports casting (google chromecast..etc) 
+- **Fully Configurable**: Edit preloaded apps, add new custom apps, and adjust keywords or unmute delays for precise control.
 - No inapp purchases or ads
+- Open source
 
 ## Supported apps?
 
 - **Custom Apps Support**: Ability to add, edit, and delete custom apps to be silenced.
 
-> With the release of v0.7.0 and above, Ad-silence now supports custom apps with ability to add, edit and provide keywords specific to the app. 
+> With the release of v0.7.0 and above, Ad-silence now supports custom apps with ability to add, edit, unmute delay and provide keywords specific to the app. 
 
 |     app      | support |
 |:------------:| :-----: |
@@ -40,7 +40,8 @@
 |  Soundcloud  |   yes   |
 |    Tidal     |   yes   |
 |   Pandora    |   yes   |
-| **Any app**  | yes |
+|   JioSaavn  |   yes   |
+| **Any app**  |   yes   |
 
 ## Custom Apps
 
@@ -49,11 +50,12 @@ You can now add any app to Ad-silence to mute its notifications.
 Wiki: https://github.com/aghontpi/ad-silence/wiki/Custom_App_Wiki
 
 1. Open Ad-silence.
-2. Scroll down to "Custom Apps" section.
-3. Click on "Add" button.
+2. Click on "Select Apps" button.
+3. Scroll down to the bottom and click on "Add Custom App" button.
 4. Enter the name, **Package Name** of the app (e.g., `com.example.radio`).
 5. Enter **Keywords** to trigger muting only on specific notifications.
-6. Click on "Save" button.
+6. (Optional) Enter **Unmute Delay** to wait before unmuting (useful for some apps).
+7. Click on "Save" button.
 
 > **Note:**
 > - The app will be muted only if the notification contains the keywords.
@@ -64,6 +66,7 @@ Wiki: https://github.com/aghontpi/ad-silence/wiki/Custom_App_Wiki
 > - click on the edit icon to edit it.
 > - Enter the new name, **Package Name** of the app (e.g., `com.example.radio`).
 > - Enter **Keywords** to trigger muting only on specific notifications.
+> - (Optional) Update **Unmute Delay**.
 > - Click on "Save" button.
 
 > **Deleting:**
@@ -78,6 +81,10 @@ You have to enable the debug log in the app to see the logs.
 - See all the logs of the service (notification listener) in the app .
 - See all the notifications parsed by the service.
 - Each debug logs is timestamped, gives out the parsing decision it made (like what it matched against and whether it matched or not).
+- View **Casting Information** specific to the current session:
+  - **Endpoint**: Shows the active router name and volume.
+  - **Session**: Displays the media controller package, playback type (Remote/Local), volume control mode, and volume levels.
+- **Test Mute/Unmute**: A button to manually toggle mute on the active media stream (works for both local playback and casting sessions) to verify if the app can control the volume.
 
 You can keep the debug log enabled always, it will not affect the performance of the app, only the recent 100 logs are stored in memory.
 
@@ -94,6 +101,7 @@ You can keep the debug log enabled always, it will not affect the performance of
     <img src="./sample/3.png" alt="about" height="400px" width="auto"/> 
     <img src="./sample/4.png" alt="custom apps" height="400px" width="auto"/> 
     <img src="./sample/5.png" alt="edit custom apps" height="400px" width="auto"/> 
+    <img src="./sample/6.png" alt="edit custom apps" height="400px" width="auto"/> 
   </p>
 
 ## How this works
