@@ -1,10 +1,10 @@
 <b>Features:</b>
 
-- <b>Custom Apps Support</b>: Configure and silence ads in ANY app.
-- Pre-configured for Accuradio, Spotify (Full & Lite), Tidal, Soundcloud, Pandora & LiveOne.
-- Lightweight (~ 150KB)
-- Minimal UI
+- Mute ads on <b>Accuradio</b>, <b>Spotify</b> (Full & Lite), <b>Pandora</b>, <b>Soundcloud</b> or <b>Any app</b> with Custom App Option
+- <b>Casting Support</b>: Supports casting (Google Chromecast, etc)
+- <b>Fully Configurable</b>: Edit preloaded apps, add new custom apps, and adjust keywords or unmute delays for precise control.
 - <b>Debug Log View</b>: Integrated logging for easy troubleshooting.
+- Minimal UI & Lightweight (~ 150KB)
 - No bloat/external dependencies
 - All locally processed, no data collection
 - No inapp purchases or ads

@@ -1,0 +1,11 @@
+Added:
+- Customized App Control: Edit preloaded apps..keywords,custom unmute delays.
+- New Settings menu: Centralized control for mute behavior (music stream vs. device mute) and casting options for a better user experience.
+- Casting Support: Now supports casting for Spotify, and other apps.
+- Jio Saavn Support: Added preloaded support for Jio Saavn with ad detection.
+- Debug view: New mute/ unmute button to test if mute functionality works, 
+- Debug View: New casting/ media playing info/ status text  in debug view.
+- MIUI Support: Fixes for autostart permissions and persistent notification listener service.
+
+Fixes:
+- Fastlane validation errors.
