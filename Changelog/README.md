@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Added
 
-- **Casting Support**: Support for casting (Spotify, Jio Saavn, etc.) with improved mute logic.
+- **Casting Support**: Support for casting (Spotify,..) with improved mute logic.
 - **Settings Menu**: Centralized settings for mute behavior, casting, and other options.
 - **Edit Preloaded Apps**: Ability to edit preloaded apps and set custom unmute delays.
 - **Mute Logic**: Option to mute only the music stream instead of the entire device.
