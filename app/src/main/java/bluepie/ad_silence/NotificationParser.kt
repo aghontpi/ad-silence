@@ -70,6 +70,7 @@ class NotificationParser(override var appNotification: AppNotification) :
     var lastLogEntry: LogEntry? = null
 
     private var matchedText: String = "";
+    private var isEmptyMatch: Boolean = false;
 
     private fun checkPreloadedAppAd(appType: SupportedApps): Boolean {
         return when (appType) {
@@ -117,7 +118,8 @@ class NotificationParser(override var appNotification: AppNotification) :
             title = title,
             text = text,
             subText = subText,
-            matchedText = matchedText
+            matchedText = matchedText,
+            isEmptyMatch = isEmptyMatch
         )
         
         return isAd
@@ -400,7 +402,15 @@ class NotificationParser(override var appNotification: AppNotification) :
         Log.v(TAG, "trying match against \"$title\", \"$text\", \"$subText\" with $adStrings")
         
         for (adString in adStrings) {
-             if (title.contains(adString, ignoreCase = true) || 
+             if (adString.equals("allow-keyword-empty", ignoreCase = true)) {
+                 if (title.isEmpty() && text.isEmpty() && subText.isEmpty()) {
+                     Log.v(TAG, "detection in Custom App by empty-check (${appNotification.packageName})")
+                     matchedText = "allow-keyword-empty"
+                     isEmptyMatch = true
+                     isAd = true
+                     break
+                 }
+             } else if (title.contains(adString, ignoreCase = true) || 
                  text.contains(adString, ignoreCase = true) || 
                  subText.contains(adString, ignoreCase = true)) {
                  Log.v(TAG, "detection in Custom App (${appNotification.packageName}): $adString")
