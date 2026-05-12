@@ -118,6 +118,9 @@
     <string name="casting_mute_title">Casting</string>
     <string name="casting_mute_desc">Mute ads while casting to other devices (e.g. Google Home, Chromecast).</string>
 
+    <string name="root_mute_title">Root</string>
+    <string name="root_mute_desc">Use ROOT access to mute apps directly, without changing sound volumes.</string>
+
     <string name="reset_app_configuration">Reset App Configuration</string>
     <string name="reset_custom_app_message_format">Are you sure? Your changes for %1$s will be reset to default.</string>
     <string name="jio_saavn_pkg_name" translatable="false">com.jio.media.jiobeats</string>

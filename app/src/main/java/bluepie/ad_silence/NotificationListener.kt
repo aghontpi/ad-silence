@@ -22,6 +22,7 @@ class NotificationListener : NotificationListenerService() {
     private val handler = Handler(Looper.getMainLooper())
     private var unmuteRunnable: Runnable? = null
     private lateinit var castMuteManager: CastMuteManager
+    private lateinit var rootMuteManager: RootMuteManager
     
     // MediaRouter related variables
     private var mediaRouter: MediaRouter? = null
@@ -58,6 +59,7 @@ class NotificationListener : NotificationListenerService() {
         audioManager = applicationContext.getSystemService(AUDIO_SERVICE) as AudioManager
         appNotificationHelper = AppNotificationHelper(applicationContext)
         castMuteManager = CastMuteManager(applicationContext)
+        rootMuteManager = RootMuteManager(applicationContext)
 
         // Initialize MediaRouter on main thread
         handler.post {
@@ -325,12 +327,23 @@ class NotificationListener : NotificationListenerService() {
                                             }
                                         }
                                     }
+
+                                    // Check for root
+                                    val isRoot = preference.isRootMuteEnabled() && !preference.isMuteEntireDeviceEnabled()
+                                    if (isRoot) {
+                                        val packageMuted = rootMuteManager.isPackageMuted(packageName)
+                                        if (packageMuted != null) {
+                                            isMusicStreamMuted = packageMuted
+                                        }
+                                    }
                                     
                                     if (!isMuted || !isMusicStreamMuted) {
                                         Log.v(TAG, "'MusicStream' muted? -> $isMusicStreamMuted")
                                         Log.v(TAG, "Ad detected muting, state-> $isMuted to ${!isMuted}, currentPackage: $currentPackage")
-                                        
-                                        if (isCasting) {
+
+                                        if (isRoot) {
+                                            rootMuteManager.mutePackage(packageName, appNotificationHelper, preference)
+                                        } else if (isCasting) {
                                             if (route != null && route.playbackType == MediaRouter.RouteInfo.PLAYBACK_TYPE_REMOTE) {
                                                 Log.v(TAG, "Casting detected on route: ${route.name}. Muting remote volume.")
                                                 if (isDebugEnabled) {
@@ -382,7 +395,10 @@ class NotificationListener : NotificationListenerService() {
                                         if (unmuteRunnable == null) {
                                             unmuteRunnable = Runnable {
                                                 val route = this@NotificationListener.currentRoute
-                                                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                                                if (preference.isRootMuteEnabled() && !preference.isMuteEntireDeviceEnabled()) {
+                                                    castMuteManager.resetState()
+                                                    rootMuteManager.unmutePackage(packageName, appNotificationHelper, preference)
+                                                } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
                                                     Log.v(TAG, "Not an ad, Unmuting, < M")
                                                     // for android 5 & 5.1, unmute has to be done, count x mutedCount
                                                     // Check for casting (Route or Fallback)
