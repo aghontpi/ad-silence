@@ -22,6 +22,7 @@
 - Minimal UI, Lightweight & App size **less than 150KB**
 - Debug log directly integrated in the app to help with easier debugging
 - Supports casting (google chromecast..etc) 
+- With ROOT access, individual apps can be muted without muting other apps
 - **Fully Configurable**: Edit preloaded apps, add new custom apps, and adjust keywords or unmute delays for precise control.
 - No inapp purchases or ads
 - Open source

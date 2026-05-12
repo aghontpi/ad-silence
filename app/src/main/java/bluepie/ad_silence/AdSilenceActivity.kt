@@ -1512,6 +1512,23 @@ class AdSilenceActivity : Activity() {
             }
         }
 
+        dialogView.findViewById<Switch>(R.id.switch_root_mute)?.apply {
+            isChecked = preference.isRootMuteEnabled()
+            setOnCheckedChangeListener { _, isChecked ->
+                preference.setRootMuteEnabled(isChecked)
+                if (preference.isDebugLogEnabled()) {
+                    LogManager.addLog(LogEntry(
+                        appName = "AdSilence",
+                        timestamp = System.currentTimeMillis(),
+                        isAd = false,
+                        title = "Setting Changed",
+                        text = "Root Mute: $isChecked",
+                        subText = "Settings"
+                    ))
+                }
+            }
+        }
+
         dialogView.findViewById<Button>(R.id.btn_close_settings)?.setOnClickListener {
             dialog.dismiss()
         }

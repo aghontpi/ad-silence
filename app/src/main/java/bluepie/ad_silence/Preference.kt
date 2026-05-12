@@ -217,6 +217,20 @@ class Preference(private val context: Context) {
         }
     }
 
+    private val ROOT_MUTE_ENABLED = "RootMuteEnabled"
+    private val ROOT_MUTE_ENABLED_DEFAULT = false
+
+    fun isRootMuteEnabled(): Boolean {
+        return preference.getBoolean(ROOT_MUTE_ENABLED, ROOT_MUTE_ENABLED_DEFAULT)
+    }
+
+    fun setRootMuteEnabled(status: Boolean) {
+        Log.v(TAG, "[configRootMuteEnabled] ${isRootMuteEnabled()} -> $status")
+        preference.edit {
+            putBoolean(ROOT_MUTE_ENABLED, status).commit()
+        }
+    }
+
     private val CUSTOM_APPS = "CustomApps"
 
     companion object {
