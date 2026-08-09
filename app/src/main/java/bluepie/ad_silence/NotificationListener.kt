@@ -250,6 +250,84 @@ class NotificationListener : NotificationListenerService() {
         }
     }
 
+    override fun onNotificationRemoved(sbn: StatusBarNotification?) {
+        super.onNotificationRemoved(sbn)
+        val preference = Preference(applicationContext)
+
+        if (!preference.isEnabled() || !isMuted) {
+            return
+        }
+
+        sbn?.let {
+            val app = AppNotification(applicationContext, it.notification, sbn.packageName)
+            if (preference.isAppConfigured(app.getApp(), app.packageName)) {
+                Log.v(TAG, "Notification removed for configured app: ${app.getApp()} (${sbn.packageName}), scheduling unmute")
+
+                if (preference.isDebugLogEnabled()) {
+                    LogManager.addLifecycleLog(LogEntry(
+                        appName = "AdSilence",
+                        timestamp = System.currentTimeMillis(),
+                        isAd = false,
+                        title = "Notification Removed",
+                        text = "Notification removed for ${app.getApp()} (${sbn.packageName}), scheduling unmute",
+                        subText = "Action"
+                    ))
+                }
+
+                // Cancel any pending unmute
+                unmuteRunnable?.let {
+                    handler.removeCallbacks(it)
+                    unmuteRunnable = null
+                }
+
+                unmuteRunnable = Runnable {
+                    var isCasting = false
+                    var isRemoteRoute = false
+                    var currentRoute: MediaRouter.RouteInfo? = null
+
+                    if (preference.isCastingMuteEnabled()) {
+                        currentRoute = this@NotificationListener.currentRoute
+                        isRemoteRoute = currentRoute != null && currentRoute.playbackType == MediaRouter.RouteInfo.PLAYBACK_TYPE_REMOTE
+                        val fallbackController = if (!isRemoteRoute) getMediaControllerForCasting() else null
+                        isCasting = isRemoteRoute || fallbackController != null
+                    }
+
+                    if (isCasting) {
+                        if (isRemoteRoute && currentRoute?.volumeHandling == MediaRouter.RouteInfo.PLAYBACK_VOLUME_VARIABLE && originalRemoteVolume != -1) {
+                            val routeToRestore = currentRoute
+                            Log.v(TAG, "Restoring remote volume to $originalRemoteVolume")
+                            handler.post {
+                                routeToRestore?.requestSetVolume(originalRemoteVolume)
+                                originalRemoteVolume = -1
+                            }
+                        } else {
+                            castMuteManager.tryUnmute(this@NotificationListener)
+                        }
+                    } else {
+                        castMuteManager.resetState()
+                        Utils().unmute(audioManager, appNotificationHelper, app.getApp(), preference)
+                    }
+
+                    isMuted = false
+
+                    if (preference.isDebugLogEnabled()) {
+                        LogManager.addLifecycleLog(LogEntry(
+                            appName = "AdSilence",
+                            timestamp = System.currentTimeMillis(),
+                            isAd = false,
+                            title = "Unmuted (Notification Removed)",
+                            text = "Unmuted after notification removal for ${app.getApp()} (${sbn.packageName})",
+                            subText = "Action"
+                        ))
+                    }
+                    unmuteRunnable = null
+                }
+
+                handler.postDelayed(unmuteRunnable!!, 300)
+            }
+        }
+    }
+
     override fun onNotificationPosted(sbn: StatusBarNotification?) {
         super.onNotificationPosted(sbn)
         val preference = Preference(applicationContext)
