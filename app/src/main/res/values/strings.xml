@@ -88,7 +88,7 @@
     <string name="package_name_hint">e.g., com.example.app</string>
     <string name="keywords_label">Keywords</string>
     <string name="keywords_description">Separate multiple keywords with commas.</string>
-    <string name="keywords_hint">Detection Keywords (comma separated)</string>
+    <string name="keywords_hint">Detection Keywords (comma separated). Use \'allow-keyword-empty\' for empty title, text, &amp; subtext.</string>
     <string name="cancel">CANCEL</string>
     <string name="save">SAVE</string>
     <string name="delete">DELETE</string>
