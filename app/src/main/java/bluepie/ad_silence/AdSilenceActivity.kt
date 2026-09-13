@@ -48,6 +48,7 @@ class AdSilenceActivity : Activity() {
         // handleHibernation()
         configureViewsWithLinks()
         configureBatteryOptimization()
+        updatePermissionGatedUi()
     }
 
     override fun onResume() {
@@ -61,6 +62,7 @@ class AdSilenceActivity : Activity() {
         // handleHibernation()
         configureViewsWithLinks()
         configureBatteryOptimization()
+        updatePermissionGatedUi()
         checkAndPromptForMiuiAutostart()
     }
 
@@ -107,6 +109,19 @@ class AdSilenceActivity : Activity() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             notificationPostingPermission()
+        }
+    }
+
+    private fun updatePermissionGatedUi() {
+        val hasNotificationAccess = checkNotificationListenerPermission(applicationContext)
+        val visibility = if (hasNotificationAccess) View.VISIBLE else View.GONE
+
+        findViewById<View>(R.id.notification_updates_container)?.visibility = visibility
+        findViewById<View>(R.id.notification_update_help)?.visibility = visibility
+        findViewById<View>(R.id.app_controls_container)?.visibility = visibility
+
+        if (!hasNotificationAccess) {
+            findViewById<View>(R.id.battery_optimization_container)?.visibility = View.GONE
         }
     }
 
@@ -1642,6 +1657,5 @@ class AdSilenceActivity : Activity() {
         }
     }
 }
-
 
 
