@@ -214,6 +214,17 @@
             android:textColor="?android:attr/textColorPrimary" />
 
         <Button
+            android:id="@+id/miui_autostart_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_button_rounded"
+            android:text="@string/miui_autostart_settings"
+            android:textColor="?android:attr/textColorPrimary"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+        <Button
             android:id="@+id/about_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

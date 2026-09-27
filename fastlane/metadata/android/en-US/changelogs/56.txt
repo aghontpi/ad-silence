@@ -1,0 +1,4 @@
+- Supports Android 16 (API 36).
+- Mutes empty ad notifications with the custom keyword allow-keyword-empty.
+- Shows app controls after notification access is granted.
+- Adds a Xiaomi/MIUI Autostart settings shortcut and fixes local playback being shown as casting.

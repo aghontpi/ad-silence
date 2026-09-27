@@ -11,6 +11,11 @@ on:
         description: 'Pull Request Number (Required for manual PR builds)'
         required: false
         type: string
+      release_bundle:
+        description: 'Build a signed release bundle for Google Play'
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -63,6 +68,28 @@ jobs:
             -Pandroid.injected.signing.store.password=$KEYSTORE_PASSWORD \
             -Pandroid.injected.signing.key.alias=$KEY_ALIAS \
             -Pandroid.injected.signing.key.password=$KEY_PASSWORD
+
+      - name: Build signed release bundle
+        if: github.event_name == 'workflow_dispatch' && inputs.release_bundle
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          ./gradlew test lint bundleRelease \
+            -Pandroid.injected.signing.store.file=$(pwd)/debug.keystore \
+            -Pandroid.injected.signing.store.password=$KEYSTORE_PASSWORD \
+            -Pandroid.injected.signing.key.alias=$KEY_ALIAS \
+            -Pandroid.injected.signing.key.password=$KEY_PASSWORD
+          jarsigner -verify app/build/outputs/bundle/release/app-release.aab
+          shasum -a 256 app/build/outputs/bundle/release/app-release.aab
+
+      - name: Upload signed release bundle
+        if: github.event_name == 'workflow_dispatch' && inputs.release_bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: ad-silence-release-bundle
+          path: app/build/outputs/bundle/release/app-release.aab
 
       - name: Extract Version Name
         id: extract_version
