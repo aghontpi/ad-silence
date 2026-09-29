@@ -215,9 +215,20 @@ class NotificationParser(override var appNotification: AppNotification) :
             }
 
             var isAd = false
+            val title = notification.extras?.get("android.title")?.toString() ?: ""
+            val text = notification.extras?.get("android.text")?.toString() ?: ""
+            val subText = notification.extras?.get("android.subText")?.toString() ?: ""
             for (adString in appNotification.adString()) {
                 Log.v(TAG, "trying match against \"$notificationInfo\" with $adString")
-                if (notificationInfo.any { it.contains(adString, ignoreCase = true) }) {
+                if (adString.equals("allow-keyword-empty", ignoreCase = true)) {
+                    if (matchesEmptyKeyword(adString, title, text, subText)) {
+                        Log.v(TAG, "detection in Accuradio by empty-check (${appNotification.packageName})")
+                        matchedText = "allow-keyword-empty"
+                        isEmptyMatch = true
+                        isAd = true
+                        break
+                    }
+                } else if (notificationInfo.any { it.contains(adString, ignoreCase = true) }) {
                     Log.v(TAG, "detection in Accuradio: $adString")
                     matchedText = adString;
                     isAd = true
@@ -403,7 +414,7 @@ class NotificationParser(override var appNotification: AppNotification) :
         
         for (adString in adStrings) {
              if (adString.equals("allow-keyword-empty", ignoreCase = true)) {
-                 if (title.isEmpty() && text.isEmpty() && subText.isEmpty()) {
+                 if (matchesEmptyKeyword(adString, title, text, subText)) {
                      Log.v(TAG, "detection in Custom App by empty-check (${appNotification.packageName})")
                      matchedText = "allow-keyword-empty"
                      isEmptyMatch = true
