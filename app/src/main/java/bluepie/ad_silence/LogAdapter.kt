@@ -44,7 +44,7 @@ class LogAdapter(private var logs: List<LogEntry>) : BaseAdapter() {
             holder.statusText.text = "Service"
             holder.statusText.setTextColor(holder.defaultStatusTextColor)
         } else if (log.isAd) {
-            holder.statusText.text = "Has Contained Text"
+            holder.statusText.text = if (log.isEmptyMatch) "Empty Notification" else "Has Contained Text"
             holder.statusText.setTextColor(androidx.core.content.ContextCompat.getColor(context, android.R.color.holo_green_light))
         } else {
             holder.statusText.text = "Clean"
@@ -55,7 +55,10 @@ class LogAdapter(private var logs: List<LogEntry>) : BaseAdapter() {
         holder.logText.text = "Text: ${log.text}"
         holder.logSubtext.text = "SubText: ${log.subText}"
 
-        if (!log.matchedText.isNullOrEmpty()) {
+        if (log.isEmptyMatch) {
+            holder.matchedText.visibility = View.VISIBLE
+            holder.matchedText.text = "Muted due to: Empty Title, Text & Subtext"
+        } else if (!log.matchedText.isNullOrEmpty()) {
             holder.matchedText.visibility = View.VISIBLE
             holder.matchedText.text = "Checked Text: ${log.matchedText}"
         } else {

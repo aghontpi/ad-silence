@@ -5,13 +5,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.8.1] - (Sep 27, 2026)
+
+**_Stable - requires Android 5 or higher_**
+
+## Added
+
+- **Empty notifications**: Custom apps can use `allow-keyword-empty` to mute ads with no notification title, text, or subtext.
+- **MIUI Autostart**: Xiaomi, Redmi, and Poco devices show a shortcut to Autostart settings.
+
+## Updates
+
+- **Android 16**: Target API 36 for Google Play updates.
+- **Permission setup**: Show app controls after notification access is granted.
+
+## Fixes
+
+- **Casting detection**: Local media sessions no longer appear as casting sessions.
+
 ## [v0.8.0] - (Jan 10, 2026)
 
 **_Stable - requires android 5 or higher_**
 
 ## Added
 
-- **Casting Support**: Support for casting (Spotify, Jio Saavn, etc.) with improved mute logic.
+- **Casting Support**: Support for casting (Spotify,..) with improved mute logic.
 - **Settings Menu**: Centralized settings for mute behavior, casting, and other options.
 - **Edit Preloaded Apps**: Ability to edit preloaded apps and set custom unmute delays.
 - **Mute Logic**: Option to mute only the music stream instead of the entire device.

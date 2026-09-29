@@ -58,7 +58,7 @@
     <string name="package_name_hint">es. com.example.app</string>
     <string name="keywords_label">Parole chiave</string>
     <string name="keywords_description">Separa più parole chiave con virgole.</string>
-    <string name="keywords_hint">Parole chiave di rilevamento (separate da virgola)</string>
+    <string name="keywords_hint">Parole chiave (separate da virgola). Usa allow-keyword-empty se titolo, testo e sottotesto sono vuoti.</string>
     <string name="cancel">ANNULLA</string>
     <string name="save">SALVA</string>
     <string name="delete">ELIMINA</string>
@@ -74,6 +74,11 @@
     <string name="channel_name">Stato del servizio</string>
     <string name="channel_description">Notifica persistente che mostra che AdSilence è attivo</string>
     <string name="notification_update_help">Se il silenziamento o il rilevamento non funzionano, prova ad abilitare questa opzione.</string>
+    <string name="settings">Impostazioni</string>
+    <string name="mute_behavior_title">Comportamento del silenziamento</string>
+    <string name="mute_entire_device">Silenzia tutto il dispositivo</string>
+    <string name="mute_entire_device_desc">Se attivato, silenzia tutto il dispositivo, inclusa la suoneria. Altrimenti silenzia solo la musica.</string>
+    <string name="mute_behavior_help" formatted="false">Non sai quale scegliere? <![CDATA[<a href="https://github.com/aghontpi/ad-silence/wiki/Mute%E2%80%90behaviour%E2%80%90settings">Leggi qui!</a>]]></string>
     <string name="force_mute_title">Forza Muto (non controllare il muto esistente)</string>
     <string name="force_mute_desc">Disattiva gli annunci senza verificare se i media sono già disattivati.</string>
 
@@ -83,4 +88,9 @@
     <string name="reset">Ripristina</string>
     <string name="reset_app_configuration">Ripristina configurazione app</string>
     <string name="reset_custom_app_message_format">Sei sicuro? Le tue modifiche per %1$s verranno ripristinate ai valori predefiniti.</string>
+    <string name="miui_autostart_title">Abilita l\'avvio automatico</string>
+    <string name="miui_autostart_message">Sui dispositivi Xiaomi/MIUI, abilita l\'avvio automatico per mantenere Ad-silence attivo in background.</string>
+    <string name="miui_autostart_button">Apri impostazioni</string>
+    <string name="miui_autostart_settings">Impostazioni di avvio automatico</string>
+    <string name="miui_autostart_ignore">Ignora</string>
 </resources>

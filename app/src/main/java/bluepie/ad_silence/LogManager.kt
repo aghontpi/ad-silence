@@ -11,6 +11,7 @@ data class LogEntry(
     val text: String,
     val subText: String,
     val matchedText: String? = null,
+    val isEmptyMatch: Boolean = false,
     var isExpanded: Boolean = false
 )
 

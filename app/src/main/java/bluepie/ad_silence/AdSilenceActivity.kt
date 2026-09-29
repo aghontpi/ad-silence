@@ -48,6 +48,8 @@ class AdSilenceActivity : Activity() {
         // handleHibernation()
         configureViewsWithLinks()
         configureBatteryOptimization()
+        updatePermissionGatedUi()
+        configureMiuiAutostartButton()
     }
 
     override fun onResume() {
@@ -61,6 +63,8 @@ class AdSilenceActivity : Activity() {
         // handleHibernation()
         configureViewsWithLinks()
         configureBatteryOptimization()
+        updatePermissionGatedUi()
+        configureMiuiAutostartButton()
         checkAndPromptForMiuiAutostart()
     }
 
@@ -107,6 +111,19 @@ class AdSilenceActivity : Activity() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             notificationPostingPermission()
+        }
+    }
+
+    private fun updatePermissionGatedUi() {
+        val hasNotificationAccess = checkNotificationListenerPermission(applicationContext)
+        val visibility = if (hasNotificationAccess) View.VISIBLE else View.GONE
+
+        findViewById<View>(R.id.notification_updates_container)?.visibility = visibility
+        findViewById<View>(R.id.notification_update_help)?.visibility = visibility
+        findViewById<View>(R.id.app_controls_container)?.visibility = visibility
+
+        if (!hasNotificationAccess) {
+            findViewById<View>(R.id.battery_optimization_container)?.visibility = View.GONE
         }
     }
 
@@ -1531,6 +1548,29 @@ class AdSilenceActivity : Activity() {
                Build.MANUFACTURER.equals("poco", ignoreCase = true)
     }
 
+    private fun configureMiuiAutostartButton() {
+        findViewById<Button>(R.id.miui_autostart_btn)?.apply {
+            visibility = if (isXiaomi()) View.VISIBLE else View.GONE
+            setOnClickListener { openMiuiAutostartSettings() }
+        }
+    }
+
+    private fun openMiuiAutostartSettings() {
+        try {
+            val intent = Intent().apply {
+                component = android.content.ComponentName(
+                    "com.miui.securitycenter",
+                    "com.miui.permcenter.autostart.AutoStartManagementActivity"
+                )
+            }
+            startActivity(intent)
+            hasOpenedAutostartSettings = true
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to open MIUI Autostart settings", e)
+            Toast.makeText(this, "Could not open Autostart settings directly. Please go to Autostart settings and enable it manually.", Toast.LENGTH_LONG).show()
+        }
+    }
+
     private fun checkAndPromptForMiuiAutostart() {
         if (!isXiaomi()) return
         
@@ -1574,18 +1614,7 @@ class AdSilenceActivity : Activity() {
         val openSettingsBtn = dialogView.findViewById<Button>(R.id.btn_delete)
         openSettingsBtn.text = getString(R.string.miui_autostart_button)
         openSettingsBtn.setOnClickListener {
-            try {
-                val intent = Intent()
-                intent.component = android.content.ComponentName(
-                    "com.miui.securitycenter",
-                    "com.miui.permcenter.autostart.AutoStartManagementActivity"
-                )
-                startActivity(intent)
-                hasOpenedAutostartSettings = true
-            } catch (e: Exception) {
-                Log.e(TAG, "Failed to open MIUI Autostart settings", e)
-                Toast.makeText(this, "Could not open Autostart settings directly. Please go to Autostart settings and enable it manually.", Toast.LENGTH_LONG).show()
-            }
+            openMiuiAutostartSettings()
             dialog.dismiss()
         }
 
@@ -1642,6 +1671,4 @@ class AdSilenceActivity : Activity() {
         }
     }
 }
-
-
 
