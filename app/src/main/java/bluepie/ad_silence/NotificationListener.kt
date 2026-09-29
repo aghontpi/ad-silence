@@ -552,6 +552,13 @@ class NotificationListener : NotificationListenerService() {
 
                 if (token != null) {
                     val controller = android.media.session.MediaController(applicationContext, token)
+                    val playbackInfo = controller.playbackInfo
+
+                    // A notification can expose a local media session too. Only a remote
+                    // session should use the casting mute path.
+                    if (playbackInfo?.playbackType != android.media.session.MediaController.PlaybackInfo.PLAYBACK_TYPE_REMOTE) {
+                        continue
+                    }
                     
                     // 1. High Priority: Explicit "Casting" text
                     val isCastingText = subText.contains("Listening on", ignoreCase = true) || 

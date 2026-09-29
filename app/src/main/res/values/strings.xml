@@ -88,7 +88,7 @@
     <string name="package_name_hint">e.g., com.example.app</string>
     <string name="keywords_label">Keywords</string>
     <string name="keywords_description">Separate multiple keywords with commas.</string>
-    <string name="keywords_hint">Detection Keywords (comma separated). Use \'allow-keyword-empty\' for empty title, text, &amp; subtext.</string>
+    <string name="keywords_hint">Detection Keywords (comma separated). Enter allow-keyword-empty without quotes for empty title, text, &amp; subtext.</string>
     <string name="cancel">CANCEL</string>
     <string name="save">SAVE</string>
     <string name="delete">DELETE</string>
@@ -111,7 +111,7 @@
     <string name="mute_behavior_title">Mute Behavior</string>
     <string name="mute_entire_device">Mute Entire Device</string>
     <string name="mute_entire_device_desc">If enabled, the entire device (including ringer) will be muted. If disabled, only the music stream is muted.</string>
-    <string name="mute_behavior_help">Not sure which one to choose? <![CDATA[<a href="https://github.com/aghontpi/ad-silence/wiki/Mute%E2%80%90behaviour%E2%80%90settings">Read here!</a>]]></string>
+    <string name="mute_behavior_help" formatted="false">Not sure which one to choose? <![CDATA[<a href="https://github.com/aghontpi/ad-silence/wiki/Mute%E2%80%90behaviour%E2%80%90settings">Read here!</a>]]></string>
     <string name="force_mute_title">Force Mute (Don\'t check existing mute)</string>
     <string name="force_mute_desc">Mute ads without checking if the media is already muted.</string>
 
@@ -128,5 +128,6 @@
     <string name="miui_autostart_title">Enable Autostart</string>
     <string name="miui_autostart_message">On Xiaomi/MIUI devices, you must enable \'Autostart\' for Ad-silence to work reliability in the background. Please enable it in the next screen.</string>
     <string name="miui_autostart_button">Open Settings</string>
+    <string name="miui_autostart_settings">Autostart settings</string>
     <string name="miui_autostart_ignore">Ignore</string>
 </resources>

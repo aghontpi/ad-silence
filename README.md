@@ -50,22 +50,23 @@ You can now add any app to Ad-silence to mute its notifications.
 Wiki: https://github.com/aghontpi/ad-silence/wiki/Custom_App_Wiki
 
 1. Open Ad-silence.
-2. Click on "Select Apps" button.
-3. Scroll down to the bottom and click on "Add Custom App" button.
-4. Enter the name, **Package Name** of the app (e.g., `com.example.radio`).
-5. Enter **Keywords** to trigger muting only on specific notifications.
-6. (Optional) Enter **Unmute Delay** to wait before unmuting (useful for some apps).
-7. Click on "Save" button.
+2. Grant notification access when asked. If Android blocks it, follow the [permission help](https://github.com/aghontpi/ad-silence/wiki/Restricted-Setting-or-Unable-to-grant-notification-permission).
+3. Click on "Select Apps" button.
+4. Scroll down to the bottom and click on "Add Custom App" button.
+5. Enter the name, **Package Name** of the app (e.g., `com.example.radio`).
+6. Enter **Keywords** to trigger muting only on specific notifications. Use `allow-keyword-empty` if an ad notification has an empty title, text, and subtext.
+7. (Optional) Enter **Unmute Delay** to wait before unmuting (useful for some apps).
+8. Click on "Save" button.
 
 > **Note:**
-> - The app will be muted only if the notification contains the keywords.
+> - The app will be muted if the notification contains a keyword, or if all three text fields are empty and `allow-keyword-empty` is configured.
 > - Will unmute the app if the notification does not contain the keywords.
 
 > **Editing:**
 > - click on "select apps" to view custom apps
 > - click on the edit icon to edit it.
 > - Enter the new name, **Package Name** of the app (e.g., `com.example.radio`).
-> - Enter **Keywords** to trigger muting only on specific notifications.
+> - Enter **Keywords** to trigger muting only on specific notifications. `allow-keyword-empty` also works when editing an app.
 > - (Optional) Update **Unmute Delay**.
 > - Click on "Save" button.
 
@@ -98,7 +99,7 @@ You can keep the debug log enabled always, it will not affect the performance of
   <p>
     <img src="./sample/1.png" alt="enable" height="400px" width="auto"/> 
     <img src="./sample/2.png" alt="configure apps" height="400px" width="auto"/> 
-    <img src="./sample/3.png" alt="about" height="400px" width="auto"/> 
+    <img src="./sample/3.png" alt="add custom app with empty notification keyword hint" height="400px" width="auto"/>
     <img src="./sample/4.png" alt="custom apps" height="400px" width="auto"/> 
     <img src="./sample/5.png" alt="edit custom apps" height="400px" width="auto"/> 
     <img src="./sample/6.png" alt="edit custom apps" height="400px" width="auto"/> 
